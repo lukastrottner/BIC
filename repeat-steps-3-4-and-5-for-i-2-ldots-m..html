@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 11 Repeat steps 3, 4, and 5, for \(i = 2, \ldots M\). | Bayesian Inference and Computation</title>
+  <meta name="description" content="This book contains the lecture notes for the module Bayesian Inference and Computation." />
+  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 11 Repeat steps 3, 4, and 5, for \(i = 2, \ldots M\). | Bayesian Inference and Computation" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="/uob_logo.png" />
+  <meta property="og:description" content="This book contains the lecture notes for the module Bayesian Inference and Computation." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 11 Repeat steps 3, 4, and 5, for \(i = 2, \ldots M\). | Bayesian Inference and Computation" />
+  
+  <meta name="twitter:description" content="This book contains the lecture notes for the module Bayesian Inference and Computation." />
+  <meta name="twitter:image" content="/uob_logo.png" />
+
+<meta name="author" content="Dr Mengchu Li and Dr Lukas Trottner" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="repeat-steps-3-and-4-for-parameters-theta_3i-ldots-theta_ni..html"/>
+<link rel="next" href="advanced-computation.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Bayesian Inference and Computation</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Practicalities</a>
+<ul>
+<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html#module-aims"><i class="fa fa-check"></i><b>0.1</b> Module Aims</a></li>
+<li class="chapter" data-level="0.2" data-path="index.html"><a href="index.html#module-structure"><i class="fa fa-check"></i><b>0.2</b> Module Structure</a></li>
+<li class="chapter" data-level="0.3" data-path="index.html"><a href="index.html#assessment"><i class="fa fa-check"></i><b>0.3</b> Assessment</a></li>
+<li class="chapter" data-level="0.4" data-path="index.html"><a href="index.html#recommended-books-and-videos"><i class="fa fa-check"></i><b>0.4</b> Recommended Books and Videos</a></li>
+<li class="chapter" data-level="0.5" data-path="index.html"><a href="index.html#common-distributions"><i class="fa fa-check"></i><b>0.5</b> Common Distributions</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="fundamentals.html"><a href="fundamentals.html"><i class="fa fa-check"></i><b>1</b> Fundamentals of Bayesian Inference</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="fundamentals.html"><a href="fundamentals.html#statistical-inference"><i class="fa fa-check"></i><b>1.1</b> Statistical Inference</a></li>
+<li class="chapter" data-level="1.2" data-path="fundamentals.html"><a href="fundamentals.html#frequentist-theory"><i class="fa fa-check"></i><b>1.2</b> Frequentist Theory</a></li>
+<li class="chapter" data-level="1.3" data-path="fundamentals.html"><a href="fundamentals.html#bayesian-probability"><i class="fa fa-check"></i><b>1.3</b> Bayesian Probability</a></li>
+<li class="chapter" data-level="1.4" data-path="fundamentals.html"><a href="fundamentals.html#conditional-probability-and-exchangability"><i class="fa fa-check"></i><b>1.4</b> Conditional Probability and Exchangability</a></li>
+<li class="chapter" data-level="1.5" data-path="fundamentals.html"><a href="fundamentals.html#bayes-theorem"><i class="fa fa-check"></i><b>1.5</b> Bayes’ Theorem</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="programming-in-r.html"><a href="programming-in-r.html"><i class="fa fa-check"></i><b>2</b> Programming in R</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="programming-in-r.html"><a href="programming-in-r.html#random-numbers-for-loops-and-r"><i class="fa fa-check"></i><b>2.1</b> Random Numbers, For Loops and R</a></li>
+<li class="chapter" data-level="2.2" data-path="programming-in-r.html"><a href="programming-in-r.html#functions-in-r"><i class="fa fa-check"></i><b>2.2</b> Functions in R</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="programming-in-r.html"><a href="programming-in-r.html#built-in-commands"><i class="fa fa-check"></i><b>2.2.1</b> Built in commands</a></li>
+<li class="chapter" data-level="2.2.2" data-path="programming-in-r.html"><a href="programming-in-r.html#user-defined-functions"><i class="fa fa-check"></i><b>2.2.2</b> User defined functions</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="programming-in-r.html"><a href="programming-in-r.html#good-coding-practices"><i class="fa fa-check"></i><b>2.3</b> Good Coding Practices</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="programming-in-r.html"><a href="programming-in-r.html#code-style"><i class="fa fa-check"></i><b>2.3.1</b> Code Style</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="bayesian-inference.html"><a href="bayesian-inference.html"><i class="fa fa-check"></i><b>3</b> Bayesian Inference</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="bayesian-inference.html"><a href="bayesian-inference.html#the-binomial-distribution"><i class="fa fa-check"></i><b>3.1</b> The Binomial Distribution</a></li>
+<li class="chapter" data-level="3.2" data-path="bayesian-inference.html"><a href="bayesian-inference.html#reporting-conclusions-from-bayesian-inference"><i class="fa fa-check"></i><b>3.2</b> Reporting Conclusions from Bayesian Inference</a></li>
+<li class="chapter" data-level="3.3" data-path="bayesian-inference.html"><a href="bayesian-inference.html#the-exponential-distribution"><i class="fa fa-check"></i><b>3.3</b> The Exponential Distribution</a></li>
+<li class="chapter" data-level="3.4" data-path="bayesian-inference.html"><a href="bayesian-inference.html#the-normal-distribtuion"><i class="fa fa-check"></i><b>3.4</b> The Normal Distribtuion</a></li>
+<li class="chapter" data-level="3.5" data-path="bayesian-inference.html"><a href="bayesian-inference.html#hierarchical-models"><i class="fa fa-check"></i><b>3.5</b> Hierarchical Models</a></li>
+<li class="chapter" data-level="3.6" data-path="bayesian-inference.html"><a href="bayesian-inference.html#prediction"><i class="fa fa-check"></i><b>3.6</b> Prediction</a></li>
+<li class="chapter" data-level="3.7" data-path="bayesian-inference.html"><a href="bayesian-inference.html#non-informative-prior-distibrutions"><i class="fa fa-check"></i><b>3.7</b> Non-informative Prior Distibrutions</a></li>
+<li class="chapter" data-level="3.8" data-path="bayesian-inference.html"><a href="bayesian-inference.html#bernstein-von-mises-theorem"><i class="fa fa-check"></i><b>3.8</b> Bernstein-von-Mises Theorem</a></li>
+<li class="chapter" data-level="3.9" data-path="bayesian-inference.html"><a href="bayesian-inference.html#lab"><i class="fa fa-check"></i><b>3.9</b> Lab</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="sampling.html"><a href="sampling.html"><i class="fa fa-check"></i><b>4</b> Sampling</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="sampling.html"><a href="sampling.html#uniform-random-numbers"><i class="fa fa-check"></i><b>4.1</b> Uniform Random Numbers</a></li>
+<li class="chapter" data-level="4.2" data-path="sampling.html"><a href="sampling.html#inverse-transform-sampling"><i class="fa fa-check"></i><b>4.2</b> Inverse Transform Sampling</a></li>
+<li class="chapter" data-level="4.3" data-path="sampling.html"><a href="sampling.html#rejection-sampling"><i class="fa fa-check"></i><b>4.3</b> Rejection Sampling</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="sampling.html"><a href="sampling.html#rejection-sampling-efficiency"><i class="fa fa-check"></i><b>4.3.1</b> Rejection Sampling Efficiency</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="sampling.html"><a href="sampling.html#ziggurat-sampling"><i class="fa fa-check"></i><b>4.4</b> Ziggurat Sampling</a></li>
+<li class="chapter" data-level="4.5" data-path="sampling.html"><a href="sampling.html#approximate-bayesian-computation"><i class="fa fa-check"></i><b>4.5</b> Approximate Bayesian Computation</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="sampling.html"><a href="sampling.html#abc-with-rejection"><i class="fa fa-check"></i><b>4.5.1</b> ABC with Rejection</a></li>
+<li class="chapter" data-level="4.5.2" data-path="sampling.html"><a href="sampling.html#summary-abc-with-rejection"><i class="fa fa-check"></i><b>4.5.2</b> Summary ABC with Rejection</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="sampling.html"><a href="sampling.html#lab-1"><i class="fa fa-check"></i><b>4.6</b> Lab</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="markov-chain-monte-carlo.html"><a href="markov-chain-monte-carlo.html"><i class="fa fa-check"></i><b>5</b> Markov Chain Monte Carlo</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="markov-chain-monte-carlo.html"><a href="markov-chain-monte-carlo.html#properties-of-markov-chains"><i class="fa fa-check"></i><b>5.1</b> Properties of Markov Chains</a></li>
+<li class="chapter" data-level="5.2" data-path="markov-chain-monte-carlo.html"><a href="markov-chain-monte-carlo.html#metropolishastings"><i class="fa fa-check"></i><b>5.2</b> Metropolis–Hastings</a></li>
+<li class="chapter" data-level="11.3" data-path="repeat-steps-3-4-and-5-for-i-2-ldots-m..html"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html"><i class="fa fa-check"></i><b>11.3</b> Beyond MCMC</a></li>
+<li class="chapter" data-level="11.4" data-path="repeat-steps-3-4-and-5-for-i-2-ldots-m..html"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#lab-2"><i class="fa fa-check"></i><b>11.4</b> Lab</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="advanced-computation.html"><a href="advanced-computation.html"><i class="fa fa-check"></i><b>12</b> Advanced Computation</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="advanced-computation.html"><a href="advanced-computation.html#gaussian-processes"><i class="fa fa-check"></i><b>12.1</b> Gaussian Processes</a>
+<ul>
+<li class="chapter" data-level="12.1.1" data-path="advanced-computation.html"><a href="advanced-computation.html#covariance-functions"><i class="fa fa-check"></i><b>12.1.1</b> Covariance Functions</a></li>
+<li class="chapter" data-level="12.1.2" data-path="advanced-computation.html"><a href="advanced-computation.html#gaussian-process-regression"><i class="fa fa-check"></i><b>12.1.2</b> Gaussian Process Regression</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="advanced-computation.html"><a href="advanced-computation.html#data-augmentation"><i class="fa fa-check"></i><b>12.2</b> Data Augmentation</a>
+<ul>
+<li class="chapter" data-level="12.2.1" data-path="advanced-computation.html"><a href="advanced-computation.html#imputing-censored-observations"><i class="fa fa-check"></i><b>12.2.1</b> Imputing censored observations</a></li>
+<li class="chapter" data-level="12.2.2" data-path="advanced-computation.html"><a href="advanced-computation.html#imputing-latent-variables"><i class="fa fa-check"></i><b>12.2.2</b> Imputing Latent Variables</a></li>
+<li class="chapter" data-level="12.2.3" data-path="advanced-computation.html"><a href="advanced-computation.html#grouped-data"><i class="fa fa-check"></i><b>12.2.3</b> Grouped Data</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="advanced-computation.html"><a href="advanced-computation.html#prior-ellicitation"><i class="fa fa-check"></i><b>12.3</b> Prior Ellicitation</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="advanced-computation.html"><a href="advanced-computation.html#prior-summaries"><i class="fa fa-check"></i><b>12.3.1</b> Prior Summaries</a></li>
+<li class="chapter" data-level="12.3.2" data-path="advanced-computation.html"><a href="advanced-computation.html#betting-with-histograms"><i class="fa fa-check"></i><b>12.3.2</b> Betting with Histograms</a></li>
+<li class="chapter" data-level="12.3.3" data-path="advanced-computation.html"><a href="advanced-computation.html#prior-intervals"><i class="fa fa-check"></i><b>12.3.3</b> Prior Intervals</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="advanced-computation.html"><a href="advanced-computation.html#lab-3"><i class="fa fa-check"></i><b>12.4</b> Lab</a>
+<ul>
+<li class="chapter" data-level="12.4.1" data-path="advanced-computation.html"><a href="advanced-computation.html#gaussian-processes-1"><i class="fa fa-check"></i><b>12.4.1</b> Gaussian Processes</a></li>
+<li class="chapter" data-level="12.4.2" data-path="advanced-computation.html"><a href="advanced-computation.html#missing-data"><i class="fa fa-check"></i><b>12.4.2</b> Missing Data</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Bayesian Inference and Computation</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="repeat-steps-3-4-and-5-for-i-2-ldots-m." class="section level1 hasAnchor" number="11">
+<h1><span class="header-section-number">Chapter 11</span> Repeat steps 3, 4, and 5, for <span class="math inline">\(i = 2, \ldots M\)</span>.<a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#repeat-steps-3-4-and-5-for-i-2-ldots-m." class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<ol style="list-style-type: decimal">
+<li><p>Set initial values <span class="math inline">\(\{\theta_1^{(0)}, \ldots, \theta_N^{(0)}\}\)</span></p></li>
+<li><p>Set <span class="math inline">\(i = 1\)</span>.</p></li>
+</ol>
+<p>2.1 Draw a value for <span class="math inline">\(\theta_1^{(i)}\)</span> from <span class="math inline">\(\pi(\theta_1 \mid \theta_2^{(i-1)}, \ldots, \theta_N^{(i-1)}))\)</span>.</p>
+<p>2.2 Draw a value for <span class="math inline">\(\theta_2^{(i)}\)</span> from <span class="math inline">\(\pi(\theta_2 \mid \theta_1^{(i)}, \theta_3^{(i-1)}, \ldots, \theta_N^{(i-1)}))\)</span>.</p>
+<p><span class="math inline">\(\vdots\)</span></p>
+<p>2.N Draw a value for <span class="math inline">\(\theta_N^{(i)}\)</span> from <span class="math inline">\(\pi(\theta_N \mid \theta_1^{(i)}, \theta_2^{(i)}, \ldots, \theta_{N-1}^{(i)}))\)</span>.</p>
+<ol start="3" style="list-style-type: decimal">
+<li>Repeat step 2 for <span class="math inline">\(i = 2, \ldots M\)</span>.</li>
+</ol>
+<p>In code, this might look like</p>
+<pre><code>M #number of iterations
+N #number of parameters
+theta.store   &lt;- matrix(NA, N, M)
+theta         &lt;- numeric(N)
+
+for(j in 1:M){
+  for(j in 1:N){
+    theta[i] &lt;- #sample from conditional with theta[-i]
+  }
+  theta.store[, j] &lt;- theta.current #store current values
+}</code></pre>
+<div class="example">
+<p><span id="exm:unlabeled-div-22" class="example"><strong>Example 11.1  </strong></span>In Example 3.5, we had a hierarchical model with<br />
+<span class="math display">\[\begin{align*}
+\boldsymbol{y} \mid \lambda &amp;\sim \hbox{Exp}(\lambda) &amp; \textrm{(likelihood)} \\
+\lambda \mid \gamma &amp;\sim \hbox{Exp}(\gamma) &amp; \textrm{(prior distribution)} \\
+\gamma \mid \nu &amp;\sim \hbox{Exp}(\nu) &amp; \textrm{(hyperprior distribution)}  \\
+\end{align*}\]</span>.
+To derive the full conditional distributions, we only consider the terms in the posterior distributions that depends on the parameters we are interested in. The full conditional distribution for <span class="math inline">\(\lambda\)</span> is
+<span class="math display">\[
+\pi(\lambda \mid \boldsymbol{y}, \,\gamma) \propto \lambda^{10}e^{-\lambda(95 + \gamma)}.
+\]</span>
+This is unchanged and shows that <span class="math inline">\(\lambda \mid \boldsymbol{y}, \gamma \sim \textrm{Gamma}(11, 95 + \gamma)\)</span>. The full conditional distribution for <span class="math inline">\(\gamma\)</span> is
+<span class="math display">\[
+\pi(\gamma \mid \boldsymbol{y}, \,\lambda) \propto e^{-\nu\gamma}.
+\]</span>
+Therefore the full conditional distribution of <span class="math inline">\(\gamma\)</span> is <span class="math inline">\(\gamma \mid \boldsymbol{y}, \,\lambda \sim \hbox{Exp}(\lambda + \nu)\)</span>.</p>
+<p>We can set up a Metropolis–Hastings algorithm using Gibbs samplers to generate samples for <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(\gamma\)</span>.</p>
+<ol style="list-style-type: decimal">
+<li><p>Set initial values <span class="math inline">\(\{\lambda^{(0)}, \gamma^{(0)}\}\)</span></p></li>
+<li><p>Set <span class="math inline">\(i = 1\)</span>.</p></li>
+<li><p>Draw a value for <span class="math inline">\(\lambda^{(i)} \mid \boldsymbol{y}, \gamma^{(i-1)} \sim \textrm{Gamma}(10, 95 + \gamma^{(i-1)})\)</span></p></li>
+<li><p>Draw a value for <span class="math inline">\(\gamma^{(i)} \mid \boldsymbol{y}, \,\lambda^{(i)} \sim \hbox{Exp}(\lambda^{(i)} + \nu)\)</span>.</p></li>
+<li><p>Repeat steps 3 and 4 for <span class="math inline">\(i = 2, \ldots M\)</span>.</p></li>
+</ol>
+<p>We can now code this up and run the algorithm.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb22-1" tabindex="-1"></a><span class="co"># Set Up MCMC Algorithm ---------------------------------------------------</span></span>
+<span id="cb22-2"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb22-2" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb22-3" tabindex="-1"></a>n.iter <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb22-4"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb22-4" tabindex="-1"></a>lambda.store <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n.iter) <span class="co">#Store value of Markov chain at end of every iteration</span></span>
+<span id="cb22-5"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb22-5" tabindex="-1"></a>gamma.store <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n.iter) <span class="co">#Store value of Markov chain at end of every iteration</span></span>
+<span id="cb22-6"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb22-6" tabindex="-1"></a></span>
+<span id="cb22-7"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb22-7" tabindex="-1"></a></span>
+<span id="cb22-8"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb22-8" tabindex="-1"></a></span>
+<span id="cb22-9"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb22-9" tabindex="-1"></a><span class="co"># Run MCMC Algorithm ------------------------------------------------------</span></span>
+<span id="cb22-10"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb22-10" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>n.iter){</span>
+<span id="cb22-11"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb22-11" tabindex="-1"></a>  </span>
+<span id="cb22-12"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb22-12" tabindex="-1"></a>  <span class="co">#Store current value of Markov Chain</span></span>
+<span id="cb22-13"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb22-13" tabindex="-1"></a>  lambda.store[i] <span class="ot">&lt;-</span> <span class="fu">rgamma</span>(<span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">95</span> <span class="sc">+</span> gamma.store[i<span class="dv">-1</span>])</span>
+<span id="cb22-14"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb22-14" tabindex="-1"></a>  gamma.store[i]  <span class="ot">&lt;-</span> <span class="fu">rexp</span>(<span class="dv">1</span>, <span class="fl">0.01</span> <span class="sc">+</span> lambda.store[i])</span>
+<span id="cb22-15"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb22-15" tabindex="-1"></a>  </span>
+<span id="cb22-16"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb22-16" tabindex="-1"></a>}</span>
+<span id="cb22-17"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb22-17" tabindex="-1"></a></span>
+<span id="cb22-18"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb22-18" tabindex="-1"></a><span class="co">#Plot trace plot (Markov chain values)</span></span>
+<span id="cb22-19"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb22-19" tabindex="-1"></a><span class="fu">plot</span>(lambda.store, <span class="at">type =</span> <span class="st">&#39;l&#39;</span>, <span class="at">xlab =</span> <span class="st">&quot;iteration&quot;</span>, <span class="at">ylab =</span> <span class="fu">expression</span>(lambda))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb23-1" tabindex="-1"></a><span class="fu">plot</span>(gamma.store, <span class="at">type =</span> <span class="st">&#39;l&#39;</span>, <span class="at">xlab =</span> <span class="st">&quot;iteration&quot;</span>, <span class="at">ylab =</span> <span class="fu">expression</span>(gamma))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-8-2.png" width="672" /></p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb24-1" tabindex="-1"></a><span class="co">#Plot posterior density</span></span>
+<span id="cb24-2"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb24-2" tabindex="-1"></a><span class="fu">hist</span>(lambda.store, <span class="at">prob =</span> <span class="cn">TRUE</span>, <span class="at">xlab =</span> <span class="fu">expression</span>(lambda), <span class="at">main =</span> <span class="st">&quot;Posterior density&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-8-3.png" width="672" /></p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb25-1" tabindex="-1"></a><span class="fu">mean</span>(lambda.store) <span class="co">#posterior mean</span></span></code></pre></div>
+<pre><code>## [1] 0.09561264</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb27-1" tabindex="-1"></a><span class="fu">quantile</span>(lambda.store, <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>)) <span class="co">#95% CI</span></span></code></pre></div>
+<pre><code>##      2.5%     97.5% 
+## 0.0454177 0.1658069</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb29-1" tabindex="-1"></a><span class="fu">hist</span>(gamma.store, <span class="at">prob =</span> <span class="cn">TRUE</span>, <span class="at">xlab =</span> <span class="fu">expression</span>(lambda), <span class="at">main =</span> <span class="st">&quot;Posterior density&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-8-4.png" width="672" /></p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb30-1" tabindex="-1"></a><span class="fu">mean</span>(gamma.store) <span class="co">#posterior mean</span></span></code></pre></div>
+<pre><code>## [1] 10.4679</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb32-1" tabindex="-1"></a><span class="fu">quantile</span>(gamma.store, <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>)) <span class="co">#95% CI</span></span></code></pre></div>
+<pre><code>##       2.5%      97.5% 
+##  0.2437085 40.4251992</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb34-1" tabindex="-1"></a><span class="co">#Investogate correlation between parameters</span></span>
+<span id="cb34-2"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb34-2" tabindex="-1"></a><span class="fu">plot</span>(lambda.store, gamma.store)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-8-5.png" width="672" /></p>
+</div>
+<div id="metropolis-within-gibbs" class="section level2 hasAnchor" number="11.1">
+<h2><span class="header-section-number">11.1</span> Metropolis-within-Gibbs<a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#metropolis-within-gibbs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Now we have both the Metropolis–Hastings algorithm and Gibbs sampler, we can combine them to create a generic MCMC algorithm for essentially any posterior distribution with any number of parameters. To create our MCMC algorithm, we update any parameters where the full conditional distribution has closed form with a Gibbs sampler. For parameters where the full conditional distribution does not have a closed form, we use a Metropolis–Hastings algorithm to update the parameters.</p>
+<div class="example">
+<p><span id="exm:unlabeled-div-23" class="example"><strong>Example 11.2  </strong></span>Suppose <span class="math inline">\(X_1, \ldots, X_N \sim \hbox{Weibull}(\beta, \theta)\)</span>, where
+<span class="math display">\[
+\pi(x \mid\beta,\theta) = \frac{\beta}{\theta}x^{\beta - 1}\exp\left(-\frac{x^\beta}{\theta}\right), \qquad x, \beta, \theta &gt; 0.
+\]</span>
+We use an Exponential prior distribution with rate <span class="math inline">\(\lambda\)</span> on <span class="math inline">\(\beta\)</span> and an inverse gamma prior distribution on <span class="math inline">\(\theta\)</span> such that
+<span class="math display">\[
+\pi(\theta) = \frac{1}{\theta^{a - 1}}\exp\left(-\frac{b}{\theta}\right).
+\]</span>
+The posterior distribution is therefore
+<span class="math display">\[\begin{align*}
+\pi(\beta, \theta \mid \boldsymbol{x}) &amp;\propto \pi(\boldsymbol{x} \mid \beta, \theta)\pi(\beta)\pi(\theta) \\
+&amp;\propto \frac{\beta^N}{\theta^N}\prod x_i^{\beta - 1}\exp\left(-\frac{1}{\theta}\sum x_i^\beta\right)
+\\
+&amp;\times\exp(-\lambda\beta) \frac{1}{\theta^{a - 1}}\exp\left(-\frac{b}{\theta}\right)
+\end{align*}\]</span></p>
+<p>The full conditional distributions are therefore
+<span class="math display">\[\begin{align*}
+\pi(\beta \mid \theta, \boldsymbol{x}) &amp;\propto\beta^N\prod x_i^{\beta - 1}\exp\left(-\frac{1}{\theta}\sum x_i^\beta\right)\exp(-\lambda\beta) \\
+\pi(\theta \mid \beta, \boldsymbol{x}) &amp; \frac{1}{\theta^{N + a -1}}\exp\left(-\frac{1}{\theta}(b + \sum x_i^\beta)\right)
+\end{align*}\]</span></p>
+<p>There is no closed form for the full conditional distribution for <span class="math inline">\(\beta\)</span>, so we will need to use a Metropolis–Hastings algorithm to update this parameter in our MCMC algorithm. The full conditional distribution for <span class="math inline">\(\theta\)</span> is closed as it is proportional to an inverse Gamma distribution with shape <span class="math inline">\(N + a\)</span> and scale <span class="math inline">\(b + \sum x_i^\beta\)</span>. We can use a Gibbs sampler to update value for <span class="math inline">\(\theta\)</span>. A suitable MCMC algorithm will look like</p>
+<ol style="list-style-type: decimal">
+<li>Set initial values for <span class="math inline">\(\beta^{(0)}\)</span> and <span class="math inline">\(\theta^{(0)}\)</span> and <span class="math inline">\(i = 1\)</span>.</li>
+<li>Propose a new value for <span class="math inline">\(\beta\)</span>, <span class="math inline">\(\beta&#39; \sim U[\beta^{(i-1)} + \varepsilon, \beta^{(i-1)} - \varepsilon]\)</span></li>
+<li>Accept <span class="math inline">\(\beta&#39; = \beta^{(i)}\)</span> with probability
+<span class="math display">\[
+p_{\textrm{acc}} = \min\left\{\frac{\pi(\beta&#39;, \theta^{(i-1)} \mid \boldsymbol{x})}{\pi(\beta, \theta^{(i-1)} \mid \boldsymbol{x})}\frac{q(\beta^{(i-1)} \mid \beta&#39;)}{q(\beta&#39; \mid \beta^{(i-1)})} , 1\right\}
+\]</span>
+Otherwise reject <span class="math inline">\(\beta&#39;\)</span> and set <span class="math inline">\(\beta^{(i)} = \beta^{(i-1)}\)</span>.</li>
+<li>Sample <span class="math inline">\(\theta^{(i)} \sim \hbox{inv}-\Gamma(N + a,\, b + \sum x_i^{\beta^{(i)}})\)</span>.</li>
+<li>Repeat steps 2-4.</li>
+</ol>
+<p>The acceptance probability in step 3 is the ratio of the full conditional distributions for <span class="math inline">\(\beta\)</span>.</p>
+</div>
+</div>
+<div id="mcmc-diagnostics" class="section level2 hasAnchor" number="11.2">
+<h2><span class="header-section-number">11.2</span> MCMC Diagnostics<a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#mcmc-diagnostics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>When running an MCMC algorithm, it is always important to check that the Markov chain has converged and is mixing well. For our purposes, mixing well means the chain is exploring the space of possible values of <span class="math inline">\(\theta\)</span> effectively and effectively and not getting stuck on the same value for a long time.</p>
+<p>A key way of doing this is by looking at the trace plot, which is a time series of the posterior samples simulated by the algorithm. The trace plot should look like it has converged to the stationary distribution and exploring the stationary distribution efficiently. What it shouldn’t look like is a long series of small steps, or being stuck in one spot for a long time. There are two definitions that help us isolate an efficient Markov chain.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-24" class="definition"><strong>Definition 11.1  </strong></span>The <strong>burn-in period</strong> is the number of iterations the Markov chain takes to reach the stationary distribution.</p>
+</div>
+<div class="definition">
+<p><span id="def:unlabeled-div-25" class="definition"><strong>Definition 11.2  </strong></span>The <strong>thinning parameter</strong> is the period of iterations of the Markov chain that are stored.</p>
+</div>
+<div class="example">
+<p><span id="exm:unlabeled-div-26" class="example"><strong>Example 11.3  </strong></span>In Example <a href="markov-chain-monte-carlo.html#exm:norm">5.3</a>, we saw a Markov chain that mixes well. We took the burn-in period to be 3,000 iterations, which was how long it took to for the chain to converge. Although the posterior distribution is invariant to the choice of the proposal distribution, it still has a large effect of the efficiency of the algorithm and how well the chain mixes. The ideal trace plot looks like white noise, or a hairy caterpillar.</p>
+<p>In a Metropolis–Hastings random walk algorithm, the proposal distribution often has a large impact on how well the Markov chain mixes. The variance, or step size, of the proposal distribution can be tuned to ensure the chain mixes well.</p>
+<p>The following two examples show poorly mixing Markov chains. The first is where the step size is too big and the chain frequently gets stuck for several hundred iterations.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb35-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>) <span class="co">#to reproduce</span></span>
+<span id="cb35-2"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb35-2" tabindex="-1"></a>n.iter   <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb35-3"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb35-3" tabindex="-1"></a>mu.store <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n.iter)</span>
+<span id="cb35-4"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb35-4" tabindex="-1"></a></span>
+<span id="cb35-5"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb35-5" tabindex="-1"></a><span class="co">#Initial values</span></span>
+<span id="cb35-6"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb35-6" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="dv">1</span> </span>
+<span id="cb35-7"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb35-7" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fl">0.1</span> <span class="co">#known</span></span>
+<span id="cb35-8"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb35-8" tabindex="-1"></a></span>
+<span id="cb35-9"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb35-9" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n.iter){</span>
+<span id="cb35-10"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb35-10" tabindex="-1"></a>  </span>
+<span id="cb35-11"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb35-11" tabindex="-1"></a>  <span class="co">#Propose value for mu</span></span>
+<span id="cb35-12"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb35-12" tabindex="-1"></a>  mu.proposed <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1</span>, mu <span class="sc">-</span> <span class="fl">0.1</span>, mu <span class="sc">+</span> <span class="fl">0.1</span>) <span class="co">#Step size too big</span></span>
+<span id="cb35-13"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb35-13" tabindex="-1"></a>  </span>
+<span id="cb35-14"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb35-14" tabindex="-1"></a>  <span class="cf">if</span>(mu.proposed <span class="sc">&gt;</span> <span class="dv">0</span>){ <span class="co">#If mu &lt; 0 we can reject straight away</span></span>
+<span id="cb35-15"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb35-15" tabindex="-1"></a>    </span>
+<span id="cb35-16"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb35-16" tabindex="-1"></a>    <span class="co">#Compute (log) acceptance probability</span></span>
+<span id="cb35-17"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb35-17" tabindex="-1"></a>    log.numerator   <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">0.01</span><span class="sc">*</span>mu.proposed <span class="sc">-</span> </span>
+<span id="cb35-18"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb35-18" tabindex="-1"></a>                        <span class="fu">sum</span>(y <span class="sc">-</span> mu.proposed)<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>(<span class="dv">2</span><span class="sc">*</span>sigma<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb35-19"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb35-19" tabindex="-1"></a>    log.denominator <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">0.01</span><span class="sc">*</span>mu <span class="sc">-</span> <span class="fu">sum</span>(y <span class="sc">-</span> mu)<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>(<span class="dv">2</span><span class="sc">*</span>sigma<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb35-20"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb35-20" tabindex="-1"></a>    </span>
+<span id="cb35-21"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb35-21" tabindex="-1"></a>    log.p.acc <span class="ot">&lt;-</span> log.numerator <span class="sc">-</span> log.denominator</span>
+<span id="cb35-22"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb35-22" tabindex="-1"></a>    u <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1</span>)</span>
+<span id="cb35-23"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb35-23" tabindex="-1"></a>    </span>
+<span id="cb35-24"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb35-24" tabindex="-1"></a>    <span class="co">#Accept/Reject step</span></span>
+<span id="cb35-25"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb35-25" tabindex="-1"></a>    <span class="cf">if</span>(<span class="fu">log</span>(u) <span class="sc">&lt;</span> log.p.acc){</span>
+<span id="cb35-26"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb35-26" tabindex="-1"></a>      mu <span class="ot">&lt;-</span> mu.proposed</span>
+<span id="cb35-27"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb35-27" tabindex="-1"></a>    }</span>
+<span id="cb35-28"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb35-28" tabindex="-1"></a>  }</span>
+<span id="cb35-29"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb35-29" tabindex="-1"></a>  </span>
+<span id="cb35-30"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb35-30" tabindex="-1"></a>  <span class="co">#Store mu at each iteration</span></span>
+<span id="cb35-31"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb35-31" tabindex="-1"></a>  mu.store[i] <span class="ot">&lt;-</span> mu</span>
+<span id="cb35-32"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb35-32" tabindex="-1"></a>}</span>
+<span id="cb35-33"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb35-33" tabindex="-1"></a><span class="fu">plot</span>(mu.store[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3000</span>)], <span class="at">type =</span> <span class="st">&#39;l&#39;</span>, <span class="at">xlab =</span> <span class="st">&quot;iteration&quot;</span>, </span>
+<span id="cb35-34"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb35-34" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="fu">expression</span>(mu))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>The next is where the step size is too small. It takes a long time for the chain to converge (~50% of the run time). When the chain does converge, it is inefficient at exploring the space.</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb36-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>) <span class="co">#to reproduce</span></span>
+<span id="cb36-2"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb36-2" tabindex="-1"></a>n.iter   <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb36-3"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb36-3" tabindex="-1"></a>mu.store <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n.iter)</span>
+<span id="cb36-4"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb36-4" tabindex="-1"></a></span>
+<span id="cb36-5"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb36-5" tabindex="-1"></a><span class="co">#Initial values</span></span>
+<span id="cb36-6"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb36-6" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="dv">1</span> </span>
+<span id="cb36-7"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb36-7" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fl">0.1</span> <span class="co">#known</span></span>
+<span id="cb36-8"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb36-8" tabindex="-1"></a></span>
+<span id="cb36-9"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb36-9" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n.iter){</span>
+<span id="cb36-10"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb36-10" tabindex="-1"></a>  </span>
+<span id="cb36-11"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb36-11" tabindex="-1"></a>  <span class="co">#Propose value for mu</span></span>
+<span id="cb36-12"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb36-12" tabindex="-1"></a>  mu.proposed <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1</span>, mu <span class="sc">-</span> <span class="fl">0.0005</span>, mu <span class="sc">+</span> <span class="fl">0.0005</span>) <span class="co">#Step size too small</span></span>
+<span id="cb36-13"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb36-13" tabindex="-1"></a>  </span>
+<span id="cb36-14"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb36-14" tabindex="-1"></a>  <span class="cf">if</span>(mu.proposed <span class="sc">&gt;</span> <span class="dv">0</span>){ <span class="co">#If mu &lt; 0 we can reject straight away</span></span>
+<span id="cb36-15"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb36-15" tabindex="-1"></a>    </span>
+<span id="cb36-16"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb36-16" tabindex="-1"></a>    <span class="co">#Compute (log) acceptance probability</span></span>
+<span id="cb36-17"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb36-17" tabindex="-1"></a>    log.numerator   <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">0.01</span><span class="sc">*</span>mu.proposed <span class="sc">-</span></span>
+<span id="cb36-18"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb36-18" tabindex="-1"></a>                        <span class="fu">sum</span>(y <span class="sc">-</span> mu.proposed)<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>(<span class="dv">2</span><span class="sc">*</span>sigma<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb36-19"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb36-19" tabindex="-1"></a>    log.denominator <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">0.01</span><span class="sc">*</span>mu <span class="sc">-</span> <span class="fu">sum</span>(y <span class="sc">-</span> mu)<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>(<span class="dv">2</span><span class="sc">*</span>sigma<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb36-20"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb36-20" tabindex="-1"></a>    </span>
+<span id="cb36-21"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb36-21" tabindex="-1"></a>    log.p.acc <span class="ot">&lt;-</span> log.numerator <span class="sc">-</span> log.denominator</span>
+<span id="cb36-22"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb36-22" tabindex="-1"></a>    u <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1</span>)</span>
+<span id="cb36-23"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb36-23" tabindex="-1"></a>    </span>
+<span id="cb36-24"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb36-24" tabindex="-1"></a>    <span class="co">#Accept/Reject step</span></span>
+<span id="cb36-25"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb36-25" tabindex="-1"></a>    <span class="cf">if</span>(<span class="fu">log</span>(u) <span class="sc">&lt;</span> log.p.acc){</span>
+<span id="cb36-26"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb36-26" tabindex="-1"></a>      mu <span class="ot">&lt;-</span> mu.proposed</span>
+<span id="cb36-27"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb36-27" tabindex="-1"></a>    }</span>
+<span id="cb36-28"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb36-28" tabindex="-1"></a>  }</span>
+<span id="cb36-29"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb36-29" tabindex="-1"></a>  </span>
+<span id="cb36-30"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb36-30" tabindex="-1"></a>  <span class="co">#Store mu at each iteration</span></span>
+<span id="cb36-31"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb36-31" tabindex="-1"></a>  mu.store[i] <span class="ot">&lt;-</span> mu</span>
+<span id="cb36-32"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb36-32" tabindex="-1"></a>}</span>
+<span id="cb36-33"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb36-33" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb36-34"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb36-34" tabindex="-1"></a><span class="fu">plot</span>(mu.store, <span class="at">type =</span> <span class="st">&#39;l&#39;</span>, <span class="at">xlab =</span> <span class="st">&quot;iteration&quot;</span>, <span class="at">ylab =</span> <span class="fu">expression</span>(mu))</span>
+<span id="cb36-35"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb36-35" tabindex="-1"></a><span class="fu">plot</span>(mu.store[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5000</span>)], <span class="at">type =</span> <span class="st">&#39;l&#39;</span>, <span class="at">xlab =</span> <span class="st">&quot;iteration&quot;</span>,</span>
+<span id="cb36-36"><a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#cb36-36" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="fu">expression</span>(mu))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+<p>The final diagnostic issue we are going to think about is the <strong>curse of dimensionality</strong>. In general, the more parameters we try and update, the less likely we are to accept them. This makes exploring the proposal distribution hard if we are trying to update lots of parameters simultaneously. We can see this if we consider a hypersphere
+:::{.example}
+Suppose we have a density function that is uniformly distributed over the area of a sphere in <span class="math inline">\(N\)</span> dimensions with radius <span class="math inline">\(r\)</span>. The sphere has volume
+<span class="math display">\[
+V = \frac{\pi^{N/2}}{\Gamma(\frac{N}{2} + 1)}r^N.
+\]</span>
+Now consider a smaller sphere inside of our original sphere. This still has dimension <span class="math inline">\(N\)</span> but has radius <span class="math inline">\(r_1 &lt; r\)</span>. This small sphere has volume
+<span class="math display">\[
+V_1 = \frac{\pi^{N/2}}{\Gamma(\frac{N}{2} + 1)}r_1^N.
+\]</span>
+The difference between these two volumes is
+<span class="math display">\[
+V - V_1 = \frac{\pi^{N/2}}{\Gamma(\frac{N}{2} + 1)}(r^N - r_1^N).
+\]</span>
+For large <span class="math inline">\(N\)</span>, even when <span class="math inline">\(r - r_1\)</span> is small, <span class="math inline">\((r^N - r_1^N)\)</span> is large. This means that lots of the probability mass is concentrated away from the mode into the outer shell of the sphere.</p>
+</div>
+</div>
+</div>
+<p>The hypersphere example shows that in large dimensions we need our Markov chain to spend lots of time away from the posterior mode and in the tails of the distribution, but this is where the proposal distribution has lowest mass. We can avoid this by updating each parameter individually, but this means we need to use the full conditional distributions, which have highest mass near the mode. This ‘curse’ makes MCMC algorithms inefficient for large dimensions.</p>
+</div>
+<div id="beyond-mcmc" class="section level2 hasAnchor" number="11.3">
+<h2><span class="header-section-number">11.3</span> Beyond MCMC<a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#beyond-mcmc" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>MCMC is not the only method available to generate samples from the posterior distribution. MCMC is often slow and inefficient. Much of the work in computational statistics research is about developing fast and efficient methods for sampling from posterior distributions. We are going to look at another method, called approximate Bayesian computation, in the next chapter. Two other methods, beyound the scope of this module, are Sequential Monte Carlo and Hamiltonian Monte Carlo.</p>
+<p>Sequential Monte Carlo (SMC) methods for Bayesian inference aim to estimate the posterior distribution of a state space model recursively based on the observed data. Initially, a set of particles representing possible states is sampled from the prior distribution. Then particles are propagated forward using the system dynamics and updated according to their likelihood given the observed data. This update step involves reweighting particles based on how well they explain the observed data. To ensure that the particle set accurately represents the posterior distribution, resampling is performed, where particles with higher weights are more likely to be retained. By iteratively repeating these steps, SMC effectively tracks the evolution of the posterior distribution over time, providing a flexible and computationally efficient framework for Bayesian inference in dynamic systems.</p>
+<p>Hamiltonian Monte Carlo (HMC) is a sophisticated Markov chain Monte Carlo (MCMC) method for sampling from complex, high-dimensional target distributions, commonly used in Bayesian inference. Unlike traditional MCMC methods, which rely on random walk proposals, HMC employs Hamiltonian dynamics to guide the exploration of the state space. By introducing auxiliary momentum variables, HMC constructs a joint distribution over the original target variables and the momentum variables. This augmented space enables the use of Hamiltonian dynamics, which can efficiently explore the target distribution by simulating the evolution of the system’s energy function. The key idea is to use the gradient of the target distribution’s log-probability to determine the momentum dynamics, leading to more effective proposals that can traverse the state space more efficiently. HMC samples are obtained by simulating Hamiltonian dynamics over a trajectory and then accepting or rejecting the proposed states based on Metropolis–Hastings criteria. Overall, HMC offers significant improvements in exploration efficiency compared to traditional MCMC methods, particularly in high-dimensional spaces, making it a powerful tool for Bayesian inference.</p>
+</div>
+<div id="lab-2" class="section level2 hasAnchor" number="11.4">
+<h2><span class="header-section-number">11.4</span> Lab<a href="repeat-steps-3-4-and-5-for-i-2-ldots-m..html#lab-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-28" class="exercise"><strong>Exercise 11.1  </strong></span>You observe the following draws from a Binomial distribution with 25 trials and probability of success <span class="math inline">\(p\)</span>.</p>
+<pre><code>y &lt;- c(20, 16, 20, 17, 18, 19, 19, 18, 21, 20, 19, 22, 23, 19, 20, 19, 21, 20, 25, 15)</code></pre>
+<p>Use a normal prior distribution with mean 0.5 and variance <span class="math inline">\(0.1^2\)</span>. Write a Metropolis–Hastings Random Walk algorithm to obtain samples from the posterior distribution (you can use R’s built in function for the likelihood function and prior distribution, but if you don’t take logs you will run into small number errors).</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-29" class="exercise"><strong>Exercise 11.2  </strong></span>In a medical trial, to investigate the proportion <span class="math inline">\(p\)</span> of the population who have a particular disease a random sample of 20 individuals is taken. Ten of these are subject to a diagnostic test (Test A) which detects the disease when it is present with 100% certainty. The remaining 10 are given a test (test B) which only detects the disease with probability 0.8 when it is present. Neither test can give a false positive result. before collecting the data your prior belief about <span class="math inline">\(p\)</span> is represented by a U(0,1) distribution. Suppose that, for Test A, 5 out of 10 test positive while for test B, 3 out of 10 test positive. Use an MCMC algorithm to investigate the posterior density of <span class="math inline">\(p\)</span> and estimate its posterior mean and variance.</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-30" class="exercise"><strong>Exercise 11.3  </strong></span>Code up an MCMC algorithm for Example 3.5 using Gibbs samplers.</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-31" class="exercise"><strong>Exercise 11.4  </strong></span>The density function for the inverse-gamma distribution is
+<span class="math display">\[
+\pi(x\mid \alpha, \beta) = \frac{\beta^\alpha}{\Gamma(\alpha)}x^{\alpha - 1}e^{-\beta/x}
+\]</span>
+Using independent Gamma prior distributions on the model parameters, <span class="math inline">\(\alpha \sim \Gamma(a, b)\)</span> and <span class="math inline">\(\beta \sim Gamma(c, d)\)</span>, write down the posterior distribution for the model parameters. Only one will have a closed form.</p>
+<p>Develop a code an MCMC algorithm to sample from the posterior distribution by alternating between sampling <span class="math inline">\(\alpha\)</span> and then <span class="math inline">\(\beta\)</span>.</p>
+<p>Simulate some data from the inverse-gamma distribution and see if you can recover the parameters used to simulate the data. Is there any correlation between the samples for <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>.</p>
+</div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="repeat-steps-3-and-4-for-parameters-theta_3i-ldots-theta_ni..html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="advanced-computation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
