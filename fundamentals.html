@@ -504,11 +504,11 @@ when <span class="math inline">\(\pi(B) &gt; 0\)</span>.</p>
 <span class="math display">\[ \pi(A \cap B \mid C) = \pi(A \mid C)\pi(B \mid C).\]</span></p>
 </div>
 <div class="definition">
-<p><span id="def:unlabeled-div-9" class="definition"><strong>Definition 1.7  </strong></span>For two random variables <span class="math inline">\(X,Y\)</span> that have a joint pdf <span class="math inline">\(\pi(x,y)\)</span>.</p>
+<p><span id="def:unlabeled-div-9" class="definition"><strong>Definition 1.7  </strong></span>For two random variables <span class="math inline">\(X,Y\)</span> that have a joint density function <span class="math inline">\(\pi(x,y)\)</span>.</p>
 <ol style="list-style-type: decimal">
-<li><p>The marginal pdf for <span class="math inline">\(X\)</span> is <span class="math inline">\(\pi(x) = \int \pi(x,y)dy\)</span>.</p></li>
-<li><p>The conditional pdf of <span class="math inline">\(Y\mid X\)</span> is <span class="math inline">\(\pi(y\mid x) = \pi(x,y)/\pi(x)\)</span>. If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent <span class="math inline">\(\pi(y \mid x) = \pi(y)\)</span>.</p></li>
-<li><p>We can factorise a joint pdf in different ways since <span class="math inline">\(\pi(x,y) = \pi(x)\pi(y\mid x) = \pi(x\mid y)\pi(y)\)</span>.</p></li>
+<li><p>The marginal density function for <span class="math inline">\(X\)</span> is <span class="math inline">\(\pi(x) = \int \pi(x,y)dy\)</span>.</p></li>
+<li><p>The conditional density function of <span class="math inline">\(Y\mid X\)</span> is <span class="math inline">\(\pi(y\mid x) = \pi(x,y)/\pi(x)\)</span>, although it is actually the density function of <span class="math inline">\(Y\mid X = x\)</span>. If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent <span class="math inline">\(\pi(y \mid x) = \pi(y)\)</span>.</p></li>
+<li><p>We can factorise a joint density function in different ways since <span class="math inline">\(\pi(x,y) = \pi(x)\pi(y\mid x) = \pi(x\mid y)\pi(y)\)</span>.</p></li>
 <li><p>Combining 1, 2 and 3, we have the partition theorem, also known as law of total probability <span class="math inline">\(\pi(x) = \int\pi(x\mid y)\pi(y) dy\)</span>.</p></li>
 <li><p>An extension to 4 is that suppose <span class="math inline">\(Z\)</span> is another random variable, then we have
 <span class="math display">\[
@@ -516,7 +516,7 @@ when <span class="math inline">\(\pi(B) &gt; 0\)</span>.</p>
 \]</span>
 If <span class="math inline">\(Y\)</span> and <span class="math inline">\(X\)</span> are conditionally independent given <span class="math inline">\(Z\)</span> then <span class="math inline">\(\pi(y \mid x, z) = \pi(y \mid z)\)</span>.</p></li>
 </ol>
-<p>For a sequence of random variables <span class="math inline">\(X_1,\dotsc,X_n\)</span>, we can factorise the joint pdf in many ways, e.g. 
+<p>For a sequence of random variables <span class="math inline">\(X_1,\dotsc,X_n\)</span>, we can factorise the joint density function in many ways, e.g. 
 <span class="math display">\[
 \pi(x_1,\dotsc,x_n) = \pi(x_1\mid x_2,\dotsc,x_n)\pi(x_2,x_3\mid x_4,\dotsc,x_n)\pi(x_4,\dotsc,x_n).
 \]</span>
@@ -564,7 +564,7 @@ for some parameter <span class="math inline">\(\theta\)</span>, some distributio
 <h2><span class="header-section-number">1.4</span> Bayes’ Theorem<a href="fundamentals.html#bayes-theorem" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Now we have an understanding of conditional probability and exchangeability, we can put these two together to understand Bayes’ Theorem. Bayes’ theorem is concerned with the distribution of the parameter <span class="math inline">\(\theta\)</span> given some observed data <span class="math inline">\(y\)</span>. It tries to answer the question: what does the data tell us about the model parameters?</p>
 <div class="theorem">
-<p><span id="thm:unlabeled-div-16" class="theorem"><strong>Theorem 1.2  (Bayes) </strong></span>The conditional distribution of <span class="math inline">\(\theta\mid y\)</span> has density
+<p><span id="thm:unlabeled-div-16" class="theorem"><strong>Theorem 1.2  (Bayes) </strong></span>The conditional distribution of <span class="math inline">\(\theta\mid Y\)</span> has density
 <span class="math display">\[
 \pi(\theta \mid y) = \frac{\pi(y \mid \theta)\pi(\theta)}{\pi(y)}
 \]</span></p>
