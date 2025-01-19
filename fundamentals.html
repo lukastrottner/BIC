@@ -488,10 +488,10 @@ This is where frequentist theory cannot help us, particularly the term <span cla
 <li><p>Lukas’s height is above 192cm.</p></li>
 <li><p>Mengchu’s weight is above 74kg.</p></li>
 <li><p>Man United will lose against Fulham on 26 Jan 2025.</p></li>
-<li><p>There is more than 50% chance that a particular experiment is going to fail</p></li>
+<li><p>There is more than 90% chance that a particular experiment is going to fail</p></li>
 </ol>
 </div>
-<p>Before we derive Bayes’ theorem, we recap some important definitions in probability.</p>
+<p>Probabilities can be assigned to any events in the Bayesian paradigm, but they are necessarily subjective. The key in Bayesian inference is to understand how does subject beliefs change when some data/evidence become available. This is essentially captured in the Bayes’ theorem. Before we discuss Bayes’ theorem, we recap some basic facts in probability.</p>
 <div class="definition">
 <p><span id="def:unlabeled-div-7" class="definition"><strong>Definition 1.5  </strong></span>Given two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, the <strong>conditional probability</strong> that event <span class="math inline">\(A\)</span> occurs given the event <span class="math inline">\(B\)</span> has already occurred is
 <span class="math display">\[
@@ -527,9 +527,9 @@ In practice, we may wish to factorise the joint density in a way that exploits t
 \]</span></p>
 </div>
 <div class="definition">
-<p><span id="def:unlabeled-div-10" class="definition"><strong>Definition 1.8  </strong></span>Let <span class="math inline">\(\pi(y_1, \ldots, y_N)\)</span> be the joint density of <span class="math inline">\(Y_1, \ldots, Y_N\)</span>. If <span class="math inline">\(\pi(y_1, \ldots, y_N) = \pi(y_{\sigma_1}, \ldots, y_{\sigma_N})\)</span> for a permutations <span class="math inline">\(\sigma\)</span> of <span class="math inline">\(\{1, \ldots, N\}\)</span>, then <span class="math inline">\(Y_1, \ldots, Y_N\)</span> are <strong>exchangeable</strong>.</p>
+<p><span id="def:unlabeled-div-10" class="definition"><strong>Definition 1.8  </strong></span>Let <span class="math inline">\(\pi(y_1, \ldots, y_N)\)</span> be the joint density of <span class="math inline">\(Y_1, \ldots, Y_N\)</span>. If <span class="math inline">\(\pi(y_1, \ldots, y_N) = \pi(y_{\sigma_1}, \ldots, y_{\sigma_N})\)</span> for any permutations <span class="math inline">\(\sigma\)</span> of <span class="math inline">\(\{1, \ldots, N\}\)</span>, then <span class="math inline">\(Y_1, \ldots, Y_N\)</span> are <strong>exchangeable</strong>.</p>
 </div>
-<p>Exchangeability means that the labels of the random variables don’t contain any information about the outcomes. This is an important idea in many areas of probability and statistics, and it is a weak assumption compared to saying <span class="math inline">\(Y_1,\dotsc,Y_N\)</span> are independent.</p>
+<p>Exchangeability means that the labels of the random variables don’t contain any information about the outcomes. This is an important idea in many areas of probability and statistics, and it is a weaker assumption compared to saying <span class="math inline">\(Y_1,\dotsc,Y_N\)</span> are independent.</p>
 <div class="example">
 <p><span id="exm:unlabeled-div-11" class="example"><strong>Example 1.3  </strong></span>If <span class="math inline">\(Y_i \sim \text{Bin}(n, p)\)</span> are independent and identically distributed for <span class="math inline">\(i = 1, 2, 3\)</span>, then <span class="math inline">\(\pi(y_1, y_2, y_3) = \pi(y_3, y_1, y_2)\)</span>. Therefore, independence implies exchangeability.</p>
 </div>
@@ -537,7 +537,7 @@ In practice, we may wish to factorise the joint density in a way that exploits t
 <p><span id="exm:unlabeled-div-12" class="example"><strong>Example 1.4  </strong></span>Let <span class="math inline">\((X, Y)\)</span> follow a bivariate normal distribution with mean <strong>0</strong>, variances <span class="math inline">\(\sigma_x^2 = \sigma_y^2 = 1\)</span> and a correlation parameter <span class="math inline">\(\rho \in [-1, 1]\)</span>. <span class="math inline">\((X, Y)\)</span> are exchangeable, but only independent if <span class="math inline">\(\rho = 0\)</span>.</p>
 </div>
 <div class="proposition">
-<p><span id="prp:unlabeled-div-13" class="proposition"><strong>Proposition 1.1  </strong></span>If <span class="math inline">\(\theta \sim \pi(\theta)\)</span> and <span class="math inline">\((Y_1, \ldots, Y_N)\)</span> are conditionally iid given some parameter <span class="math inline">\(\theta\)</span>, then marginally <span class="math inline">\(Y_1, \ldots, Y_N\)</span> are exchangeable.</p>
+<p><span id="prp:unlabeled-div-13" class="proposition"><strong>Proposition 1.1  </strong></span>If <span class="math inline">\(\theta \sim \pi(\theta)\)</span> and <span class="math inline">\((Y_1, \ldots, Y_N)\)</span> are conditionally iid given the random variable <span class="math inline">\(\theta\)</span>, then marginally <span class="math inline">\(Y_1, \ldots, Y_N\)</span> are exchangeable.</p>
 </div>
 <div class="proof">
 <p><span id="unlabeled-div-14" class="proof"><em>Proof</em>. </span>Suppose <span class="math inline">\((Y_1, \ldots, Y_N)\)</span> are conditionally iid given some parameter <span class="math inline">\(\theta\)</span>. Then for any permutation <span class="math inline">\(\sigma\)</span> of <span class="math inline">\(\{1, \ldots, N\}\)</span> and observations <span class="math inline">\(\{y_1, \ldots, y_N\}\)</span>
@@ -546,13 +546,13 @@ In practice, we may wish to factorise the joint density in a way that exploits t
 \pi(y_1, \ldots, y_N) &amp;= \int \pi(y_1, \ldots, y_N \mid \theta) \pi(\theta)\, d\theta \qquad \\
 &amp; = \int \left\{\prod_{i=1}^N\pi(y_i \mid \theta)\right\} \pi(\theta)\, d\theta \qquad \textrm{(conditionally iid)}\\
 &amp; = \int \left\{\prod_{i=1}^N\pi(y_{\sigma_i} \mid \theta)\right\} \pi(\theta)\, d\theta \qquad \textrm{(product is commutative)} \\
-&amp; = \pi(y_{\pi_1}, \ldots, y_{\sigma_N}) \qquad
+&amp; = \pi(y_{\sigma_1}, \ldots, y_{\sigma_N}) \qquad
 \end{split}
 \end{equation}\]</span></p>
 </div>
 <p>This tells us that if we have some conditionally iid random variables and a subjective prior belief about some parameter <span class="math inline">\(\theta\)</span>, then we have exchangeability. This is nice to have, but the implication in the other direction is much more interesting and powerful.</p>
 <div class="theorem">
-<p><span id="thm:unlabeled-div-15" class="theorem"><strong>Theorem 1.1  (de Finetti) </strong></span>If a sequence of random variables <span class="math inline">\((Y_1, \ldots, Y_N)\)</span> from a sample space <span class="math inline">\(\mathcal{Y}\)</span> is exchangeable, then its joint distribution can be written as
+<p><span id="thm:unlabeled-div-15" class="theorem"><strong>Theorem 1.1  (de Finetti, informal) </strong></span>If a sequence of random variables <span class="math inline">\((Y_1, \ldots, Y_N)\)</span> is exchangeable, then its joint distribution can be written as
 <span class="math display">\[
 \pi(y_1, \ldots, y_N) = \int \left\{\prod_{i=1}^N\pi(y_i \mid \theta)\right\} \pi(\theta)\, d\theta
 \]</span>
