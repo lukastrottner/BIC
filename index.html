@@ -20,7 +20,7 @@
   <meta name="twitter:description" content="This book contains the lecture notes for the module Bayesian Inference and Computation." />
   <meta name="twitter:image" content="/uob_logo.png" />
 
-<meta name="author" content="Dr Mengchu Li and Dr Lukas Trottner" />
+<meta name="author" content="Dr Mengchu Li and Dr Lukas Trottner (based on lecture notes by Dr Rowland Seymour)" />
 
 
 
@@ -173,9 +173,8 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="1.1" data-path="fundamentals.html"><a href="fundamentals.html#statistical-inference"><i class="fa fa-check"></i><b>1.1</b> Statistical Inference</a></li>
 <li class="chapter" data-level="1.2" data-path="fundamentals.html"><a href="fundamentals.html#frequentist-theory"><i class="fa fa-check"></i><b>1.2</b> Frequentist Theory</a></li>
-<li class="chapter" data-level="1.3" data-path="fundamentals.html"><a href="fundamentals.html#bayesian-probability"><i class="fa fa-check"></i><b>1.3</b> Bayesian Probability</a></li>
-<li class="chapter" data-level="1.4" data-path="fundamentals.html"><a href="fundamentals.html#conditional-probability-and-exchangability"><i class="fa fa-check"></i><b>1.4</b> Conditional Probability and Exchangability</a></li>
-<li class="chapter" data-level="1.5" data-path="fundamentals.html"><a href="fundamentals.html#bayes-theorem"><i class="fa fa-check"></i><b>1.5</b> Bayes’ Theorem</a></li>
+<li class="chapter" data-level="1.3" data-path="fundamentals.html"><a href="fundamentals.html#bayesian-paradigm"><i class="fa fa-check"></i><b>1.3</b> Bayesian Paradigm</a></li>
+<li class="chapter" data-level="1.4" data-path="fundamentals.html"><a href="fundamentals.html#bayes-theorem"><i class="fa fa-check"></i><b>1.4</b> Bayes’ Theorem</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="programming-in-r.html"><a href="programming-in-r.html"><i class="fa fa-check"></i><b>2</b> Programming in R</a>
 <ul>
@@ -190,64 +189,77 @@ div.csl-indent {
 <li class="chapter" data-level="2.3.1" data-path="programming-in-r.html"><a href="programming-in-r.html#code-style"><i class="fa fa-check"></i><b>2.3.1</b> Code Style</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="bayesian-inference.html"><a href="bayesian-inference.html"><i class="fa fa-check"></i><b>3</b> Bayesian Inference</a>
+<li class="chapter" data-level="3" data-path="programming-in-r-1.html"><a href="programming-in-r-1.html"><i class="fa fa-check"></i><b>3</b> Programming in R</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="bayesian-inference.html"><a href="bayesian-inference.html#the-binomial-distribution"><i class="fa fa-check"></i><b>3.1</b> The Binomial Distribution</a></li>
-<li class="chapter" data-level="3.2" data-path="bayesian-inference.html"><a href="bayesian-inference.html#reporting-conclusions-from-bayesian-inference"><i class="fa fa-check"></i><b>3.2</b> Reporting Conclusions from Bayesian Inference</a></li>
-<li class="chapter" data-level="3.3" data-path="bayesian-inference.html"><a href="bayesian-inference.html#the-exponential-distribution"><i class="fa fa-check"></i><b>3.3</b> The Exponential Distribution</a></li>
-<li class="chapter" data-level="3.4" data-path="bayesian-inference.html"><a href="bayesian-inference.html#the-normal-distribtuion"><i class="fa fa-check"></i><b>3.4</b> The Normal Distribtuion</a></li>
-<li class="chapter" data-level="3.5" data-path="bayesian-inference.html"><a href="bayesian-inference.html#hierarchical-models"><i class="fa fa-check"></i><b>3.5</b> Hierarchical Models</a></li>
-<li class="chapter" data-level="3.6" data-path="bayesian-inference.html"><a href="bayesian-inference.html#prediction"><i class="fa fa-check"></i><b>3.6</b> Prediction</a></li>
-<li class="chapter" data-level="3.7" data-path="bayesian-inference.html"><a href="bayesian-inference.html#non-informative-prior-distibrutions"><i class="fa fa-check"></i><b>3.7</b> Non-informative Prior Distibrutions</a></li>
-<li class="chapter" data-level="3.8" data-path="bayesian-inference.html"><a href="bayesian-inference.html#bernstein-von-mises-theorem"><i class="fa fa-check"></i><b>3.8</b> Bernstein-von-Mises Theorem</a></li>
-<li class="chapter" data-level="3.9" data-path="bayesian-inference.html"><a href="bayesian-inference.html#lab"><i class="fa fa-check"></i><b>3.9</b> Lab</a></li>
+<li class="chapter" data-level="3.1" data-path="programming-in-r-1.html"><a href="programming-in-r-1.html#random-numbers-for-loops-and-r-1"><i class="fa fa-check"></i><b>3.1</b> Random Numbers, For Loops and R</a></li>
+<li class="chapter" data-level="3.2" data-path="programming-in-r-1.html"><a href="programming-in-r-1.html#functions-in-r-1"><i class="fa fa-check"></i><b>3.2</b> Functions in R</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="programming-in-r-1.html"><a href="programming-in-r-1.html#built-in-commands-1"><i class="fa fa-check"></i><b>3.2.1</b> Built in commands</a></li>
+<li class="chapter" data-level="3.2.2" data-path="programming-in-r-1.html"><a href="programming-in-r-1.html#user-defined-functions-1"><i class="fa fa-check"></i><b>3.2.2</b> User defined functions</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="sampling.html"><a href="sampling.html"><i class="fa fa-check"></i><b>4</b> Sampling</a>
+<li class="chapter" data-level="3.3" data-path="programming-in-r-1.html"><a href="programming-in-r-1.html#good-coding-practices-1"><i class="fa fa-check"></i><b>3.3</b> Good Coding Practices</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="sampling.html"><a href="sampling.html#uniform-random-numbers"><i class="fa fa-check"></i><b>4.1</b> Uniform Random Numbers</a></li>
-<li class="chapter" data-level="4.2" data-path="sampling.html"><a href="sampling.html#inverse-transform-sampling"><i class="fa fa-check"></i><b>4.2</b> Inverse Transform Sampling</a></li>
-<li class="chapter" data-level="4.3" data-path="sampling.html"><a href="sampling.html#rejection-sampling"><i class="fa fa-check"></i><b>4.3</b> Rejection Sampling</a>
-<ul>
-<li class="chapter" data-level="4.3.1" data-path="sampling.html"><a href="sampling.html#rejection-sampling-efficiency"><i class="fa fa-check"></i><b>4.3.1</b> Rejection Sampling Efficiency</a></li>
+<li class="chapter" data-level="3.3.1" data-path="programming-in-r-1.html"><a href="programming-in-r-1.html#code-style-1"><i class="fa fa-check"></i><b>3.3.1</b> Code Style</a></li>
 </ul></li>
-<li class="chapter" data-level="4.4" data-path="sampling.html"><a href="sampling.html#ziggurat-sampling"><i class="fa fa-check"></i><b>4.4</b> Ziggurat Sampling</a></li>
-<li class="chapter" data-level="4.5" data-path="sampling.html"><a href="sampling.html#approximate-bayesian-computation"><i class="fa fa-check"></i><b>4.5</b> Approximate Bayesian Computation</a>
-<ul>
-<li class="chapter" data-level="4.5.1" data-path="sampling.html"><a href="sampling.html#abc-with-rejection"><i class="fa fa-check"></i><b>4.5.1</b> ABC with Rejection</a></li>
-<li class="chapter" data-level="4.5.2" data-path="sampling.html"><a href="sampling.html#summary-abc-with-rejection"><i class="fa fa-check"></i><b>4.5.2</b> Summary ABC with Rejection</a></li>
 </ul></li>
-<li class="chapter" data-level="4.6" data-path="sampling.html"><a href="sampling.html#lab-1"><i class="fa fa-check"></i><b>4.6</b> Lab</a></li>
+<li class="chapter" data-level="4" data-path="bayesian-inference.html"><a href="bayesian-inference.html"><i class="fa fa-check"></i><b>4</b> Bayesian Inference</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="bayesian-inference.html"><a href="bayesian-inference.html#the-binomial-distribution"><i class="fa fa-check"></i><b>4.1</b> The Binomial Distribution</a></li>
+<li class="chapter" data-level="4.2" data-path="bayesian-inference.html"><a href="bayesian-inference.html#reporting-conclusions-from-bayesian-inference"><i class="fa fa-check"></i><b>4.2</b> Reporting Conclusions from Bayesian Inference</a></li>
+<li class="chapter" data-level="4.3" data-path="bayesian-inference.html"><a href="bayesian-inference.html#the-exponential-distribution"><i class="fa fa-check"></i><b>4.3</b> The Exponential Distribution</a></li>
+<li class="chapter" data-level="4.4" data-path="bayesian-inference.html"><a href="bayesian-inference.html#the-normal-distribtuion"><i class="fa fa-check"></i><b>4.4</b> The Normal Distribtuion</a></li>
+<li class="chapter" data-level="4.5" data-path="bayesian-inference.html"><a href="bayesian-inference.html#hierarchical-models"><i class="fa fa-check"></i><b>4.5</b> Hierarchical Models</a></li>
+<li class="chapter" data-level="4.6" data-path="bayesian-inference.html"><a href="bayesian-inference.html#prediction"><i class="fa fa-check"></i><b>4.6</b> Prediction</a></li>
+<li class="chapter" data-level="4.7" data-path="bayesian-inference.html"><a href="bayesian-inference.html#non-informative-prior-distibrutions"><i class="fa fa-check"></i><b>4.7</b> Non-informative Prior Distibrutions</a></li>
+<li class="chapter" data-level="4.8" data-path="bayesian-inference.html"><a href="bayesian-inference.html#bernstein-von-mises-theorem"><i class="fa fa-check"></i><b>4.8</b> Bernstein-von-Mises Theorem</a></li>
+<li class="chapter" data-level="4.9" data-path="bayesian-inference.html"><a href="bayesian-inference.html#lab"><i class="fa fa-check"></i><b>4.9</b> Lab</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="markov-chain-monte-carlo.html"><a href="markov-chain-monte-carlo.html"><i class="fa fa-check"></i><b>5</b> Markov Chain Monte Carlo</a>
+<li class="chapter" data-level="5" data-path="sampling.html"><a href="sampling.html"><i class="fa fa-check"></i><b>5</b> Sampling</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="markov-chain-monte-carlo.html"><a href="markov-chain-monte-carlo.html#properties-of-markov-chains"><i class="fa fa-check"></i><b>5.1</b> Properties of Markov Chains</a></li>
-<li class="chapter" data-level="5.2" data-path="markov-chain-monte-carlo.html"><a href="markov-chain-monte-carlo.html#metropolishastings"><i class="fa fa-check"></i><b>5.2</b> Metropolis–Hastings</a></li>
-<li class="chapter" data-level="5.6" data-path="markov-chain-monte-carlo.html"><a href="markov-chain-monte-carlo.html#beyond-mcmc"><i class="fa fa-check"></i><b>5.6</b> Beyond MCMC</a></li>
-<li class="chapter" data-level="5.7" data-path="markov-chain-monte-carlo.html"><a href="markov-chain-monte-carlo.html#lab-2"><i class="fa fa-check"></i><b>5.7</b> Lab</a></li>
+<li class="chapter" data-level="5.1" data-path="sampling.html"><a href="sampling.html#uniform-random-numbers"><i class="fa fa-check"></i><b>5.1</b> Uniform Random Numbers</a></li>
+<li class="chapter" data-level="5.2" data-path="sampling.html"><a href="sampling.html#inverse-transform-sampling"><i class="fa fa-check"></i><b>5.2</b> Inverse Transform Sampling</a></li>
+<li class="chapter" data-level="5.3" data-path="sampling.html"><a href="sampling.html#rejection-sampling"><i class="fa fa-check"></i><b>5.3</b> Rejection Sampling</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="sampling.html"><a href="sampling.html#rejection-sampling-efficiency"><i class="fa fa-check"></i><b>5.3.1</b> Rejection Sampling Efficiency</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="advanced-computation.html"><a href="advanced-computation.html"><i class="fa fa-check"></i><b>6</b> Advanced Computation</a>
+<li class="chapter" data-level="5.4" data-path="sampling.html"><a href="sampling.html#ziggurat-sampling"><i class="fa fa-check"></i><b>5.4</b> Ziggurat Sampling</a></li>
+<li class="chapter" data-level="5.5" data-path="sampling.html"><a href="sampling.html#approximate-bayesian-computation"><i class="fa fa-check"></i><b>5.5</b> Approximate Bayesian Computation</a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="advanced-computation.html"><a href="advanced-computation.html#gaussian-processes"><i class="fa fa-check"></i><b>6.1</b> Gaussian Processes</a>
-<ul>
-<li class="chapter" data-level="6.1.1" data-path="advanced-computation.html"><a href="advanced-computation.html#covariance-functions"><i class="fa fa-check"></i><b>6.1.1</b> Covariance Functions</a></li>
-<li class="chapter" data-level="6.1.2" data-path="advanced-computation.html"><a href="advanced-computation.html#gaussian-process-regression"><i class="fa fa-check"></i><b>6.1.2</b> Gaussian Process Regression</a></li>
+<li class="chapter" data-level="5.5.1" data-path="sampling.html"><a href="sampling.html#abc-with-rejection"><i class="fa fa-check"></i><b>5.5.1</b> ABC with Rejection</a></li>
+<li class="chapter" data-level="5.5.2" data-path="sampling.html"><a href="sampling.html#summary-abc-with-rejection"><i class="fa fa-check"></i><b>5.5.2</b> Summary ABC with Rejection</a></li>
 </ul></li>
-<li class="chapter" data-level="6.2" data-path="advanced-computation.html"><a href="advanced-computation.html#data-augmentation"><i class="fa fa-check"></i><b>6.2</b> Data Augmentation</a>
-<ul>
-<li class="chapter" data-level="6.2.1" data-path="advanced-computation.html"><a href="advanced-computation.html#imputing-censored-observations"><i class="fa fa-check"></i><b>6.2.1</b> Imputing censored observations</a></li>
-<li class="chapter" data-level="6.2.2" data-path="advanced-computation.html"><a href="advanced-computation.html#imputing-latent-variables"><i class="fa fa-check"></i><b>6.2.2</b> Imputing Latent Variables</a></li>
-<li class="chapter" data-level="6.2.3" data-path="advanced-computation.html"><a href="advanced-computation.html#grouped-data"><i class="fa fa-check"></i><b>6.2.3</b> Grouped Data</a></li>
+<li class="chapter" data-level="5.6" data-path="sampling.html"><a href="sampling.html#lab-1"><i class="fa fa-check"></i><b>5.6</b> Lab</a></li>
 </ul></li>
-<li class="chapter" data-level="6.3" data-path="advanced-computation.html"><a href="advanced-computation.html#prior-ellicitation"><i class="fa fa-check"></i><b>6.3</b> Prior Ellicitation</a>
+<li class="chapter" data-level="6" data-path="markov-chain-monte-carlo.html"><a href="markov-chain-monte-carlo.html"><i class="fa fa-check"></i><b>6</b> Markov Chain Monte Carlo</a>
 <ul>
-<li class="chapter" data-level="6.3.1" data-path="advanced-computation.html"><a href="advanced-computation.html#prior-summaries"><i class="fa fa-check"></i><b>6.3.1</b> Prior Summaries</a></li>
-<li class="chapter" data-level="6.3.2" data-path="advanced-computation.html"><a href="advanced-computation.html#betting-with-histograms"><i class="fa fa-check"></i><b>6.3.2</b> Betting with Histograms</a></li>
-<li class="chapter" data-level="6.3.3" data-path="advanced-computation.html"><a href="advanced-computation.html#prior-intervals"><i class="fa fa-check"></i><b>6.3.3</b> Prior Intervals</a></li>
+<li class="chapter" data-level="6.1" data-path="markov-chain-monte-carlo.html"><a href="markov-chain-monte-carlo.html#properties-of-markov-chains"><i class="fa fa-check"></i><b>6.1</b> Properties of Markov Chains</a></li>
+<li class="chapter" data-level="6.2" data-path="markov-chain-monte-carlo.html"><a href="markov-chain-monte-carlo.html#metropolishastings"><i class="fa fa-check"></i><b>6.2</b> Metropolis–Hastings</a></li>
+<li class="chapter" data-level="6.6" data-path="markov-chain-monte-carlo.html"><a href="markov-chain-monte-carlo.html#beyond-mcmc"><i class="fa fa-check"></i><b>6.6</b> Beyond MCMC</a></li>
+<li class="chapter" data-level="6.7" data-path="markov-chain-monte-carlo.html"><a href="markov-chain-monte-carlo.html#lab-2"><i class="fa fa-check"></i><b>6.7</b> Lab</a></li>
 </ul></li>
-<li class="chapter" data-level="6.4" data-path="advanced-computation.html"><a href="advanced-computation.html#lab-3"><i class="fa fa-check"></i><b>6.4</b> Lab</a>
+<li class="chapter" data-level="7" data-path="advanced-computation.html"><a href="advanced-computation.html"><i class="fa fa-check"></i><b>7</b> Advanced Computation</a>
 <ul>
-<li class="chapter" data-level="6.4.1" data-path="advanced-computation.html"><a href="advanced-computation.html#gaussian-processes-1"><i class="fa fa-check"></i><b>6.4.1</b> Gaussian Processes</a></li>
-<li class="chapter" data-level="6.4.2" data-path="advanced-computation.html"><a href="advanced-computation.html#missing-data"><i class="fa fa-check"></i><b>6.4.2</b> Missing Data</a></li>
+<li class="chapter" data-level="7.1" data-path="advanced-computation.html"><a href="advanced-computation.html#gaussian-processes"><i class="fa fa-check"></i><b>7.1</b> Gaussian Processes</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="advanced-computation.html"><a href="advanced-computation.html#covariance-functions"><i class="fa fa-check"></i><b>7.1.1</b> Covariance Functions</a></li>
+<li class="chapter" data-level="7.1.2" data-path="advanced-computation.html"><a href="advanced-computation.html#gaussian-process-regression"><i class="fa fa-check"></i><b>7.1.2</b> Gaussian Process Regression</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="advanced-computation.html"><a href="advanced-computation.html#data-augmentation"><i class="fa fa-check"></i><b>7.2</b> Data Augmentation</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="advanced-computation.html"><a href="advanced-computation.html#imputing-censored-observations"><i class="fa fa-check"></i><b>7.2.1</b> Imputing censored observations</a></li>
+<li class="chapter" data-level="7.2.2" data-path="advanced-computation.html"><a href="advanced-computation.html#imputing-latent-variables"><i class="fa fa-check"></i><b>7.2.2</b> Imputing Latent Variables</a></li>
+<li class="chapter" data-level="7.2.3" data-path="advanced-computation.html"><a href="advanced-computation.html#grouped-data"><i class="fa fa-check"></i><b>7.2.3</b> Grouped Data</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="advanced-computation.html"><a href="advanced-computation.html#prior-ellicitation"><i class="fa fa-check"></i><b>7.3</b> Prior Ellicitation</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="advanced-computation.html"><a href="advanced-computation.html#prior-summaries"><i class="fa fa-check"></i><b>7.3.1</b> Prior Summaries</a></li>
+<li class="chapter" data-level="7.3.2" data-path="advanced-computation.html"><a href="advanced-computation.html#betting-with-histograms"><i class="fa fa-check"></i><b>7.3.2</b> Betting with Histograms</a></li>
+<li class="chapter" data-level="7.3.3" data-path="advanced-computation.html"><a href="advanced-computation.html#prior-intervals"><i class="fa fa-check"></i><b>7.3.3</b> Prior Intervals</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="advanced-computation.html"><a href="advanced-computation.html#lab-3"><i class="fa fa-check"></i><b>7.4</b> Lab</a>
+<ul>
+<li class="chapter" data-level="7.4.1" data-path="advanced-computation.html"><a href="advanced-computation.html#gaussian-processes-1"><i class="fa fa-check"></i><b>7.4.1</b> Gaussian Processes</a></li>
+<li class="chapter" data-level="7.4.2" data-path="advanced-computation.html"><a href="advanced-computation.html#missing-data"><i class="fa fa-check"></i><b>7.4.2</b> Missing Data</a></li>
 </ul></li>
 </ul></li>
 <li class="divider"></li>
@@ -272,7 +284,7 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="header">
 <h1 class="title">Bayesian Inference and Computation</h1>
-<p class="author"><em>Dr Mengchu Li and Dr Lukas Trottner</em></p>
+<p class="author"><em>Dr Mengchu Li and Dr Lukas Trottner (based on lecture notes by Dr Rowland Seymour)</em></p>
 <p class="date"><em>Semester 2, 2025</em></p>
 </div>
 <div id="practicalities" class="section level1 unnumbered hasAnchor">
@@ -357,26 +369,33 @@ set of video lectures for this book can be found on
 identify probability density functions (for continuous random variables)
 and probability mass functions (for discrete random variables) up to
 proportionality. Some common density/mass functions are given below.</p>
-<p><strong>Normal distribution</strong> <span class="math display">\[
+<p><strong>Normal distribution</strong> <span class="math inline">\(N(\mu,\sigma^2)\)</span>
+<span class="math display">\[
 \pi(x \mid \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left\{-\frac{1}{2\sigma^2}(x-\mu)^2\right\} \qquad x \in\mathbb{R},
 \]</span> where <span class="math inline">\(\mu \in \mathbb{R}\)</span> and <span class="math inline">\(\sigma &gt; 0\)</span>.</p>
-<p><strong>Beta distribution</strong> <span class="math display">\[
+<p><strong>Beta distribution</strong> <span class="math inline">\(\text{Beta}(\alpha,\beta)\)</span>
+<span class="math display">\[
 \pi(x\mid \alpha, \beta) = \frac{1}{B(\alpha, \beta)}x^{\alpha-1}(1-x)^{\beta - 1} \qquad  x \in [0, 1],
-\]</span> where <span class="math inline">\(\alpha, \beta &gt; 0\)</span> and <span class="math inline">\(B(\alpha, \beta)\)</span> is the <a href="https://en.wikipedia.org/wiki/Beta_function">beta
+\]</span> where <span class="math inline">\(\alpha, \beta &gt; 0\)</span> and <span class="math inline">\(B(\alpha, \beta)\)</span> is the <a href="https://en.wikipedia.org/wiki/Beta_function">Beta
 function</a>.</p>
-<p><strong>Gamma distribution</strong> <span class="math display">\[
+<p><strong>Gamma distribution</strong> <span class="math inline">\(\text{Gamma}(\alpha,\beta)\)</span>
+<span class="math display">\[
 \pi(x\mid \alpha, \beta) = \frac{\beta^\alpha}{\Gamma(\alpha)}x^{\alpha - 1}e^{-\beta x} \qquad  x &gt; 0,
-\]</span> where <span class="math inline">\(\alpha, \beta &gt; 0\)</span> and <span class="math inline">\(\Gamma(\alpha)\)</span> is the <a href="https://en.wikipedia.org/wiki/Gamma_function">gamma
+\]</span> where <span class="math inline">\(\alpha, \beta &gt; 0\)</span> and <span class="math inline">\(\Gamma(\alpha)\)</span> is the <a href="https://en.wikipedia.org/wiki/Gamma_function">Gamma
 function</a>.</p>
-<p><strong>Exponential distribution</strong> <span class="math display">\[
-f(x \mid \lambda) = \lambda e^{-\lambda x} \qquad x &gt; 0,
+<p><strong>Exponential distribution</strong> <span class="math inline">\(\text{Exp}(\lambda)\)</span>
+<span class="math display">\[
+\pi(x \mid \lambda) = \lambda e^{-\lambda x} \qquad x &gt; 0,
 \]</span> where <span class="math inline">\(\lambda &gt; 0\)</span>.</p>
-<p><strong>Poisson distribution</strong> <span class="math display">\[
+<p><strong>Poisson distribution</strong> <span class="math inline">\(\text{Poi}(\lambda)\)</span>
+<span class="math display">\[
 \pi(x = k \mid \lambda) = \frac{\lambda^k e^{-\lambda}}{k!} \qquad k \in \{1, 2, \ldots\},
 \]</span> where <span class="math inline">\(\lambda &gt; 0\)</span>.</p>
-<p><strong>Binomial distribution</strong> <span class="math display">\[
+<p><strong>Binomial distribution</strong> <span class="math inline">\(\text{Bin}(N,p)\)</span>
+<span class="math display">\[
 \pi(x = k \mid N, p) = \begin{pmatrix} N \\ k\end{pmatrix} p^k (1-p)^{N-k} \qquad k \in \{1, \ldots, N\}
-\]</span> where <span class="math inline">\(p \in [0, 1]\)</span>.</p>
+\]</span>
+where <span class="math inline">\(p \in [0, 1]\)</span>.</p>
 
 </div>
 </div>
