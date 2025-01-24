@@ -55,7 +55,7 @@
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -65,7 +65,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -127,7 +127,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
-  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -363,7 +362,7 @@ proportionality. Some common density/mass functions are given below.</p>
 \]</span> where <span class="math inline">\(\mu \in \mathbb{R}\)</span> and <span class="math inline">\(\sigma &gt; 0\)</span>.</p>
 <p><strong>Beta distribution</strong> <span class="math inline">\(\text{Beta}(\alpha,\beta)\)</span>
 <span class="math display">\[
-\pi(x\mid \alpha, \beta) = \frac{1}{B(\alpha, \beta)}x^{\alpha-1}(1-x)^{\beta - 1} \qquad  x \in [0, 1],
+\pi(x\mid \alpha, \beta) = \frac{1}{B(\alpha, \beta)}x^{\alpha-1}(1-x)^{\beta - 1} \qquad  x \in (0, 1),
 \]</span> where <span class="math inline">\(\alpha, \beta &gt; 0\)</span> and <span class="math inline">\(B(\alpha, \beta)\)</span> is the <a href="https://en.wikipedia.org/wiki/Beta_function">Beta
 function</a>.</p>
 <p><strong>Gamma distribution</strong> <span class="math inline">\(\text{Gamma}(\alpha,\beta)\)</span>
@@ -375,9 +374,9 @@ function</a>.</p>
 <span class="math display">\[
 \pi(x \mid \lambda) = \lambda e^{-\lambda x} \qquad x &gt; 0,
 \]</span> where <span class="math inline">\(\lambda &gt; 0\)</span>.</p>
-<p><strong>Poisson distribution</strong> <span class="math inline">\(\text{Poi}(\lambda)\)</span>
+<p><strong>Poisson distribution</strong> <span class="math inline">\(\text{Pois}(\lambda)\)</span>
 <span class="math display">\[
-\pi(x = k \mid \lambda) = \frac{\lambda^k e^{-\lambda}}{k!} \qquad k \in \{1, 2, \ldots\},
+\pi(x = k \mid \lambda) = \frac{\lambda^k e^{-\lambda}}{k!} \qquad k \in \{0, 1, 2, \ldots\},
 \]</span> where <span class="math inline">\(\lambda &gt; 0\)</span>.</p>
 <p><strong>Binomial distribution</strong> <span class="math inline">\(\text{Bin}(N,p)\)</span>
 <span class="math display">\[
