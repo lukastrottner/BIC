@@ -55,7 +55,7 @@
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -65,7 +65,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -127,6 +127,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -191,7 +192,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="3" data-path="bayesian-inference.html"><a href="bayesian-inference.html"><i class="fa fa-check"></i><b>3</b> Bayesian Inference</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="bayesian-inference.html"><a href="bayesian-inference.html#the-binomial-distribution"><i class="fa fa-check"></i><b>3.1</b> The Binomial Distribution</a></li>
+<li class="chapter" data-level="3.1" data-path="bayesian-inference.html"><a href="bayesian-inference.html#the-binomial-likelihood"><i class="fa fa-check"></i><b>3.1</b> The Binomial Likelihood</a></li>
 <li class="chapter" data-level="3.2" data-path="bayesian-inference.html"><a href="bayesian-inference.html#reporting-conclusions-from-bayesian-inference"><i class="fa fa-check"></i><b>3.2</b> Reporting Conclusions from Bayesian Inference</a></li>
 <li class="chapter" data-level="3.3" data-path="bayesian-inference.html"><a href="bayesian-inference.html#the-exponential-distribution"><i class="fa fa-check"></i><b>3.3</b> The Exponential Distribution</a></li>
 <li class="chapter" data-level="3.4" data-path="bayesian-inference.html"><a href="bayesian-inference.html#the-normal-distribtuion"><i class="fa fa-check"></i><b>3.4</b> The Normal Distribtuion</a></li>
@@ -312,7 +313,7 @@ X_i = \alpha_i X_{i-1}, \qquad \alpha_i \overset{i.i.d}{\sim} N(1.001, 0.005^2).
 \]</span>
 The index begins at <span class="math inline">\(X_0 = 100\)</span>. Investigate the distribution of the value of the stock market on days 50 and 100.</p>
 <p><strong>Hard</strong>. Use a simulation method to generate the relevant distributions.</p>
-<p><strong>Medium</strong>. Simulate the value for <span class="math inline">\(\alpha\)</span> for each of the 100 days and use the <code>cumprod</code> command to plot a trajectory. Use a for loop to repeat this 100 times and investigate the distribution of the value of the stock market on days 50 and 100.</p>
+<p><strong>Medium</strong>. Simulate the value of <span class="math inline">\(\alpha_i\)</span> and use the <code>cumprod</code> command to plot a trajectory of the market index over 100 days. Use a for loop to repeat this 100 times and investigate the distribution of the value of the stock market on days 50 and 100.</p>
 <p><strong>Easy</strong>. Fill in the blanks in the following code.</p>
 <pre><code># Plot one ----------------------------------------------------------------
 x &lt;- rnorm(n = , mean = , sd = ) #Simulate daily change for 100 days
@@ -497,8 +498,8 @@ plot(x = ,y = , xlab = expression(Z[i-1]), ylab = expression(Z[i]), type = &#39;
 <p>R has many build in commands and you used these in Computer Lab I. An example is the <code>runif</code> command from the second exercise. This function generates random numbers from an interval. The code chunk below shows it in action:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="programming-in-r.html#cb10-1" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">min =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">max =</span> <span class="dv">1</span>)</span>
 <span id="cb10-2"><a href="programming-in-r.html#cb10-2" tabindex="-1"></a>u</span></code></pre></div>
-<pre><code>##  [1] -0.35268588  0.26235183 -0.31134033 -0.57590815  0.49418640  0.50232553
-##  [7] -0.48604834  0.07151941 -0.83887739  0.73571150</code></pre>
+<pre><code>##  [1] -0.81537265 -0.11330258  0.03786593  0.66348675 -0.89402334  0.88130453
+##  [7] -0.93894267  0.43923648  0.50667447  0.99935188</code></pre>
 <p>The functions has three <strong>arguments</strong>: <em>n</em> the number of samples to be generated, <em>min</em> the lower limit of the interval, <em>max</em> the upper limit of the interval. In the code chunk above 10 random numbers were generated from the interval [-1, 1]. In R, you don’t need to label the arguments, so the following will sample the same number of samples from the same interval:</p>
 <pre><code>u &lt;- runif(10, -1, 1)</code></pre>
 <p>Although in most cases it helps to label the arguments for readability and avoiding undefined behaviour. Note that if you decide to omit the argument names in the function call, the arguments must appear exactly in the order defined by the function prototype (check the documentation ?function for specific cases).</p>
