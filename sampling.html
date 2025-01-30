@@ -55,7 +55,7 @@
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -65,7 +65,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -127,7 +127,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
-  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -276,7 +275,7 @@ div.csl-indent {
 <p>What we won’t be doing in this module is generating true uniform random numbers. This is incredibly difficult and usually requires lots of expensive hardware. This is because computers aren’t good at being random, they require algorithmic instructions. True random number generation often uses physical methods, such as the radioactive decay of atoms, or atmospheric noise.</p>
 <p>Throughout this module, we will be using R’s built in random number generation. This is a pseudo random number generator that has excellent random properties, but will eventually repeat. A basic random number generation tool that we will repeatedly use in the module involves sampling from a uniform distribution on the unit interval, which can be done in R using</p>
 <div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="sampling.html#cb55-1" tabindex="-1"></a><span class="fu">runif</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span></code></pre></div>
-<pre><code>## [1] 0.9020338</code></pre>
+<pre><code>## [1] 0.3886927</code></pre>
 </div>
 <div id="inverse-transform-sampling" class="section level2 hasAnchor" number="4.2">
 <h2><span class="header-section-number">4.2</span> Inverse Transform Sampling<a href="sampling.html#inverse-transform-sampling" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -309,14 +308,14 @@ where the last equality follows from <span class="math inline">\(U \sim U[0, 1]\
 <p><span id="exm:unlabeled-div-52" class="example"><strong>Example 4.1  </strong></span>We would like to sample from an exponential distribution with rate <span class="math inline">\(\lambda\)</span>, i.e. <span class="math inline">\(Y ~ \sim \hbox{Exp}(\lambda)\)</span>. The density function is given by</p>
 <p><span class="math display">\[
 \pi(y \mid \lambda) = \begin{cases}
-      \lambda e^{\lambda y} &amp; y \geq 0 \\
+      \lambda e^{-\lambda y} &amp; y \geq 0 \\
     0  &amp; \text{otherwise.}
    \end{cases}
 \]</span></p>
 <p>The distribution function can be derived by
 <span class="math display">\[\begin{align*}
-F(y \mid \lambda) &amp;= \int_0^y \lambda e^{\lambda t}\,dt \\
-&amp; =  1 - e^{\lambda y}.
+F(y \mid \lambda) &amp;= \int_0^y \lambda e^{-\lambda t}\,dt \\
+&amp; =  1 - e^{-\lambda y}.
 \end{align*}\]</span>
 Finally, the inverse function is given by
 <span class="math display">\[
@@ -429,7 +428,7 @@ The plot also shows how the choices of <span class="math inline">\(c\)</span> an
 <span class="math display">\[
 \pi(x) = \frac{1}{B(4, 8)}x^3(1-x)^7 \\
 \implies \frac{d \pi(x)}{d x} = \frac{1}{B(4, 8)}(3x^2(1-x)^7 - 7x^3(1-x)^6) \\
-\implies \frac{d \pi(x)}{d x} = \frac{1}{B(4, 8)}(x^2(1-x)^7(3-10x)).
+\implies \frac{d \pi(x)}{d x} = \frac{1}{B(4, 8)}(x^2(1-x)^6(3-10x)).
 \]</span>
 Setting this equal to 0 gives us the maximum at <span class="math inline">\(x = \frac{3}{10}\)</span>. This means we can set <span class="math inline">\(c = \pi(3/10) = \frac{1}{B(4, 8)} \frac{3^7 7^{10}}{10^{10}}\)</span>. Our rejection sampling algorithm is therefore</p>
 <ol style="list-style-type: decimal">
@@ -544,8 +543,8 @@ where <span class="math inline">\({A_\varepsilon(y^*)} = \{y^* \mid ||y^* - y||&
 <span id="cb65-3"><a href="sampling.html#cb65-3" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
 <span id="cb65-4"><a href="sampling.html#cb65-4" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rbeta</span>(n, <span class="dv">3</span>, <span class="dv">2</span>)</span>
 <span id="cb65-5"><a href="sampling.html#cb65-5" tabindex="-1"></a>y</span></code></pre></div>
-<pre><code>##  [1] 0.8519237 0.5286251 0.3126172 0.9691679 0.4883547 0.4677043 0.7339799
-##  [8] 0.7279578 0.7317827 0.7971786</code></pre>
+<pre><code>##  [1] 0.8519237 0.5286251 0.3126172 0.9691679 0.4883547 0.4677043 0.7339799 0.7279578
+##  [9] 0.7317827 0.7971786</code></pre>
 <div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="sampling.html#cb67-1" tabindex="-1"></a><span class="co">#Set Up ABC</span></span>
 <span id="cb67-2"><a href="sampling.html#cb67-2" tabindex="-1"></a>n.iter <span class="ot">&lt;-</span> <span class="dv">50000</span></span>
 <span id="cb67-3"><a href="sampling.html#cb67-3" tabindex="-1"></a>b.store <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n.iter)</span>
@@ -593,8 +592,8 @@ where <span class="math inline">\({A_\varepsilon(y^*)} = \{y^* \mid ||y^* - y||&
 <span id="cb74-3"><a href="sampling.html#cb74-3" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
 <span id="cb74-4"><a href="sampling.html#cb74-4" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rbeta</span>(n, <span class="dv">3</span>, <span class="dv">2</span>)</span>
 <span id="cb74-5"><a href="sampling.html#cb74-5" tabindex="-1"></a>y</span></code></pre></div>
-<pre><code>##  [1] 0.8519237 0.5286251 0.3126172 0.9691679 0.4883547 0.4677043 0.7339799
-##  [8] 0.7279578 0.7317827 0.7971786</code></pre>
+<pre><code>##  [1] 0.8519237 0.5286251 0.3126172 0.9691679 0.4883547 0.4677043 0.7339799 0.7279578
+##  [9] 0.7317827 0.7971786</code></pre>
 <div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="sampling.html#cb76-1" tabindex="-1"></a><span class="co">#Set Up ABC</span></span>
 <span id="cb76-2"><a href="sampling.html#cb76-2" tabindex="-1"></a>n.iter <span class="ot">&lt;-</span> <span class="dv">50000</span></span>
 <span id="cb76-3"><a href="sampling.html#cb76-3" tabindex="-1"></a>b.store <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n.iter)</span>
@@ -641,8 +640,8 @@ where <span class="math inline">\({A_\varepsilon(y^*)} = \{y^* \mid ||y^* - y||&
 <span id="cb83-3"><a href="sampling.html#cb83-3" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
 <span id="cb83-4"><a href="sampling.html#cb83-4" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rbeta</span>(n, <span class="dv">3</span>, <span class="dv">2</span>)</span>
 <span id="cb83-5"><a href="sampling.html#cb83-5" tabindex="-1"></a>y</span></code></pre></div>
-<pre><code>##  [1] 0.8519237 0.5286251 0.3126172 0.9691679 0.4883547 0.4677043 0.7339799
-##  [8] 0.7279578 0.7317827 0.7971786</code></pre>
+<pre><code>##  [1] 0.8519237 0.5286251 0.3126172 0.9691679 0.4883547 0.4677043 0.7339799 0.7279578
+##  [9] 0.7317827 0.7971786</code></pre>
 <div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="sampling.html#cb85-1" tabindex="-1"></a><span class="co">#Set Up ABC</span></span>
 <span id="cb85-2"><a href="sampling.html#cb85-2" tabindex="-1"></a>n.iter <span class="ot">&lt;-</span> <span class="dv">50000</span></span>
 <span id="cb85-3"><a href="sampling.html#cb85-3" tabindex="-1"></a>b.store <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n.iter)</span>
