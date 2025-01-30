@@ -379,7 +379,7 @@ Hence, if <span class="math inline">\(U \sim U[0, 1]\)</span>, then <span class=
 <p><img src="_main_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
 <p>Suppose we want to sample from a density <span class="math inline">\(\pi\)</span>, but can only generate samples from a density <span class="math inline">\(q\)</span>. If there exists some constant <span class="math inline">\(c &gt; 0\)</span>, such that <span class="math inline">\(\frac{\pi(y)}{q(y)} \leq c\)</span> for all <span class="math inline">\(y\)</span>, then we can generate samples from <span class="math inline">\(\pi\)</span> by</p>
 <ol style="list-style-type: decimal">
-<li><p>Sampling <span class="math inline">\(y \sim Q\)</span></p></li>
+<li><p>Sampling <span class="math inline">\(y \sim q\)</span></p></li>
 <li><p>Sampling <span class="math inline">\(u \sim U[0, 1]\)</span></p></li>
 <li><p>Computing <span class="math inline">\(k = \frac{\pi(y)}{cq(y)}\)</span></p></li>
 <li><p>Accepting <span class="math inline">\(y\)</span> if <span class="math inline">\(u &lt; k\)</span> and rejecting otherwise.</p></li>
