@@ -502,16 +502,16 @@ and so the posterior distribution of <span class="math inline">\(\mu \mid \bolds
 <span class="math display">\[
 \mu_{\text{post}}:=ab^2 = \frac{\sigma_0^2\sum_{i=1}^N y_i+\mu_0\sigma^2}{N\sigma_0^2+\sigma^2} = \frac{N\sigma_0^2}{N\sigma_0^2 + \sigma^2} \cdot \frac{\sum_{i=1}^Ny_i}{N} + \frac{\sigma^2}{N\sigma_0^2 + \sigma^2} \cdot \mu_0
 \]</span>
-and the posterior variance is <span class="math inline">\(b^2\)</span>. Note that we have again that the posterior mean is a weighted average between the prior mean <span class="math inline">\(\mu_0\)</span> and the MLE for <span class="math inline">\(\mu\)</span>, <span class="math inline">\(\hat{\mu}_{\text{MLE}} = \overline{y} = \sum y_i/N\)</span>. If we have either abundant data (<span class="math inline">\(N \rightarrow \infty\)</span>) or a vague prior <span class="math inline">\(\sigma^2_0 \rightarrow \infty\)</span>, the weight on MLE increases to <span class="math inline">\(1\)</span> and we then have the posterior mean <span class="math inline">\(\mathbb{E}(\mu\mid \boldsymbol{y}) \rightarrow \sum y_i/N\)</span>.</p>
+and the posterior variance is <span class="math inline">\(b^2\)</span>. Note that we have again that the posterior mean is a weighted average between the prior mean <span class="math inline">\(\mu_0\)</span> and the MLE for <span class="math inline">\(\mu\)</span>, <span class="math inline">\(\hat{\mu}_{\text{MLE}} = \overline{y} = \sum y_i/N\)</span>. If we have either abundant data (large <span class="math inline">\(N\)</span>) or a vague prior (large <span class="math inline">\(\sigma^2_0\)</span>), the weight on MLE is close to <span class="math inline">\(1\)</span> and we then have the posterior mean <span class="math inline">\(\mathbb{E}(\mu\mid \boldsymbol{y}) \approx \sum y_i/N\)</span>.</p>
 <p>To further interpret the weights, we write the posterior mean as
 <span class="math display">\[
 \mu_{\text{post}} = \frac{N/\sigma^2}{N/\sigma^2 + 1/\sigma_0^2} \cdot \frac{\sum_{i=1}^Ny_i}{N} + \frac{1/\sigma^2_0}{N/\sigma^2 + 1/\sigma_0^2} \cdot \mu_0
 \]</span>
-Note that the <strong>precision</strong> of a univariate distribution is the reciprocal of its variance. Therefore, the prior distribution has precision <span class="math inline">\(1/\sigma_0^2\)</span> and the MLE <span class="math inline">\(\sum_{i=1}^NY_i/N \sim N(\mu,\sigma^2/N)\)</span> has precision <span class="math inline">\(N/\sigma^2\)</span>. Hence, we conclude that the posterior mean is a weighted average of the prior mean and the sample mean, with weights proportional to the precisions. Furthermore, with the notion of precision, it is very easy to remember the formula for posterior variance <span class="math inline">\(b^2\)</span> since it satisfies
+Note that the <strong>precision</strong> of a univariate distribution is the reciprocal of its variance. Therefore, the prior distribution has precision <span class="math inline">\(1/\sigma_0^2\)</span> and the MLE conditional on <span class="math inline">\(\mu\)</span>, <span class="math inline">\(\hat{\mu}_{\text{MLE}} \mid \mu \sim N(\mu,\sigma^2/N)\)</span> has precision <span class="math inline">\(N/\sigma^2\)</span>. Hence, we conclude that the posterior mean is a weighted average of the prior mean and the sample mean, with weights proportional to the precisions. Furthermore, with the notion of precision, it is very easy to remember the formula for posterior variance <span class="math inline">\(b^2\)</span> since it satisfies
 <span class="math display">\[
 \frac{1}{b^2} = \frac{N}{\sigma^2}+\frac{1}{\sigma_0^2},
 \]</span>
-i.e. the posterior precision is the sum of the prior precision and MLE precision in this Normal-Normal example.</p>
+i.e. the posterior precision is the sum of the prior precision and MLE precision (conditional on <span class="math inline">\(\mu\)</span>) in this Normal-Normal example.</p>
 <p>Finally, let’s consider constructing (equal-tailed) credible intervals at level <span class="math inline">\(1-\alpha\)</span>. We need to find <span class="math inline">\(l,u \in \mathbb{R}\)</span> such that
 <span class="math display">\[
 \pi(\mu &lt; l\mid \boldsymbol{y}) = \pi(\mu &gt;u\mid \boldsymbol{y}) = \alpha/2
@@ -683,9 +683,17 @@ We point out here an interesting connection to ridge regression. Recall that the
 \]</span>
 and for the matrix <span class="math inline">\(X^{\top}X\)</span> to be invertible, it must hold <span class="math inline">\(n &gt; d\)</span>. In what is known as the high-dimensional setting, i.e. <span class="math inline">\(d &gt; n\)</span>, OLS cannot be applied and we typically add a penalty term in the optimisation problem. Ridge regression estimator is obtained by
 <span class="math display">\[
-\hat{\beta}_{\text{ridge}} = (X^{\top}X+\lambda I)^{-1}X^{\top}Y = \mathop{\mathrm{arg\,min}}_{\beta \in \mathbb{R}^p} \Big\{\|Y-X\beta\|_2^2 + \lambda \|\beta\|_2^2\Big\},
+\hat{\beta}_{\text{ridge}}^{\lambda} = (X^{\top}X+\lambda I)^{-1}X^{\top}Y = \mathop{\mathrm{arg\,min}}_{\beta \in \mathbb{R}^p} \Big\{\|Y-X\beta\|_2^2 + \lambda \|\beta\|_2^2\Big\},
 \]</span>
-where a penalty on the squared</p>
+where a penalty on the squared <span class="math inline">\(\ell_2\)</span> norm of the regression parameter <span class="math inline">\(\beta\)</span> is added to the objective function. Now, we observe that the posterior mean is actually equivalent to the ridge regression estimator <span class="math inline">\(\hat{\beta}_{\text{ridge}}^{\lambda}\)</span> with <span class="math inline">\(\lambda = \sigma^2/c^2\)</span>.</p>
+<p>To further understand why this happens, we note that since posterior distribution is symmetric, the posterior mean and the MAP estimate coincide. Therefore, we have
+<span class="math display">\[\begin{align*}
+\mu = \mathop{\mathrm{arg\,max}}_{\beta} \pi(Y \mid \beta) \pi(\beta) &amp;= \mathop{\mathrm{arg\,max}}_{\beta}\Big\{ \log\pi(Y \mid \beta) + \log \pi(\beta) \Big\} \\ &amp;= \mathop{\mathrm{arg\,min}}_{\beta} \Big\{\|Y-X\beta\|_2^2 + \frac{\sigma^2}{c^2}\|\beta\|_2^2\Big\}.
+\end{align*}\]</span></p>
+<p>To find the posterior predictive distribution <span class="math inline">\(\pi(y&#39;\mid y, x&#39;)\)</span>, we notice that <span class="math inline">\(y&#39; = x&#39;^{\top}\beta+\varepsilon\)</span>, where <span class="math inline">\(\varepsilon \sim N(0,\sigma^2)\)</span> is independent of <span class="math inline">\(\beta\)</span>. Since we have the posterior distribution <span class="math inline">\(\beta \mid Y\)</span> is a Normal distribution, the posterior predictive distribution is also Normal with mean <span class="math inline">\(\mu_{pred}\)</span> and variance <span class="math inline">\(\sigma^2_{pred}\)</span>
+<span class="math display">\[
+\mu_{pred} = x_i&#39;^{\top}\mu, \quad \sigma^2_{pred} = x_{i}&#39;^{\top} \Sigma x_i&#39;+\sigma^2.
+\]</span></p>
 </div>
 </div>
 <div id="non-informative-prior-distibrutions" class="section level2 hasAnchor" number="3.5">
