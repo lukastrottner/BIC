@@ -400,7 +400,7 @@ However, if started in <span class="math inline">\(1\)</span>, the chain does no
 Hence <span class="math inline">\(\pi P = \pi\)</span>.</p>
 </div>
 <p>So far, we have shown that we can use <em>finite</em> state Markov chain theory to simulate from a <em>discrete</em> probability distribution <span class="math inline">\(\pi\)</span> by running a Markov chain with <span class="math inline">\(\pi\)</span> as a stationary distribution for a sufficently long time. However, for discrete distributions this is of course overkill, since we can easily sample from such distributions via the inverse transformation method. All of the above concepts translate however in a natural way to Markov chains with more complicated state spaces, and we will just briefly comment on this now:</p>
-<p>The generalisation of the transition matrix is a <strong><em>Markov kernel</em></strong> <span class="math inline">\(P \colon S \times \mathcal{S} \to [0,1]\)</span> on a general Borel state space <span class="math inline">\((S,\mathcal{B}(S))\)</span>, which satisfies the following properties:</p>
+<p>The generalisation of the transition matrix is a <strong><em>Markov kernel</em></strong> <span class="math inline">\(P \colon S \times \mathcal{B}(S) \to [0,1]\)</span> on a general Borel state space <span class="math inline">\((S,\mathcal{B}(S))\)</span>, which satisfies the following properties:</p>
 <ol style="list-style-type: decimal">
 <li><span class="math inline">\(\forall x \in S: \quad P(x, \cdot) \text{ is a probability measure}\)</span>,</li>
 <li><span class="math inline">\(\forall A \in \mathcal{B}(S): \quad x \mapsto P(x, A) \text{ is measurable.}\)</span></li>
