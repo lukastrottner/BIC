@@ -450,7 +450,7 @@ A uniform distribution on [0, 1] will cover the Beta distribution and we can the
 \implies \frac{d \pi(x)}{d x} = \frac{1}{B(4, 8)}(3x^2(1-x)^7 - 7x^3(1-x)^6) \\
 \implies \frac{d \pi(x)}{d x} = \frac{1}{B(4, 8)}(x^2(1-x)^6(3-10x)).
 \]</span>
-Setting this equal to 0 gives us the maximum at <span class="math inline">\(x = \frac{3}{10}\)</span>. This means we can set <span class="math inline">\(c = \pi(3/10) = \frac{1}{B(4, 8)} \frac{3^3 7^{7}}{10^{10}} = \frac{11! 3^3 7^7}{3! 7! 10^10} \approx 2.935\)</span>. Our rejection sampling algorithm is therefore</p>
+Setting this equal to 0 gives us the maximum at <span class="math inline">\(x = \frac{3}{10}\)</span>. This means we can set <span class="math inline">\(c = \pi(3/10) = \frac{1}{B(4, 8)} \frac{3^3 7^{7}}{10^{10}} = \frac{11! 3^3 7^7}{3! 7! 10^{10}} \approx 2.935\)</span>. Our rejection sampling algorithm is therefore</p>
 <ol style="list-style-type: decimal">
 <li>Sample <span class="math inline">\(u \sim U[0, 1]\)</span></li>
 <li>Compute <span class="math inline">\(k = \pi(u)/c\)</span>.</li>
