@@ -484,9 +484,9 @@ The maximum is therefore at 2. The value of the ratio at <span class="math inlin
 <p><img src="_main_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
 <p>The exponential distribution completely encloses the gamma distribution using this value of <span class="math inline">\(c\)</span>, wiht the two densities just touching at <span class="math inline">\(x=2\)</span>. Our rejection sampling algorithm is therefore</p>
 <ol style="list-style-type: decimal">
-<li>Sample <span class="math inline">\(u \sim \hbox{exp}(1)\)</span></li>
-<li>Compute <span class="math inline">\(k = \frac{\pi(u)}{cq(u)}\)</span></li>
-<li>Accept <span class="math inline">\(u\)</span> with probability <span class="math inline">\(k\)</span>.</li>
+<li>Sample <span class="math inline">\(y \sim \hbox{exp}(1)\)</span></li>
+<li>Compute <span class="math inline">\(k = \frac{\pi(y)}{cq(y)}\)</span></li>
+<li>Accept <span class="math inline">\(y\)</span> with probability <span class="math inline">\(k\)</span>; else reject and repeat.</li>
 </ol>
 </div>
 <div id="rejection-sampling-efficiency" class="section level3 hasAnchor" number="4.3.1">
@@ -512,25 +512,25 @@ The maximum is therefore at 2. The value of the ratio at <span class="math inlin
 <div id="ziggurat-sampling" class="section level2 hasAnchor" number="4.4">
 <h2><span class="header-section-number">4.4</span> Ziggurat Sampling<a href="sampling.html#ziggurat-sampling" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The final method we are going to look at in this chapter is Ziggurat sampling. It is generally used to sample from distributions supported on the positive half line with monotone densities, using only uniform samples. It may also be used for sampling from symmetric distributions via a sign flipping argument, as illustrated for a normal distribution below. Denote its density by <span class="math inline">\(\pi\)</span>.</p>
-<p>A Ziggurat is a kind of stepped pyramid. To start the sampling algorithm, we approximate the normal distribution on the positive half line by a series of horizontal rectangles numbered in decreasing order from <span class="math inline">\(n-1\)</span> to <span class="math inline">\(0\)</span> with bottom right corner being denoted by <span class="math inline">\((x_i,y_i) = (x_i, \pi(x_i))\)</span>, where <span class="math inline">\(x_0 = x_1\)</span>. We also set <span class="math inline">\(y_n = f(0)\)</span>. For the base layer <span class="math inline">\(0\)</span> we then add the tail extending to the right of the <span class="math inline">\(0\)</span>-th rectangle, thus obtaining <span class="math inline">\(n-1\)</span>-rectangles stacked upon the base layer. Moreover, the layers are chosen in such a way that they all have the same area <span class="math inline">\(A\)</span> (this can be achieved via a numerical root finding algorithm). An example of this is shown below.</p>
+<p>A Ziggurat is a kind of stepped pyramid. To start the sampling algorithm, we approximate the normal distribution on the positive half line by a series of horizontal rectangles numbered in decreasing order from <span class="math inline">\(n-1\)</span> to <span class="math inline">\(0\)</span> with bottom right corner being denoted by <span class="math inline">\((x_i,y_i) = (x_i, \pi(x_i))\)</span>, where <span class="math inline">\(x_0 = x_1\)</span>. We also set <span class="math inline">\(x_n = 0, y_n = \pi(0)\)</span>. For the base layer <span class="math inline">\(0\)</span> we then add the tail extending to the right of the <span class="math inline">\(0\)</span>-th rectangle, thus obtaining <span class="math inline">\(n-1\)</span> rectangles stacked upon the base layer. Moreover, the layers are chosen in such a way that they all have the same area <span class="math inline">\(A\)</span> (this can be achieved via a numerical root finding algorithm). An example of this is shown below.</p>
 <p><img src="_main_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
 <p>To generate a sample, we choose a layer at random – we might do this by sampling on the <span class="math inline">\(y\)</span>-axis uniformly at random.</p>
 <p>Assume first that we have sampled a layer <span class="math inline">\(i \in \{1,\ldots,n\}\)</span>, i.e., a true rectangle. We then sample uniformly at random within the rectangle and accept the sample if it is in the subgraph of the half-normal distribution. This is is done efficiently as follows: First sample uniformly the <span class="math inline">\(x\)</span>-value of the sample in the box. If this value is smaller than <span class="math inline">\(x_{i+1}\)</span>, then sampling uniformly in <span class="math inline">\([y_i,y_{i+1}]\)</span> will always return a sample in the subgraph and we can therefore terminate the algorithm and accept <span class="math inline">\(x\)</span>. Otherwise we need to sample the <span class="math inline">\(y\)</span>-value as well and check if <span class="math inline">\(y &lt; \pi(x)\)</span>, in which case we accept, or else reject and select a new layer.</p>
 <p>If the base layer is sampled things are a bit more complicated as we may need to sample uniformly from the tail. There are methods to do this efficiently for the half-normal distribution. We will not go into details on this and just note that for a large number of layers (a typical choice is <span class="math inline">\(n=256\)</span>) this case occurs very rarely and just ignoring this layer would result in a good, albeit compactly. supported, sample approximation.</p>
 <p>The full Ziggurat algorithm is now</p>
 <ol style="list-style-type: decimal">
-<li>Sample a rectangle <span class="math inline">\(i \in \{0,\ldots,n\}\)</span> uniformly at random</li>
+<li>Sample a layer <span class="math inline">\(i \in \{0,\ldots,n-1\}\)</span> uniformly at random</li>
 <li>If <span class="math inline">\(i &gt; 0\)</span>, do:
 <ol style="list-style-type: decimal">
 <li>Sample <span class="math inline">\(u_0 \sim U[0, 1]\)</span> and set <span class="math inline">\(x = u_0x_i\)</span></li>
 <li>If <span class="math inline">\(x &lt; x_{i+1}\)</span>: accept the sample and terminate; else:</li>
 <li>Sample <span class="math inline">\(u_1 \sim U[0, 1]\)</span> and set <span class="math inline">\(y = y_i + u_1(y_{i+1} − y_i)\)</span></li>
-<li>If <span class="math inline">\(y &lt; \pi(x)\)</span>: accept the sample.</li>
+<li>If <span class="math inline">\(y &lt; \pi(x)\)</span>: accept the sample. Else: return to Step 1.</li>
 </ol></li>
 <li>Else
 <ol style="list-style-type: decimal">
 <li>Sample <span class="math inline">\(u_2 \sim U[0,1]\)</span> and set <span class="math inline">\(w = u_2 A\)</span></li>
-<li>If <span class="math inline">\(w &lt; x_0y_1\)</span>: follow steps 2.2–2.4 for <span class="math inline">\(i=0\)</span></li>
+<li>If <span class="math inline">\(w &lt; x_0y_1\)</span>: sample and accept <span class="math inline">\(x \sim U[0,x_0]\)</span></li>
 <li>Else: sample from the tail</li>
 </ol></li>
 </ol>
