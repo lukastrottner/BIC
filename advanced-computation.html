@@ -55,7 +55,7 @@
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -65,7 +65,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -127,7 +127,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
-  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -388,7 +387,7 @@ k(x, x&#39;) = \alpha^2 + x\cdot x&#39;.
 </div>
 <div id="gaussian-process-regression" class="section level3 hasAnchor" number="6.1.2">
 <h3><span class="header-section-number">6.1.2</span> Gaussian Process Regression<a href="advanced-computation.html#gaussian-process-regression" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>One of the main applications of GPs in in regression. Suppose we observe the points below <span class="math inline">\(\boldsymbol{y} = \{y_1, \ldots, y_N\}\)</span> and want to fit a curve through them. One method is to write down a set of functions of the form <span class="math inline">\(\boldsymbol{y} =  X^T\boldsymbol{\beta} + \boldsymbol{\varepsilon}\)</span>, where <span class="math inline">\(X\)</span> is the design matrix and <span class="math inline">\(\boldsymbol{\beta}\)</span> a vector of parameters. For each design matrix <span class="math inline">\(X\)</span>, construct the posterior distributions for <span class="math inline">\(\boldsymbol{\beta}\)</span> and use some goodness-of-fit measure to choose the most suitable design matrix.</p>
+<p>One of the main applications of GPs in in regression. Suppose we observe the points below <span class="math inline">\(\boldsymbol{y} = \{y_1, \ldots, y_N\}\)</span> and want to fit a curve through them. One method is to write down a set of functions of the form <span class="math inline">\(\boldsymbol{y} = X^T\boldsymbol{\beta} + \boldsymbol{\varepsilon}\)</span>, where <span class="math inline">\(X\)</span> is the design matrix and <span class="math inline">\(\boldsymbol{\beta}\)</span> a vector of parameters. For each design matrix <span class="math inline">\(X\)</span>, construct the posterior distributions for <span class="math inline">\(\boldsymbol{\beta}\)</span> and use some goodness-of-fit measure to choose the most suitable design matrix.</p>
 <div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="advanced-computation.html#cb147-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">5</span><span class="sc">:</span><span class="dv">5</span></span>
 <span id="cb147-2"><a href="advanced-computation.html#cb147-2" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">sin</span>(x<span class="sc">/</span><span class="dv">2</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span>x<span class="sc">/</span><span class="dv">5</span>) <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(x), <span class="dv">0</span>, <span class="fl">0.2</span>)</span>
 <span id="cb147-3"><a href="advanced-computation.html#cb147-3" tabindex="-1"></a><span class="fu">plot</span>(x, y)</span></code></pre></div>
@@ -419,7 +418,7 @@ The off-diagonal terms in the covariance matrix describe the relationship betwee
 <span class="math display">\[
 \boldsymbol{f}^* \mid \boldsymbol{y}, \sigma^2 \sim N(\boldsymbol{\mu}^*, \, K^*),
 \]</span>
-where <span class="math inline">\(\boldsymbol{\mu}^* = K(\boldsymbol{x}^*, \boldsymbol{x})(K(\boldsymbol{x}, \boldsymbol{x}) + \sigma^2 I)^{-1} \boldsymbol{y}\)</span> and <span class="math inline">\(K^* = K(\boldsymbol{x}^*, \boldsymbol{x}^*) -  K(\boldsymbol{x}^*, \boldsymbol{x})(K(\boldsymbol{x}, \boldsymbol{x}) + \sigma^2I)^{-1}K(\boldsymbol{x}, \boldsymbol{x}^*)\)</span>.</p>
+where <span class="math inline">\(\boldsymbol{\mu}^* = K(\boldsymbol{x}^*, \boldsymbol{x})(K(\boldsymbol{x}, \boldsymbol{x}) + \sigma^2 I)^{-1} \boldsymbol{y}\)</span> and <span class="math inline">\(K^* = K(\boldsymbol{x}^*, \boldsymbol{x}^*) - K(\boldsymbol{x}^*, \boldsymbol{x})(K(\boldsymbol{x}, \boldsymbol{x}) + \sigma^2I)^{-1}K(\boldsymbol{x}, \boldsymbol{x}^*)\)</span>.</p>
 <p>We set the fine gird to be <span class="math inline">\(\boldsymbol{x}^* = \{-5, -4.99, -4.98, \ldots, 5\}\)</span>, the GP parameters <span class="math inline">\(\alpha = l = 1\)</span> and <span class="math inline">\(\sigma = 0.2\)</span>. The posterior mean and 95% credible interval are shown below.
 <img src="_main_files/figure-html/unnamed-chunk-52-1.png" width="672" />
 The posterior mean for <span class="math inline">\(f\)</span> is a smooth line passing near each point. The 95% credible interval for <span class="math inline">\(f\)</span> has the smallest variance near each point, and largest furthest away from the points.</p>
@@ -504,7 +503,7 @@ where <span class="math inline">\(N_1\)</span> and <span class="math inline">\(N
 <span class="math display">\[
 \pi(\boldsymbol{z}, p, \theta_1, \theta_2 \mid \boldsymbol{y}) \propto \pi(\boldsymbol{y} \mid  \boldsymbol{z}, \theta_1, \theta_2)\pi(\boldsymbol{z} \mid p)\pi(p)\pi(\theta_1)\pi(\theta_2).
 \]</span>
-Note that we do not put a prior distribution on the latent variables <span class="math inline">\(\boldsymbol{z}\)</span>. Instead, we learn about these variables in the terms <span class="math inline">\(\pi(\boldsymbol{y} \mid  \boldsymbol{z}, \theta_1, \theta_2)\pi(\boldsymbol{z} \mid p)\)</span>.</p>
+Note that we do not put a prior distribution on the latent variables <span class="math inline">\(\boldsymbol{z}\)</span>. Instead, we learn about these variables in the terms <span class="math inline">\(\pi(\boldsymbol{y} \mid \boldsymbol{z}, \theta_1, \theta_2)\pi(\boldsymbol{z} \mid p)\)</span>.</p>
 <p>We suppose we are ignorant about the value of <span class="math inline">\(p\)</span> and place a uniform prior distribution on the parameter <span class="math inline">\(p\)</span>. The full conditional distribution is
 <span class="math display">\[\begin{align*}
 \pi(p\mid \boldsymbol{z}, \boldsymbol{y}, \theta_1, \theta_2) &amp;\propto \pi(\boldsymbol{z} \mid p)\pi(p)\\
@@ -606,7 +605,7 @@ q = \frac{p}{p + (1-p)p}
 Therefore <span class="math inline">\(f_1 \mid p, f_{1, 2}, f_3, \ldots, f_6 \sim \hbox{Bin}(25, q)\)</span>. We do not need to sample <span class="math inline">\(f_2\)</span> as we have <span class="math inline">\(f_2 = 25 - f_1\)</span>. Our MCMC algorithm using the complete data likelihood function and inferring <span class="math inline">\(f_1\)</span> and <span class="math inline">\(f_2\)</span> as well as <span class="math inline">\(p\)</span> could be</p>
 <ol style="list-style-type: decimal">
 <li>Initialise <span class="math inline">\(p^{(0)}\)</span>, <span class="math inline">\(f_1^{(0)}\)</span> and <span class="math inline">\(f_2^{(0)}\)</span>. Set <span class="math inline">\(i = 1\)</span>.</li>
-<li>Sample <span class="math inline">\(p^{(i)} \mid f_1^{(i-1)}, f_2^{(i-1)}, f_3 \ldots, f_6  \sim \hbox{Beta}(40 + \alpha, \sum xf - 40 + \beta)\)</span></li>
+<li>Sample <span class="math inline">\(p^{(i)} \mid f_1^{(i-1)}, f_2^{(i-1)}, f_3 \ldots, f_6 \sim \hbox{Beta}(40 + \alpha, \sum xf - 40 + \beta)\)</span></li>
 <li>Sample <span class="math inline">\(f_1^{(i)} \mid p^{(i)}, f_{1, 2}, f_3, \ldots, f_6\)</span></li>
 <li>Compute <span class="math inline">\(f_2^{(i)} = 25 - f_1^{(i)}\)</span>.</li>
 <li>Repeat steps 2 - 4.</li>
@@ -780,7 +779,7 @@ The parameter <span class="math inline">\(\alpha\)</span> is know as the shape p
 <p>Patient 10 drops out of the trial on day 50 and at this point, their symptoms have not changed. They send an email on day 200 to say they no longer have any symptoms (i.e. <span class="math inline">\(x_i \in [50, \ldots, 200]\)</span>. Write down a model for this problem and derive the posterior distribution. Design and code an MCMC algorithm to generate samples from the posterior distribution for any model parameters and <span class="math inline">\(x_{10}\)</span>.</p>
 </div>
 
-<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="refs" class="references csl-bib-body hanging-indent">
 <div class="csl-entry">
 Hairer, Martin, and Jonathan C. Mattingly. 2011. <span>“Yet Another Look at <span>H</span>arris’ Ergodic Theorem for <span>M</span>arkov Chains.”</span> In <em>Seminar on <span>S</span>tochastic <span>A</span>nalysis, <span>R</span>andom <span>F</span>ields and <span>A</span>pplications <span>VI</span></em>, 63:109–17. Progr. Probab. Birkhäuser/Springer Basel AG, Basel. <a href="https://doi.org/10.1007/978-3-0348-0021-1\_7">https://doi.org/10.1007/978-3-0348-0021-1\_7</a>.
 </div>

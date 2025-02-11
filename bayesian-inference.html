@@ -55,7 +55,7 @@
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -65,7 +65,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -127,7 +127,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
-  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -423,7 +422,7 @@ Note that the mean of the prior distribution is <span class="math inline">\(\mat
 \mathbb{E}(\lambda\mid y) = \frac{\beta}{\beta+\sum_{i=1}^ny_i} \cdot \frac{\alpha}{\beta} + \frac{\sum_{i=1}^ny_i}{\beta+\sum_{i=1}^ny_i} \cdot \frac{n}{\sum_{i=1}^ny_i}.
 \]</span>
 If either <span class="math inline">\(n\)</span> is large, i.e. we have abundant data, or <span class="math inline">\(\beta\)</span> is small, i.e. we have a vague prior (vague in the sense <span class="math inline">\(\mathrm{Var}(\lambda) = \alpha/\beta^2\)</span> is large), the weight on MLE is close to <span class="math inline">\(1\)</span>, and we would have <span class="math inline">\(\mathbb{E}(\lambda\mid y) \approx \hat{\lambda}_{\text{MLE}}\)</span>. On a slightly more technical level (don’t worry if you are confused about this), it is not hard to show that <span class="math inline">\(\mathbb{E}(\lambda\mid Y) - \hat{\lambda}_{\text{MLE}}(Y)\)</span> converges in probability to <span class="math inline">\(0\)</span>, under <span class="math inline">\(Y_1, \dotsc,Y_n \overset{i.i.d}{\sim} \text{Exp}(\lambda)\)</span>.</p>
-<p>We discuss a <strong>real data example</strong> now, which also illustrates the effects of choosing different <span class="math inline">\(\beta\)</span> in the prior distribution. An insurance company wants to estimate the average time until a claim is made on a specific policy using Bayesian inference. The data <span class="math inline">\(\boldsymbol{y} = \{14, 10,  6,  7, 13,  9, 12,  7,  9,  8\}\)</span> are collected, where each entry represents the number of months until a claimed is made.</p>
+<p>We discuss a <strong>real data example</strong> now, which also illustrates the effects of choosing different <span class="math inline">\(\beta\)</span> in the prior distribution. An insurance company wants to estimate the average time until a claim is made on a specific policy using Bayesian inference. The data <span class="math inline">\(\boldsymbol{y} = \{14, 10, 6, 7, 13, 9, 12, 7, 9, 8\}\)</span> are collected, where each entry represents the number of months until a claimed is made.</p>
 <p><strong>Likelihood function</strong> The exponential distribution is a good way of modelling lifetimes or the length of time until an event happens. Therefore, the company decides to model the observed data as realizations from <span class="math inline">\(\text{Exp}(\lambda)\)</span>, where <span class="math inline">\(\lambda\)</span> represents the number of claims per month. Assuming all the claims are independent, the likelihood function is given by
 <span class="math display">\[\begin{align*}
 \pi(\boldsymbol{y} \mid \lambda) &amp;= \prod_{i=1}^{10} \lambda e^{-\lambda y_i} \\
@@ -487,7 +486,7 @@ As the observations are independent, the likelihood function is given by the pro
 <span class="math display">\[
 \pi(\mu \mid \boldsymbol{y}) \propto \exp\left\{-\mu^2\left(\frac{N}{2\sigma^2}  + \frac{1}{2\sigma_0^2}\right) + \mu\left(\frac{\sum_{i=1}^{N}y_i}{\sigma^2} + \frac{\mu_0}{\sigma_0^2} \right)  \right\}
 \]</span>
-Defining <span class="math inline">\(a =\left(\frac{\sum_{i=1}^{N}y_i}{\sigma^2} + \frac{\mu_0}{\sigma_0^2} \right)\)</span> and <span class="math inline">\(b^2 = \left(\frac{N}{\sigma^2}  + \frac{1}{\sigma_0^2}\right)^{-1} = \frac{\sigma^2\sigma_0^2}{N\sigma_0^2+\sigma^2}\)</span> tidies this up and gives
+Defining <span class="math inline">\(a =\left(\frac{\sum_{i=1}^{N}y_i}{\sigma^2} + \frac{\mu_0}{\sigma_0^2} \right)\)</span> and <span class="math inline">\(b^2 = \left(\frac{N}{\sigma^2} + \frac{1}{\sigma_0^2}\right)^{-1} = \frac{\sigma^2\sigma_0^2}{N\sigma_0^2+\sigma^2}\)</span> tidies this up and gives
 <span class="math display">\[
 \pi(\mu \mid \boldsymbol{y}) \propto \exp\left\{-\frac{\mu^2}{2b^2} + \mu a \right\}.
 \]</span>
@@ -508,12 +507,12 @@ and the posterior variance is <span class="math inline">\(b^2\)</span>. Note tha
 <span class="math display">\[
 \mu_{\text{post}} = \frac{N/\sigma^2}{N/\sigma^2 + 1/\sigma_0^2} \cdot \frac{\sum_{i=1}^Ny_i}{N} + \frac{1/\sigma^2_0}{N/\sigma^2 + 1/\sigma_0^2} \cdot \mu_0
 \]</span>
-Note that the <strong>precision</strong> of a univariate distribution is the reciprocal of its variance. Therefore, the prior distribution has precision <span class="math inline">\(1/\sigma_0^2\)</span> and the MLE conditional on <span class="math inline">\(\mu\)</span>, <span class="math inline">\(\hat{\mu}_{\text{MLE}} \mid \mu \sim N(\mu,\sigma^2/N)\)</span> has precision <span class="math inline">\(N/\sigma^2\)</span>. Hence, we conclude that the posterior mean is a weighted average of the prior mean and the sample mean, with weights proportional to the precisions. Furthermore, with the notion of precision, it is very easy to remember the formula for posterior variance <span class="math inline">\(b^2\)</span> since it satisfies
+Note that the <strong>precision</strong> of a univariate distribution is the reciprocal of its variance. Therefore, the prior distribution has precision <span class="math inline">\(1/\sigma_0^2\)</span> and the MLE <span class="math inline">\(\hat{\mu}_{\text{MLE}} (\boldsymbol{Y})= \sum_{i=1}^NY_i/N \sim N(\mu,\sigma^2/N)\)</span> has precision <span class="math inline">\(N/\sigma^2\)</span>, if <span class="math inline">\(Y_1\dotsc,Y_N \overset{i.i.d}\sim N(\mu,\sigma^2)\)</span>. Hence, we conclude that the posterior mean is a weighted average of the prior mean and the sample mean, with weights proportional to the precisions. Furthermore, with the notion of precision, it is very easy to remember the formula for posterior variance <span class="math inline">\(b^2\)</span> since it satisfies
 <span class="math display">\[
 \frac{1}{b^2} = \frac{N}{\sigma^2}+\frac{1}{\sigma_0^2},
 \]</span>
-i.e. the posterior precision is the sum of the prior precision and MLE precision (conditional on <span class="math inline">\(\mu\)</span>) in this Normal-Normal example.</p>
-<p>Finally, let’s consider constructing (equal-tailed) credible intervals at level <span class="math inline">\(1-\alpha\)</span>. We need to find <span class="math inline">\(l,u \in \mathbb{R}\)</span> such that
+i.e. the posterior precision is the sum of the prior precision and MLE precision in this Normal-Normal example.</p>
+<p>Finally, let’s consider constructing (equal-tailed) credible intervals at level <span class="math inline">\(1-\alpha\)</span>, <span class="math inline">\(\alpha &lt; 1/2\)</span>. We need to find <span class="math inline">\(l,u \in \mathbb{R}\)</span> such that
 <span class="math display">\[
 \pi(\mu &lt; l\mid \boldsymbol{y}) = \pi(\mu &gt;u\mid \boldsymbol{y}) = \alpha/2
 \]</span>
@@ -537,7 +536,7 @@ is a <span class="math inline">\(1-\alpha\)</span> level credible interval for <
 <span id="cb28-4"><a href="bayesian-inference.html#cb28-4" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(N, <span class="dv">5</span>, sigma)</span>
 <span id="cb28-5"><a href="bayesian-inference.html#cb28-5" tabindex="-1"></a><span class="co">#MLE for mu</span></span>
 <span id="cb28-6"><a href="bayesian-inference.html#cb28-6" tabindex="-1"></a><span class="fu">mean</span>(y)</span></code></pre></div>
-<pre><code>## [1] 5.028826</code></pre>
+<pre><code>## [1] 5.023766</code></pre>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="bayesian-inference.html#cb30-1" tabindex="-1"></a><span class="co">#prior</span></span>
 <span id="cb30-2"><a href="bayesian-inference.html#cb30-2" tabindex="-1"></a>sigma0 <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
 <span id="cb30-3"><a href="bayesian-inference.html#cb30-3" tabindex="-1"></a>mu0     <span class="ot">&lt;-</span> <span class="dv">0</span></span>
@@ -547,7 +546,7 @@ is a <span class="math inline">\(1-\alpha\)</span> level credible interval for <
 <span id="cb30-7"><a href="bayesian-inference.html#cb30-7" tabindex="-1"></a>mu1       <span class="ot">&lt;-</span> sigma1.sq<span class="sc">*</span>(<span class="fu">sum</span>(y)<span class="sc">/</span>(sigma<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> mu0<span class="sc">/</span>(sigma0<span class="sc">^</span><span class="dv">2</span>))</span>
 <span id="cb30-8"><a href="bayesian-inference.html#cb30-8" tabindex="-1"></a></span>
 <span id="cb30-9"><a href="bayesian-inference.html#cb30-9" tabindex="-1"></a><span class="fu">c</span>(mu1, sigma1.sq) <span class="co">#output mean and variance</span></span></code></pre></div>
-<pre><code>## [1] 5.02882627 0.03333333</code></pre>
+<pre><code>## [1] 5.02376553 0.03333333</code></pre>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="bayesian-inference.html#cb32-1" tabindex="-1"></a><span class="co">#Create plot</span></span>
 <span id="cb32-2"><a href="bayesian-inference.html#cb32-2" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">4</span>, <span class="dv">6</span>, <span class="fl">0.01</span>)</span>
 <span id="cb32-3"><a href="bayesian-inference.html#cb32-3" tabindex="-1"></a>posterior <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(mu, <span class="at">mean =</span> mu1, <span class="at">sd =</span> <span class="fu">sqrt</span>(sigma1.sq))</span>
@@ -555,7 +554,7 @@ is a <span class="math inline">\(1-\alpha\)</span> level credible interval for <
 <p><img src="_main_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <p>The 95% credible interval for the population’s mean reaction time is</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="bayesian-inference.html#cb33-1" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>), mu1, <span class="fu">sqrt</span>(sigma1.sq))</span></code></pre></div>
-<pre><code>## [1] 4.670987 5.386665</code></pre>
+<pre><code>## [1] 4.665927 5.381604</code></pre>
 </div>
 </div>
 <div id="prediction" class="section level2 hasAnchor" number="3.4">
@@ -572,8 +571,8 @@ If we further assume <span class="math inline">\(Z\)</span> and <span class="mat
 <p>For questions in the problem sheets, summative assignments and the final exam, <strong>you may assume</strong> the posterior predictive distributions take the form in Equation <a href="bayesian-inference.html#eq:predictive">(3.1)</a>.</p>
 <div class="example">
 <p><span id="exm:unlabeled-div-34" class="example"><strong>Example 3.6  </strong></span>Students have to submit coursework for a particular statistical module. However, each semester a number of students miss the deadline and hand in their coursework late. Last year, three out of 30 students handed their coursework in late. This year, the course has thirty students in. How many students can we expect to hand in their coursework late?</p>
-<p>We can model the number of students handing their coursework in late, denoted by <span class="math inline">\(Y\)</span>, using a Binomial distribution, i.e. <span class="math inline">\(Y \sim \textrm{Bin}(n, \theta)\)</span> where <span class="math inline">\(n\)</span> is the number of students and <span class="math inline">\(\theta\)</span> is the probability of any particular student handing in their coursework late. As in Example <a href="bayesian-inference.html#exm:binom">3.2</a>, we assign a uniform prior distribution to <span class="math inline">\(\theta \sim U[0, 1]\)</span>. Given the observed data, we can derive <span class="math inline">\(\theta \mid \boldsymbol{y} \sim Beta(4, 28)\)</span> (See problem sheets for the derivation of the general posterior distribution of Beta prior with Binomial likelihood).</p>
-<p>Now we can derive the posterior predictive distribution of <span class="math inline">\(Z\)</span>, the number of students who hand in late. We model <span class="math inline">\(Z\)</span> using a Binomial distribution, <span class="math inline">\(Z \sim \textrm{Bin}(30, \theta)\)</span>. The distribution of <span class="math inline">\(Z\)</span> given the observed data is</p>
+<p>We can model the number of students handing their coursework in late, denoted by <span class="math inline">\(Y\)</span>, using a Binomial distribution, i.e. <span class="math inline">\(Y \sim \textrm{Bin}(n, \theta)\)</span> where <span class="math inline">\(n\)</span> is the number of students and <span class="math inline">\(\theta\)</span> is the probability of any particular student handing in their coursework late. As in Example <a href="bayesian-inference.html#exm:binom">3.2</a>, we assign a uniform prior distribution to <span class="math inline">\(\theta \sim U[0, 1]\)</span>. Given the observed data, we can derive <span class="math inline">\(\theta \mid \boldsymbol{y} \sim \text{Beta}(4, 28)\)</span> (See problem sheets for the derivation of the general posterior distribution of Beta prior with Binomial likelihood).</p>
+<p>Now we can derive the posterior predictive distribution of <span class="math inline">\(Z\)</span>, the number of students who hand in late. We model <span class="math inline">\(Z\)</span> using a Binomial distribution, <span class="math inline">\(Z \mid \theta \sim \textrm{Bin}(30, \theta)\)</span>. The distribution of <span class="math inline">\(Z\)</span> given the observed data is</p>
 <p><span class="math display">\[\begin{align*}
 \pi(z \mid \boldsymbol{y}) &amp;= \int_0^1 \pi(z \mid \theta) \pi(\theta \mid \boldsymbol{y})\, d\theta \\
 &amp; = \int_0^1 \begin{pmatrix} 30 \\ z \end{pmatrix} \theta^z (1-\theta)^{30 - z} \frac{1}{{B}(4,28)}\theta^{3}(1-\theta)^{27}\, d\theta \\
@@ -605,7 +604,7 @@ B(a,b) = \frac{\Gamma(a)\Gamma{(b)}}{\Gamma(a+b)}.
 <pre><code>## [1] 1</code></pre>
 <div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="bayesian-inference.html#cb38-1" tabindex="-1"></a><span class="fu">plot</span>(z, ppd, <span class="at">xlab =</span> <span class="st">&quot;z&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Posterior predictive mass&quot;</span>)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
-<p>The expected number of students who hand in late is 3.75 and there’s a 95% chance that up to 8 hand in late.</p>
+<p>The expected number of students who hand in late is 3.75 and there’s a 95.4% chance that up to 8 students will hand in late.</p>
 <div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="bayesian-inference.html#cb39-1" tabindex="-1"></a>z<span class="sc">%*%</span>ppd <span class="co">#expectation</span></span></code></pre></div>
 <pre><code>##      [,1]
 ## [1,] 3.75</code></pre>
@@ -733,7 +732,7 @@ I_Y(\theta) = \mathrm{Var} \left[ \frac{\partial}{\partial \theta} \log \pi(Y\mi
 \]</span></p>
 </div>
 <div class="theorem">
-<p><span id="thm:unlabeled-div-37" class="theorem"><strong>Theorem 3.1  (invariance) </strong></span>Given <span class="math inline">\(Y\mid \theta \sim \pi(y\mid \theta)\)</span>, consider a reparametrisation of the model by <span class="math inline">\(Y\mid \psi \sim \pi(y\mid \psi)\)</span> with <span class="math inline">\(\psi = h(\theta)\)</span>, for some smooth one-to-one function <span class="math inline">\(h\)</span>. Jefferys prior is <strong>invariant</strong> to such reparametrisation in the sense that
+<p><span id="thm:unlabeled-div-37" class="theorem"><strong>Theorem 3.1  (invariance) </strong></span>Given <span class="math inline">\(Y\mid \theta \sim \pi(y\mid \theta)\)</span>, consider a reparametrisation of the model by <span class="math inline">\(Y\mid \psi \sim \pi(y\mid \psi)\)</span> with <span class="math inline">\(\psi = h(\theta)\)</span>, for some smooth strictly monotonic function <span class="math inline">\(h\)</span> so that the inverse of <span class="math inline">\(h\)</span> exists and we can write <span class="math inline">\(\theta = h^{-1}(\psi)\)</span>. Jefferys prior is <strong>invariant</strong> to such reparametrisation in the sense that
 <span class="math display">\[
 \pi(\psi) = \pi(\theta) \left|\frac{d\theta}{d\psi}\right| \propto \sqrt{I_Y(\psi)}.
 \]</span></p>
@@ -753,8 +752,7 @@ I_Y(\psi) &amp;= - \mathbb{E}\left(\frac{d^2\log \pi({Y} \mid \psi)}{d\psi^2}\ri
 &amp; = I_Y({\theta})\left(\frac{d\theta}{d\psi}\right)^2,
 \end{align*}\]</span>
 where we use the fact that <span class="math inline">\(\mathbb{E}(\frac{d \log \pi(Y|\theta)}{d \theta}) = 0\)</span> in the penultimate step.
-Thus <span class="math inline">\(\sqrt{I_Y(\psi)} = \sqrt{I_Y(\theta)} \left|\frac{d\theta}{d\psi}\right|
-\propto \pi(\theta) \left|\frac{d\theta}{d\psi}\right|\)</span>, which proves our claim.</p>
+Thus <span class="math inline">\(\sqrt{I_Y(\psi)} = \sqrt{I_Y(\theta)} \left|\frac{d\theta}{d\psi}\right| \propto \pi(\theta) \left|\frac{d\theta}{d\psi}\right|\)</span>, which proves our claim.</p>
 </div>
 <div class="example">
 <p><span id="exm:unlabeled-div-39" class="example"><strong>Example 3.8  </strong></span>In Example <a href="bayesian-inference.html#exm:binom">3.2</a>, we modelled the number of bot accounts on a social media website by <span class="math inline">\(Y \mid \theta \sim \textrm{Bin}(n, \theta)\)</span>. To find Jeffreys prior distribution for <span class="math inline">\(\theta\)</span>, we just need to derive the Fisher information <span class="math inline">\(I_Y(\theta)\)</span>.</p>
@@ -886,7 +884,7 @@ The prior distribution can be plotted by</p>
 \]</span>
 There is no closed form for this distribution and it is not that nice to work with. But with R, we can easily evaluate the posterior distribution at a grid of points.</p>
 <div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="bayesian-inference.html#cb50-1" tabindex="-1"></a>posterior <span class="ot">&lt;-</span> prior<span class="sc">*</span>likelihood</span>
-<span id="cb50-2"><a href="bayesian-inference.html#cb50-2" tabindex="-1"></a>integrating.factor <span class="ot">&lt;-</span> <span class="fl">0.5</span><span class="sc">*</span><span class="fl">0.01</span><span class="sc">*</span>(posterior[<span class="dv">1</span>] <span class="sc">+</span> posterior[<span class="dv">1001</span>] <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span><span class="fu">sum</span>(posterior[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1001</span>)])) <span class="co">#Using trapezium rule</span></span>
+<span id="cb50-2"><a href="bayesian-inference.html#cb50-2" tabindex="-1"></a>integrating.factor <span class="ot">&lt;-</span> <span class="fl">0.5</span><span class="sc">*</span><span class="fl">0.01</span><span class="sc">*</span>(posterior[<span class="dv">1</span>] <span class="sc">+</span> posterior[<span class="dv">1001</span>] <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span><span class="fu">sum</span>(posterior[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1001</span>)])) <span class="co">#Using Trapezoidal rule</span></span>
 <span id="cb50-3"><a href="bayesian-inference.html#cb50-3" tabindex="-1"></a>posterior <span class="ot">&lt;-</span> posterior<span class="sc">/</span>integrating.factor <span class="co">#normalise</span></span>
 <span id="cb50-4"><a href="bayesian-inference.html#cb50-4" tabindex="-1"></a><span class="fu">plot</span>(lambda, posterior, <span class="at">type =</span> <span class="st">&#39;l&#39;</span>, <span class="at">xlab =</span> <span class="fu">expression</span>(lambda), </span>
 <span id="cb50-5"><a href="bayesian-inference.html#cb50-5" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;posterior density&quot;</span>)</span></code></pre></div>
@@ -901,15 +899,19 @@ There is no closed form for this distribution and it is not that nice to work wi
 <p><span id="exr:unlabeled-div-44" class="exercise"><strong>Exercise 3.1  </strong></span>Adapt the code in the Example above to use an exponential prior distribution with rate 0.1. Then derive the posterior distribution analytically and compare to the numerical version.</p>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-45" class="exercise"><strong>Exercise 3.2  </strong></span>You are given that the data are exponentially distributed with rate <span class="math inline">\(\lambda,\)</span> i.e. <span class="math inline">\(Y_1, \ldots, Y_N \sim \hbox{Exp}(\lambda)\)</span>. Your prior belief is that <span class="math inline">\(\lambda \in (0, 1)\)</span>. Show that the posterior distribution <span class="math inline">\(\pi(\lambda \mid \boldsymbol{y})\)</span> has no closed form when the prior distribution for <span class="math inline">\(\lambda \sim \hbox{Beta}(\alpha, \beta)\)</span>.</p>
-<p>The data is given by</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="bayesian-inference.html#cb53-1" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1.101558</span>, <span class="fl">1.143953</span>, <span class="fl">1.287348</span>, <span class="fl">1.181010</span>, <span class="fl">1.139132</span>, <span class="fl">1.148631</span>, <span class="fl">1.133201</span>, <span class="fl">1.361229</span>, <span class="fl">1.332540</span>, <span class="fl">1.052501</span>)</span></code></pre></div>
+<p><span id="exr:unlabeled-div-45" class="exercise"><strong>Exercise 3.2  </strong></span>You are given that the data are exponentially distributed with rate <span class="math inline">\(\lambda,\)</span> i.e. <span class="math inline">\(Y_1, \ldots, Y_N \mid \lambda \overset{i.i.d.}\sim \hbox{Exp}(\lambda)\)</span>. Your prior belief is that <span class="math inline">\(\lambda \in (0, 1)\)</span>. Show that if the prior distribution is <span class="math inline">\(\lambda \sim \hbox{Beta}(\alpha, \beta)\)</span>, then the posterior is
+<span class="math display">\[
+\pi(\lambda \mid \boldsymbol{y}) \propto \lambda^{N + \alpha - 1}(1-\lambda)^{\beta - 1}\exp{\{-\lambda\sum_{i=1}^Ny\}}, \quad \lambda \in (0,1),
+\]</span>
+which does not have a simple closed form expression.</p>
+<p>Suppose that the data is given by</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="bayesian-inference.html#cb53-1" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1.95</span>, <span class="fl">1.46</span>, <span class="fl">4.81</span>, <span class="fl">1.52</span>, <span class="fl">4.24</span>, <span class="fl">3.00</span>, <span class="fl">0.46</span>, <span class="fl">2.27</span>, <span class="fl">1.76</span>, <span class="fl">0.41</span>)</span></code></pre></div>
 </div>
-<p>By writing an R function to evaluate the likelihood function, evaluate the posterior distribution for <span class="math inline">\(\lambda\)</span> over a grid of points.</p>
+<p>Write an R function to evaluate the likelihood function, and the posterior distribution over a grid of points.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-46" class="exercise"><strong>Exercise 3.3  </strong></span>Suppose you have <span class="math inline">\(X_1, ..., X_N \sim \hbox{Bin}(100, p)\)</span>. Using <span class="math inline">\(p \sim \hbox{Beta}(\alpha, \beta)\)</span> as the prior distribution, derive the posterior distribution and the posterior mean (Wikipedia is a helpful place for properties of distributions).</p>
+<p><span id="exr:unlabeled-div-46" class="exercise"><strong>Exercise 3.3  </strong></span>Suppose you have <span class="math inline">\(X_1, ..., X_N \mid p \overset{i.i.d.}\sim \hbox{Binomial}(100, p)\)</span>. Using <span class="math inline">\(p \sim \hbox{Beta}(\alpha, \beta)\)</span> as the prior distribution, derive the posterior distribution and the posterior mean (Wikipedia is a helpful place for properties of distributions).</p>
 <ol style="list-style-type: decimal">
-<li>(Large data scenario) Fix <span class="math inline">\(\alpha = 2\)</span>, <span class="math inline">\(N = 150\)</span> and <span class="math inline">\(\Sigma x_i = 2,971\)</span>. Plot the prior and posterior distributions for different values of <span class="math inline">\(\beta\)</span> on the same figure. Plot the posterior mean against <span class="math inline">\(\beta \in (0, 10)\)</span>. Plot the prior mean against the posterior mean for <span class="math inline">\(\beta \in (0, 10)\)</span>.</li>
+<li>(Large data scenario) Fix <span class="math inline">\(\alpha = 2\)</span>, <span class="math inline">\(N = 150\)</span> and <span class="math inline">\(\Sigma x_i = 2971\)</span>. Plot the prior and posterior distributions for different values of <span class="math inline">\(\beta\)</span> on the same figure. Plot the posterior mean against <span class="math inline">\(\beta \in (0, 10)\)</span>. Plot the prior mean against the posterior mean for <span class="math inline">\(\beta \in (0, 10)\)</span>.</li>
 <li>(Small data scenario) Fix <span class="math inline">\(\alpha = 2\)</span>, <span class="math inline">\(N = 10\)</span> and <span class="math inline">\(\Sigma x_i = 101\)</span> Plot the prior and posterior distributions for different values of <span class="math inline">\(\beta\)</span> on the same figure.Plot the posterior distribution for different values of <span class="math inline">\(\beta\)</span>. Plot the posterior mean against <span class="math inline">\(\beta \in (0, 10)\)</span>. Plot the prior mean against the posterior mean for <span class="math inline">\(\beta \in (0, 10)\)</span>.</li>
 </ol>
 </div>
