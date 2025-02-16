@@ -55,7 +55,7 @@
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -65,7 +65,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -127,6 +127,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -275,13 +276,13 @@ div.csl-indent {
 <p>What we won’t be doing in this module is generating true uniform random numbers. This is incredibly difficult and usually requires lots of expensive hardware. This is because computers aren’t good at being random, they require algorithmic instructions. True random number generation often uses physical methods, such as the radioactive decay of atoms, or atmospheric noise.</p>
 <p>Throughout this module, we will be using R’s built in random number generation. This is a pseudo random number generator that has excellent random properties, but will eventually repeat. A basic random number generation tool that we will repeatedly use in the module involves sampling from a uniform distribution on the unit interval, which can be done in R using</p>
 <div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="sampling.html#cb54-1" tabindex="-1"></a><span class="fu">runif</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span></code></pre></div>
-<pre><code>## [1] 0.3886927</code></pre>
+<pre><code>## [1] 0.680522</code></pre>
 </div>
 <div id="inverse-transform-sampling" class="section level2 hasAnchor" number="4.2">
 <h2><span class="header-section-number">4.2</span> Inverse Transform Sampling<a href="sampling.html#inverse-transform-sampling" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Suppose we want to sample from a non-uniform one-dimensional distribution. The inverse transform theorem allows us to do this using the distribution’s inverse function.</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-47" class="definition"><strong>Definition 4.1  </strong></span>The <em>generalised inverse</em> <span class="math inline">\(F^{-1}\colon [0,1] \to [-\infty,\infty]\)</span> of a cumulative distribution function <span class="math inline">\(F\)</span>, is defined for all <span class="math inline">\(u \in [0, 1]\)</span> by
+<p><span id="def:unlabeled-div-48" class="definition"><strong>Definition 4.1  </strong></span>The <em>generalised inverse</em> <span class="math inline">\(F^{-1}\colon [0,1] \to [-\infty,\infty]\)</span> of a cumulative distribution function <span class="math inline">\(F\)</span>, is defined for all <span class="math inline">\(u \in [0, 1]\)</span> by
 <span class="math display">\[
 F^{-1}(u) = \inf\{x \in\mathbb{R} : F(x) \geq u\},
 \]</span>
@@ -294,10 +295,10 @@ where we use the convention <span class="math inline">\(\inf \varnothing = +\inf
 \end{equation}\]</span>
 by right-continuity of <span class="math inline">\(F\)</span>. We also note that if <span class="math inline">\(F\)</span> is bijective, its inverse function is identical to the generalised inverse on <span class="math inline">\((0,1]\)</span>.</p>
 <div class="theorem">
-<p><span id="thm:unlabeled-div-48" class="theorem"><strong>Theorem 4.1  </strong></span>Let <span class="math inline">\(F\colon \mathbb{R} \rightarrow [0, 1]\)</span> be a distribution function, <span class="math inline">\(U \sim U[0, 1]\)</span> and <span class="math inline">\(Y = F^{-1}(U)\)</span>. Then <span class="math inline">\(Y\)</span> has distribution function <span class="math inline">\(F\)</span>.</p>
+<p><span id="thm:unlabeled-div-49" class="theorem"><strong>Theorem 4.1  </strong></span>Let <span class="math inline">\(F\colon \mathbb{R} \rightarrow [0, 1]\)</span> be a distribution function, <span class="math inline">\(U \sim U[0, 1]\)</span> and <span class="math inline">\(Y = F^{-1}(U)\)</span>. Then <span class="math inline">\(Y\)</span> has distribution function <span class="math inline">\(F\)</span>.</p>
 </div>
 <div class="proof">
-<p><span id="unlabeled-div-49" class="proof"><em>Proof</em>. </span>From <a href="sampling.html#eq:pseudo">(4.1)</a> we obtain
+<p><span id="unlabeled-div-50" class="proof"><em>Proof</em>. </span>From <a href="sampling.html#eq:pseudo">(4.1)</a> we obtain
 <span class="math display">\[
 \mathbb{P}(Y \leq x) = \mathbb{P}(F^{-1}(U) \leq x) = \mathbb{P}(U \leq F(x)) = F(x),
 \]</span>
@@ -305,7 +306,7 @@ where the last equality follows from <span class="math inline">\(U \sim U[0, 1]\
 </div>
 <p>This theorem says that if we have a random variable <span class="math inline">\(U \sim U[0, 1]\)</span> and we want to get <span class="math inline">\(Y \sim F\)</span>, then we can use <span class="math inline">\(F^{-1}(U)\)</span>. Viewing this theorem graphically can provide a much more intuitive understanding.</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-50" class="example"><strong>Example 4.1  </strong></span>We would like to sample from an exponential distribution with rate <span class="math inline">\(\lambda\)</span>, i.e. <span class="math inline">\(Y ~ \sim \hbox{Exp}(\lambda)\)</span>. The density function is given by</p>
+<p><span id="exm:unlabeled-div-51" class="example"><strong>Example 4.1  </strong></span>We would like to sample from an exponential distribution with rate <span class="math inline">\(\lambda\)</span>, i.e. <span class="math inline">\(Y ~ \sim \hbox{Exp}(\lambda)\)</span>. The density function is given by</p>
 <p><span class="math display">\[
 \pi(y \mid \lambda) = \begin{cases}
       \lambda e^{-\lambda y} &amp; y \geq 0 \\
@@ -343,7 +344,7 @@ Therefore, if <span class="math inline">\(U \sim U[0, 1]\)</span>, then it follo
 <p><img src="_main_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
 </div>
 <div class="example">
-<p><span id="exm:unlabeled-div-51" class="example"><strong>Example 4.2  </strong></span>Suppose we want to generate samples from the Cauchy distribution with location 0 and scale 1. This has density function
+<p><span id="exm:unlabeled-div-52" class="example"><strong>Example 4.2  </strong></span>Suppose we want to generate samples from the Cauchy distribution with location 0 and scale 1. This has density function
 <span class="math display">\[
 \pi(x) = \frac{1}{\pi(1+x^2)}, \quad x \in \mathbb{R}.
 \]</span>
@@ -392,7 +393,7 @@ and it holds that
 <span class="math display">\[\mathbb{P}\Big(Y \in dy \mid U \leq \frac{\pi(Y)}{cq(Y)}\Big) =  \pi(y) \, dy.\]</span></p>
 </div>
 <div class="proof">
-<p><span id="unlabeled-div-52" class="proof"><em>Proof</em>. </span>Let <span class="math inline">\(x \in \mathbb{R}\)</span> be arbitrarily chosen. Since CDFs uniquely characterise distributions, for the second claim it is sufficient to show that
+<p><span id="unlabeled-div-53" class="proof"><em>Proof</em>. </span>Let <span class="math inline">\(x \in \mathbb{R}\)</span> be arbitrarily chosen. Since CDFs uniquely characterise distributions, for the second claim it is sufficient to show that
 <span class="math display">\[\mathbb{P}\Big(Y \leq x \mid U \leq \frac{\pi(Y)}{cq(Y)}\Big) = \int_{-\infty}^x \pi(y) \, dy. \]</span>
 By using independence of <span class="math inline">\(Y\)</span> and <span class="math inline">\(U\)</span> and Fubini we can calculate as follows:
 <span class="math display">\[\begin{align*}
@@ -408,7 +409,7 @@ proving the claim on the acceptance probability. Finally, the previous two calcu
 <span class="math display">\[\mathbb{P}\Big(Y \in dy \mid U \leq \frac{\pi(Y)}{cq(Y)}\Big) = \frac{\mathbb{P}\Big(Y \leq x, U \leq \frac{\pi(Y)}{cq(Y)}\Big)}{\mathbb{P}\Big(U \leq \frac{\pi(Y)}{cq(Y)} \Big)} = \int_{-\infty}^x \pi(y) \, dy.  \]</span></p>
 </div>
 <div class="example">
-<p><span id="exm:unlabeled-div-53" class="example"><strong>Example 4.3  </strong></span>Suppose we want to sample from a distribution that has the density
+<p><span id="exm:unlabeled-div-54" class="example"><strong>Example 4.3  </strong></span>Suppose we want to sample from a distribution that has the density
 <span class="math display">\[
 \pi(y) = \begin{cases}
 \frac{3}{4}y(2-y), \qquad y \in [0, 2] \\
@@ -439,7 +440,7 @@ The maximum of <span class="math inline">\(\pi\)</span> is given by <span class=
 The plot also shows how the choices of <span class="math inline">\(c\)</span> and <span class="math inline">\(q\)</span> can make the sampling more or less efficient. In our example, the rejection space is large, meaning many of our proposed samples will be rejected. Here, we could have chosen a better <span class="math inline">\(q\)</span> or a better <span class="math inline">\(c\)</span> for the given <span class="math inline">\(q\)</span> to minimise this space (compare with the first figure from this subsection).</p>
 </div>
 <div class="example">
-<p><span id="exm:unlabeled-div-54" class="example"><strong>Example 4.4  </strong></span>Suppose we want to sample from a Beta(4, 8) distribution. This distribution looks like</p>
+<p><span id="exm:unlabeled-div-55" class="example"><strong>Example 4.4  </strong></span>Suppose we want to sample from a Beta(4, 8) distribution. This distribution looks like</p>
 <div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="sampling.html#cb61-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.001</span>)</span>
 <span id="cb61-2"><a href="sampling.html#cb61-2" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(x, <span class="dv">4</span>, <span class="dv">8</span>)</span>
 <span id="cb61-3"><a href="sampling.html#cb61-3" tabindex="-1"></a><span class="fu">plot</span>(x, y, <span class="at">type =</span> <span class="st">&#39;l&#39;</span>)</span></code></pre></div>
@@ -458,7 +459,7 @@ Setting this equal to 0 gives us the maximum at <span class="math inline">\(x = 
 </ol>
 </div>
 <div class="example">
-<p><span id="exm:unlabeled-div-55" class="example"><strong>Example 4.5  </strong></span>In this example, we want to sample from a Gamma(3, 2) distribution. The density function is shown below.</p>
+<p><span id="exm:unlabeled-div-56" class="example"><strong>Example 4.5  </strong></span>In this example, we want to sample from a Gamma(3, 2) distribution. The density function is shown below.</p>
 <div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="sampling.html#cb62-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">6</span>, <span class="fl">0.01</span>)</span>
 <span id="cb62-2"><a href="sampling.html#cb62-2" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">dgamma</span>(x, <span class="dv">3</span>, <span class="dv">2</span>)</span>
 <span id="cb62-3"><a href="sampling.html#cb62-3" tabindex="-1"></a><span class="fu">plot</span>(x, y, <span class="at">type =</span> <span class="st">&#39;l&#39;</span>)</span></code></pre></div>
@@ -493,10 +494,10 @@ The maximum is therefore at 2. The value of the ratio at <span class="math inlin
 <h3><span class="header-section-number">4.3.1</span> Rejection Sampling Efficiency<a href="sampling.html#rejection-sampling-efficiency" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Suppose we are using a rejection sampling algorithm to sample from <span class="math inline">\(\pi(y)\)</span> using the proposal distribution <span class="math inline">\(q(y)\)</span>. How good is our rejection sampling algorithm? What does it mean to be a ‘good’ rejection sampling algorithm. One measure of the efficiency of a sampler is, on average, how many samples do we need to generate until one is accepted.</p>
 <div class="proposition">
-<p><span id="prp:unlabeled-div-56" class="proposition"><strong>Proposition 4.1  </strong></span>The number of samples proposed in a rejection sampling algorithm before one is accepted is distributed geometrically with success probability <span class="math inline">\(\frac{1}{c}\)</span>.</p>
+<p><span id="prp:unlabeled-div-57" class="proposition"><strong>Proposition 4.1  </strong></span>The number of samples proposed in a rejection sampling algorithm before one is accepted is distributed geometrically with success probability <span class="math inline">\(\frac{1}{c}\)</span>.</p>
 </div>
 <div class="proof">
-<p><span id="unlabeled-div-57" class="proof"><em>Proof</em>. </span>Since we sample independently until first success with success probability (i.e., acceptance probability) <span class="math inline">\(p\)</span>, the number of samples proposed until acceptance follows a <span class="math inline">\(\mathrm{Geo}(p)\)</span> distribution. As we saw in Theorem <a href="sampling.html#thm:accrej">4.2</a>, we have <span class="math inline">\(p = 1/c\)</span>, which proves the assertion. Do drive the point home, let’s redo the calculation for this explicitly:
+<p><span id="unlabeled-div-58" class="proof"><em>Proof</em>. </span>Since we sample independently until first success with success probability (i.e., acceptance probability) <span class="math inline">\(p\)</span>, the number of samples proposed until acceptance follows a <span class="math inline">\(\mathrm{Geo}(p)\)</span> distribution. As we saw in Theorem <a href="sampling.html#thm:accrej">4.2</a>, we have <span class="math inline">\(p = 1/c\)</span>, which proves the assertion. Do drive the point home, let’s redo the calculation for this explicitly:
 <span class="math display">\[\begin{align*}
 \mathbb{P}\Big(U \leq \frac{\pi(Y)}{cq(Y)}\Big) &amp;= \int_{\mathbb{R}^2} \mathbf{1}_{\{u \leq \pi(y)/(cq(y))\}} \, \mathbb{P}_U(du) \, \mathbb{P}_Y(dy)\\
 &amp;= \int_{\mathbb{R}} \int_0^{\pi(y)/cq(y)} \, du \, \mathbb{P}_Y(dy)\\
@@ -505,7 +506,7 @@ The maximum is therefore at 2. The value of the ratio at <span class="math inlin
 \end{align*}\]</span></p>
 </div>
 <div class="remark">
-<p><span id="unlabeled-div-58" class="remark"><em>Remark</em>. </span>In other words, the average number of samples produced until the algorithm terminates is given by the constant <span class="math inline">\(c\)</span>. Thus, the tighter we fit the proposal density <span class="math inline">\(q\)</span> to <span class="math inline">\(\pi\)</span>, the more efficient our rejection algorithm will be.</p>
+<p><span id="unlabeled-div-59" class="remark"><em>Remark</em>. </span>In other words, the average number of samples produced until the algorithm terminates is given by the constant <span class="math inline">\(c\)</span>. Thus, the tighter we fit the proposal density <span class="math inline">\(q\)</span> to <span class="math inline">\(\pi\)</span>, the more efficient our rejection algorithm will be.</p>
 </div>
 </div>
 </div>
@@ -540,14 +541,14 @@ The maximum is therefore at 2. The value of the ratio at <span class="math inlin
 <h2><span class="header-section-number">4.5</span> Approximate Bayesian Computation<a href="sampling.html#approximate-bayesian-computation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>So far, we have always considered models where the likelihood function is easy to work with. By easy, we mean that we can evaluate the likelihood function for lots of different values, and we can evaluate it cheaply. In some cases, it might not be possible to write down the likelihood function, or it might not be possible to evaluate it. In these cases, we refer to methods call <strong>likelihood free inference</strong>.</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-59" class="example"><strong>Example 4.6  </strong></span>Models to predict the weather are notoriously complex. They contain a huge number of parameters, and sometimes it is not possible to write this model down exactly. In cases where the likelihood function for the weather model can be written down, we would have to start the MCMC algorithm from scratch every time we collected new data.</p>
+<p><span id="exm:unlabeled-div-60" class="example"><strong>Example 4.6  </strong></span>Models to predict the weather are notoriously complex. They contain a huge number of parameters, and sometimes it is not possible to write this model down exactly. In cases where the likelihood function for the weather model can be written down, we would have to start the MCMC algorithm from scratch every time we collected new data.</p>
 </div>
 <p>Approximate Bayesian Computation (ABC) is a likelihood free algorithm that relies on reject sampling from the prior distribution. When constructing an ABC algorithm, we only need to be able to generate data given a parameter value and not evaluate the likelihood of seeing specific data given a parameter value.</p>
 <p>We are going to look at two types of ABC. The first is ABC with rejection</p>
 <div id="abc-with-rejection" class="section level3 hasAnchor" number="4.5.1">
 <h3><span class="header-section-number">4.5.1</span> ABC with Rejection<a href="sampling.html#abc-with-rejection" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="definition">
-<p><span id="def:unlabeled-div-60" class="definition"><strong>Definition 4.2  </strong></span>To carry out inference for a parameter <span class="math inline">\(\theta\)</span> using an Approximate Bayesian Computation algorithm with rejection</p>
+<p><span id="def:unlabeled-div-61" class="definition"><strong>Definition 4.2  </strong></span>To carry out inference for a parameter <span class="math inline">\(\theta\)</span> using an Approximate Bayesian Computation algorithm with rejection</p>
 <ol style="list-style-type: decimal">
 <li>Sample a value for the parameter <span class="math inline">\(\theta^*\)</span> from the prior distribution <span class="math inline">\(\pi(\theta)\)</span>.</li>
 <li>Generate some data <span class="math inline">\(y*\)</span> from the data generating process using the parameter value <span class="math inline">\(\theta^*\)</span>.</li>
@@ -556,14 +557,14 @@ The maximum is therefore at 2. The value of the ratio at <span class="math inlin
 </ol>
 </div>
 <div class="definition">
-<p><span id="def:unlabeled-div-61" class="definition"><strong>Definition 4.3  </strong></span>The approximate posterior distribution using ABC with rejection is
+<p><span id="def:unlabeled-div-62" class="definition"><strong>Definition 4.3  </strong></span>The approximate posterior distribution using ABC with rejection is
 <span class="math display">\[
 \pi_\varepsilon(\theta \mid y) \propto \int \pi(y^* \mid \theta^*)\pi(\theta^*)I_{A_\varepsilon(y^*)} dy^*,
 \]</span>
 where <span class="math inline">\({A_\varepsilon(y^*)} = \{y^* \mid ||y^* - y||&lt; \varepsilon\}\)</span>.</p>
 </div>
 <div class="example">
-<p><span id="exm:unlabeled-div-62" class="example"><strong>Example 4.7  </strong></span>This is a simple example, where we can derive the posterior distribution, but it allows us to see how this method works. Suppose we observe <span class="math inline">\(Y_1, \ldots, y_{10}\sim Beta(3, \beta)\)</span>. We place a uniform prior on <span class="math inline">\(\beta\)</span> such that <span class="math inline">\(\beta \sim U[0, 5]\)</span>. The ABC algorithm with rejection works as follows:</p>
+<p><span id="exm:unlabeled-div-63" class="example"><strong>Example 4.7  </strong></span>This is a simple example, where we can derive the posterior distribution, but it allows us to see how this method works. Suppose we observe <span class="math inline">\(Y_1, \ldots, y_{10}\sim Beta(3, \beta)\)</span>. We place a uniform prior on <span class="math inline">\(\beta\)</span> such that <span class="math inline">\(\beta \sim U[0, 5]\)</span>. The ABC algorithm with rejection works as follows:</p>
 <ol style="list-style-type: decimal">
 <li>Sample a value <span class="math inline">\(\beta^* \sim U[0, 5]\)</span>.</li>
 <li>Simulate <span class="math inline">\(y^*_1, \ldots, y^*_{10} \sim Beta(3,\beta^*)\)</span></li>
@@ -576,8 +577,8 @@ where <span class="math inline">\({A_\varepsilon(y^*)} = \{y^* \mid ||y^* - y||&
 <span id="cb64-3"><a href="sampling.html#cb64-3" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
 <span id="cb64-4"><a href="sampling.html#cb64-4" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rbeta</span>(n, <span class="dv">3</span>, <span class="dv">2</span>)</span>
 <span id="cb64-5"><a href="sampling.html#cb64-5" tabindex="-1"></a>y</span></code></pre></div>
-<pre><code>##  [1] 0.8519237 0.5286251 0.3126172 0.9691679 0.4883547 0.4677043 0.7339799 0.7279578 0.7317827
-## [10] 0.7971786</code></pre>
+<pre><code>##  [1] 0.8519237 0.5286251 0.3126172 0.9691679 0.4883547 0.4677043 0.7339799
+##  [8] 0.7279578 0.7317827 0.7971786</code></pre>
 <div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="sampling.html#cb66-1" tabindex="-1"></a><span class="co">#Set Up ABC</span></span>
 <span id="cb66-2"><a href="sampling.html#cb66-2" tabindex="-1"></a>n.iter <span class="ot">&lt;-</span> <span class="dv">50000</span></span>
 <span id="cb66-3"><a href="sampling.html#cb66-3" tabindex="-1"></a>b.store <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n.iter)</span>
@@ -619,14 +620,14 @@ where <span class="math inline">\({A_\varepsilon(y^*)} = \{y^* \mid ||y^* - y||&
 </div>
 <p>One important question is how to choose the value for <span class="math inline">\(\varepsilon\)</span>? It turns out this is an incredibly hard question that is specific to each application. Often the approximate posterior distribution <span class="math inline">\(\pi_\varepsilon(\theta \mid y)\)</span> is very sensitive to the choice of <span class="math inline">\(\varepsilon\)</span>.</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-63" class="example"><strong>Example 4.8  </strong></span>Let’s repeat the example, first with <span class="math inline">\(\varepsilon = 0.12\)</span>. In this case, almost all of the proposals are rejected.</p>
+<p><span id="exm:unlabeled-div-64" class="example"><strong>Example 4.8  </strong></span>Let’s repeat the example, first with <span class="math inline">\(\varepsilon = 0.12\)</span>. In this case, almost all of the proposals are rejected.</p>
 <div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="sampling.html#cb73-1" tabindex="-1"></a><span class="co">#Set Up Example</span></span>
 <span id="cb73-2"><a href="sampling.html#cb73-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
 <span id="cb73-3"><a href="sampling.html#cb73-3" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
 <span id="cb73-4"><a href="sampling.html#cb73-4" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rbeta</span>(n, <span class="dv">3</span>, <span class="dv">2</span>)</span>
 <span id="cb73-5"><a href="sampling.html#cb73-5" tabindex="-1"></a>y</span></code></pre></div>
-<pre><code>##  [1] 0.8519237 0.5286251 0.3126172 0.9691679 0.4883547 0.4677043 0.7339799 0.7279578 0.7317827
-## [10] 0.7971786</code></pre>
+<pre><code>##  [1] 0.8519237 0.5286251 0.3126172 0.9691679 0.4883547 0.4677043 0.7339799
+##  [8] 0.7279578 0.7317827 0.7971786</code></pre>
 <div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="sampling.html#cb75-1" tabindex="-1"></a><span class="co">#Set Up ABC</span></span>
 <span id="cb75-2"><a href="sampling.html#cb75-2" tabindex="-1"></a>n.iter <span class="ot">&lt;-</span> <span class="dv">50000</span></span>
 <span id="cb75-3"><a href="sampling.html#cb75-3" tabindex="-1"></a>b.store <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n.iter)</span>
@@ -667,14 +668,14 @@ where <span class="math inline">\({A_\varepsilon(y^*)} = \{y^* \mid ||y^* - y||&
 ## 1.181349 2.587056</code></pre>
 </div>
 <div class="example">
-<p><span id="exm:unlabeled-div-64" class="example"><strong>Example 4.9  </strong></span>And now again with <span class="math inline">\(\varepsilon = 2\)</span>. In this case, almost all of the proposals are accepted.</p>
+<p><span id="exm:unlabeled-div-65" class="example"><strong>Example 4.9  </strong></span>And now again with <span class="math inline">\(\varepsilon = 2\)</span>. In this case, almost all of the proposals are accepted.</p>
 <div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="sampling.html#cb82-1" tabindex="-1"></a><span class="co">#Set Up Example</span></span>
 <span id="cb82-2"><a href="sampling.html#cb82-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
 <span id="cb82-3"><a href="sampling.html#cb82-3" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
 <span id="cb82-4"><a href="sampling.html#cb82-4" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rbeta</span>(n, <span class="dv">3</span>, <span class="dv">2</span>)</span>
 <span id="cb82-5"><a href="sampling.html#cb82-5" tabindex="-1"></a>y</span></code></pre></div>
-<pre><code>##  [1] 0.8519237 0.5286251 0.3126172 0.9691679 0.4883547 0.4677043 0.7339799 0.7279578 0.7317827
-## [10] 0.7971786</code></pre>
+<pre><code>##  [1] 0.8519237 0.5286251 0.3126172 0.9691679 0.4883547 0.4677043 0.7339799
+##  [8] 0.7279578 0.7317827 0.7971786</code></pre>
 <div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="sampling.html#cb84-1" tabindex="-1"></a><span class="co">#Set Up ABC</span></span>
 <span id="cb84-2"><a href="sampling.html#cb84-2" tabindex="-1"></a>n.iter <span class="ot">&lt;-</span> <span class="dv">50000</span></span>
 <span id="cb84-3"><a href="sampling.html#cb84-3" tabindex="-1"></a>b.store <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n.iter)</span>
@@ -716,7 +717,7 @@ where <span class="math inline">\({A_\varepsilon(y^*)} = \{y^* \mid ||y^* - y||&
 <p>When <span class="math inline">\(\varepsilon = 0.12\)</span>, almost all the proposals are rejected. Although the approximate posterior mean is close to the true value, given we only have 7 samples we cannot say much about the posterior distribution. When <span class="math inline">\(\varepsilon = 2\)</span>, almost all the proposals are accepted. This histogram shows that we are really just sampling from the prior distribution, i.e. <span class="math inline">\(\pi_2(\beta \mid y) \approx \pi(\beta)\)</span>.</p>
 </div>
 <div class="proposition">
-<p><span id="prp:unlabeled-div-65" class="proposition"><strong>Proposition 4.2  </strong></span>Using an ABC rejection algorithm
+<p><span id="prp:unlabeled-div-66" class="proposition"><strong>Proposition 4.2  </strong></span>Using an ABC rejection algorithm
 <span class="math display">\[
 \lim_{\varepsilon \rightarrow \infty} \pi_\varepsilon(\theta \mid y) \overset{D}= \pi(\theta),
 \]</span>
@@ -725,114 +726,138 @@ and
 \lim_{\varepsilon \rightarrow 0} \pi_\varepsilon(\theta \mid y) \overset{D}= \pi(\theta \mid y).
 \]</span></p>
 </div>
-<div class="proof">
-<p><span id="unlabeled-div-66" class="proof"><em>Proof</em>. </span>See problem sheet.</p>
-</div>
-<p>This example and the proposition show that if we set <span class="math inline">\(\varepsilon\)</span> too large, we don’t learn anything about <span class="math inline">\(\theta\)</span>, we just recover the data. The smaller the value of <span class="math inline">\(\varepsilon\)</span>, the better. But very small values may require very long run times, or have such few samples that the noise from the sampling generator is larger than the signal in the accepted samples. The only diagnostic tools we have are the proportion of samples accepted and the histograms of the approximate posterior and prior distributions.</p>
-<div class="example">
-<p><span id="exm:unlabeled-div-67" class="example"><strong>Example 4.10  </strong></span>An example of where this is useful is epidemic modelling. Suppose we have a population of 100 individuals and at each time point an individual is in one of the three states: Susceptible to a disease, Infected with the disease, or Recovered and therefore immune. Once infected with the disease, an individual infects people according to a Poisson process with rate <span class="math inline">\(\beta\)</span>. Each infected person is infected from a time period drawn from an Exponential distribution with rate <span class="math inline">\(1\)</span>. We observe the total number of people infected with the disease at the end of the outbreak. To carry out inference for the infection rate <span class="math inline">\(\beta\)</span>, we need to use the augmented likelihood function. The augmented likelihood function for this model is given by</p>
-<p><span class="math display">\[
+<p>This example and the proposition show that if we set <span class="math inline">\(\varepsilon\)</span> too large, we don’t learn anything about <span class="math inline">\(\theta\)</span>, we just recover the prior distribution. The smaller the value of <span class="math inline">\(\varepsilon\)</span>, the better. But very small values may require very long run times, or have such few samples that the noise from the sampling generator is larger than the signal in the accepted samples. The only diagnostic tools we have are the proportion of samples accepted and the histograms of the approximate posterior and prior distributions.</p>
+<!--
+:::{.example}
+An example of where this is useful is epidemic modelling. Suppose we have a population of 100 individuals and at each time point an individual is in one of the three states: Susceptible to a disease, Infected with the disease, or Recovered and therefore immune. Once infected with the disease, an individual infects people according to a Poisson process with rate $\beta$. Each infected person is infected from a time period drawn from an Exponential distribution with rate $1$. We observe the total number of people infected with the disease at the end of the outbreak. To carry out inference for the infection rate $\beta$, we need to use the augmented likelihood function. The augmented likelihood function for this model is given by
+
+$$
 \pi(\textbf{i}, \textbf{r}| \beta) \propto \underbrace{\exp\Big(- \sum\limits_{j=1}^n\sum\limits_{k=1}^N \beta\big((r_j \wedge i_k) - (i_j \wedge i_k)\big)\Big)}_\text{Avoiding infection} \\
-\times\hspace{1.8cm} \underbrace{\prod\limits_{\substack{j=1 \\ j \neq \kappa}}^n\Big(\sum\limits_{k \in \mathcal{Y}_j} \beta\Big)}_\text{Becoming infectious}  \\
+ \times\hspace{1.8cm} \underbrace{\prod\limits_{\substack{j=1 \\ j \neq \kappa}}^n\Big(\sum\limits_{k \in \mathcal{Y}_j} \beta\Big)}_\text{Becoming infectious}  \\
 \times \hspace{1.8cm}\underbrace{\prod\limits_{j=1}^n\pi(r_j -i_j | \gamma = 1)}_\text{Remaining infected}.
-\]</span>
-This likelihood function cannot be evaluated as we do not observe the infection time <span class="math inline">\(i\)</span> or recovery time <span class="math inline">\(r\)</span>. Instead we can use ABC sampling with rejection. Each iteration, sample a value for <span class="math inline">\(\beta\)</span>, simulate an outbreak and compare the observed and simulated number of people infected. If they are ‘close’ we accept the value for <span class="math inline">\(\beta\)</span> as a sample from our posterior distribution. This means all we have to do is simulate outbreaks.</p>
-<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="sampling.html#cb91-1" tabindex="-1"></a><span class="co">#This function simualtes an outbreak of a disease in a population of size N, with infection rate beta and recovery rate gamma.</span></span>
-<span id="cb91-2"><a href="sampling.html#cb91-2" tabindex="-1"></a>simSIR.Markov <span class="ot">&lt;-</span> <span class="cf">function</span>(N, beta, gamma) {</span>
-<span id="cb91-3"><a href="sampling.html#cb91-3" tabindex="-1"></a>  </span>
-<span id="cb91-4"><a href="sampling.html#cb91-4" tabindex="-1"></a>  <span class="co"># initial number of infectives and susceptibles;</span></span>
-<span id="cb91-5"><a href="sampling.html#cb91-5" tabindex="-1"></a>  I <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb91-6"><a href="sampling.html#cb91-6" tabindex="-1"></a>  S <span class="ot">&lt;-</span> N<span class="dv">-1</span>;</span>
-<span id="cb91-7"><a href="sampling.html#cb91-7" tabindex="-1"></a>  </span>
-<span id="cb91-8"><a href="sampling.html#cb91-8" tabindex="-1"></a>  <span class="co"># recording time;</span></span>
-<span id="cb91-9"><a href="sampling.html#cb91-9" tabindex="-1"></a>  t <span class="ot">&lt;-</span> <span class="dv">0</span>;</span>
-<span id="cb91-10"><a href="sampling.html#cb91-10" tabindex="-1"></a>  times <span class="ot">&lt;-</span> <span class="fu">c</span>(t);</span>
-<span id="cb91-11"><a href="sampling.html#cb91-11" tabindex="-1"></a>  </span>
-<span id="cb91-12"><a href="sampling.html#cb91-12" tabindex="-1"></a>  <span class="co"># a vector which records the type of event (1=infection, 2=removal)</span></span>
-<span id="cb91-13"><a href="sampling.html#cb91-13" tabindex="-1"></a>  type <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>);</span>
-<span id="cb91-14"><a href="sampling.html#cb91-14" tabindex="-1"></a>  </span>
-<span id="cb91-15"><a href="sampling.html#cb91-15" tabindex="-1"></a>  <span class="cf">while</span> (I <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
-<span id="cb91-16"><a href="sampling.html#cb91-16" tabindex="-1"></a>    </span>
-<span id="cb91-17"><a href="sampling.html#cb91-17" tabindex="-1"></a>    <span class="co"># time to next event;</span></span>
-<span id="cb91-18"><a href="sampling.html#cb91-18" tabindex="-1"></a>    t <span class="ot">&lt;-</span> t <span class="sc">+</span> <span class="fu">rexp</span>(<span class="dv">1</span>, (beta<span class="sc">/</span>N)<span class="sc">*</span>I<span class="sc">*</span>S <span class="sc">+</span> gamma<span class="sc">*</span>I);</span>
-<span id="cb91-19"><a href="sampling.html#cb91-19" tabindex="-1"></a>    times <span class="ot">&lt;-</span> <span class="fu">append</span>(times, t);</span>
-<span id="cb91-20"><a href="sampling.html#cb91-20" tabindex="-1"></a>    </span>
-<span id="cb91-21"><a href="sampling.html#cb91-21" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">runif</span>(<span class="dv">1</span>) <span class="sc">&lt;</span> beta<span class="sc">*</span>S<span class="sc">/</span>(beta<span class="sc">*</span>S <span class="sc">+</span> N<span class="sc">*</span>gamma)) {</span>
-<span id="cb91-22"><a href="sampling.html#cb91-22" tabindex="-1"></a>      <span class="co"># infection</span></span>
-<span id="cb91-23"><a href="sampling.html#cb91-23" tabindex="-1"></a>      I <span class="ot">&lt;-</span> I<span class="sc">+</span><span class="dv">1</span>;</span>
-<span id="cb91-24"><a href="sampling.html#cb91-24" tabindex="-1"></a>      S <span class="ot">&lt;-</span> S<span class="dv">-1</span>;</span>
-<span id="cb91-25"><a href="sampling.html#cb91-25" tabindex="-1"></a>      type <span class="ot">&lt;-</span> <span class="fu">append</span>(type, <span class="dv">1</span>);</span>
-<span id="cb91-26"><a href="sampling.html#cb91-26" tabindex="-1"></a>    }</span>
-<span id="cb91-27"><a href="sampling.html#cb91-27" tabindex="-1"></a>    <span class="cf">else</span> {</span>
-<span id="cb91-28"><a href="sampling.html#cb91-28" tabindex="-1"></a>      <span class="co">#removal</span></span>
-<span id="cb91-29"><a href="sampling.html#cb91-29" tabindex="-1"></a>      I <span class="ot">&lt;-</span> I<span class="dv">-1</span></span>
-<span id="cb91-30"><a href="sampling.html#cb91-30" tabindex="-1"></a>      type <span class="ot">&lt;-</span> <span class="fu">append</span>(type, <span class="dv">2</span>);</span>
-<span id="cb91-31"><a href="sampling.html#cb91-31" tabindex="-1"></a>    }</span>
-<span id="cb91-32"><a href="sampling.html#cb91-32" tabindex="-1"></a>  }</span>
-<span id="cb91-33"><a href="sampling.html#cb91-33" tabindex="-1"></a>  </span>
-<span id="cb91-34"><a href="sampling.html#cb91-34" tabindex="-1"></a>  </span>
-<span id="cb91-35"><a href="sampling.html#cb91-35" tabindex="-1"></a>  <span class="co"># record the times of events (infections/removals), the type of the event, the final size (including</span></span>
-<span id="cb91-36"><a href="sampling.html#cb91-36" tabindex="-1"></a>  <span class="co"># the initial infective) and the duration. </span></span>
-<span id="cb91-37"><a href="sampling.html#cb91-37" tabindex="-1"></a>  </span>
-<span id="cb91-38"><a href="sampling.html#cb91-38" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">&quot;t&quot;</span> <span class="ot">=</span> times, <span class="st">&quot;type&quot;</span> <span class="ot">=</span> type, <span class="st">&quot;final.size&quot;</span> <span class="ot">=</span> <span class="fu">sum</span>(type<span class="sc">==</span><span class="dv">1</span>), <span class="st">&quot;duration&quot;</span> <span class="ot">=</span> t, <span class="st">&quot;N&quot;</span> <span class="ot">=</span> N);</span>
-<span id="cb91-39"><a href="sampling.html#cb91-39" tabindex="-1"></a>  <span class="fu">return</span>(res)</span>
-<span id="cb91-40"><a href="sampling.html#cb91-40" tabindex="-1"></a>}</span>
-<span id="cb91-41"><a href="sampling.html#cb91-41" tabindex="-1"></a></span>
-<span id="cb91-42"><a href="sampling.html#cb91-42" tabindex="-1"></a><span class="co">#Set Up Example</span></span>
-<span id="cb91-43"><a href="sampling.html#cb91-43" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb91-44"><a href="sampling.html#cb91-44" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">200</span></span>
-<span id="cb91-45"><a href="sampling.html#cb91-45" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">simSIR.Markov</span>(<span class="dv">100</span>, <span class="dv">2</span>, <span class="dv">1</span>)<span class="sc">$</span>final.size</span>
-<span id="cb91-46"><a href="sampling.html#cb91-46" tabindex="-1"></a></span>
-<span id="cb91-47"><a href="sampling.html#cb91-47" tabindex="-1"></a></span>
-<span id="cb91-48"><a href="sampling.html#cb91-48" tabindex="-1"></a><span class="co">#Set Up ABC</span></span>
-<span id="cb91-49"><a href="sampling.html#cb91-49" tabindex="-1"></a>n.iter <span class="ot">&lt;-</span> <span class="dv">50000</span></span>
-<span id="cb91-50"><a href="sampling.html#cb91-50" tabindex="-1"></a>b.store <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n.iter)</span>
-<span id="cb91-51"><a href="sampling.html#cb91-51" tabindex="-1"></a>epsilon <span class="ot">&lt;-</span> <span class="dv">250</span></span>
-<span id="cb91-52"><a href="sampling.html#cb91-52" tabindex="-1"></a></span>
-<span id="cb91-53"><a href="sampling.html#cb91-53" tabindex="-1"></a><span class="co">#Run ABC</span></span>
-<span id="cb91-54"><a href="sampling.html#cb91-54" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n.iter){</span>
-<span id="cb91-55"><a href="sampling.html#cb91-55" tabindex="-1"></a>  </span>
-<span id="cb91-56"><a href="sampling.html#cb91-56" tabindex="-1"></a>  <span class="co">#Propose an infection rate</span></span>
-<span id="cb91-57"><a href="sampling.html#cb91-57" tabindex="-1"></a>  b <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">5</span>)</span>
-<span id="cb91-58"><a href="sampling.html#cb91-58" tabindex="-1"></a>  </span>
-<span id="cb91-59"><a href="sampling.html#cb91-59" tabindex="-1"></a>  <span class="co">#Simualte an outbreak</span></span>
-<span id="cb91-60"><a href="sampling.html#cb91-60" tabindex="-1"></a>  y.star <span class="ot">&lt;-</span> <span class="fu">simSIR.Markov</span>(<span class="dv">100</span>, b, <span class="dv">1</span>)<span class="sc">$</span>final.size</span>
-<span id="cb91-61"><a href="sampling.html#cb91-61" tabindex="-1"></a>  </span>
-<span id="cb91-62"><a href="sampling.html#cb91-62" tabindex="-1"></a>  <span class="co">#Compute difference</span></span>
-<span id="cb91-63"><a href="sampling.html#cb91-63" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="fu">sum</span>((y<span class="sc">-</span>y.star)<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb91-64"><a href="sampling.html#cb91-64" tabindex="-1"></a>  </span>
-<span id="cb91-65"><a href="sampling.html#cb91-65" tabindex="-1"></a>  <span class="co">#Accept/Reject</span></span>
-<span id="cb91-66"><a href="sampling.html#cb91-66" tabindex="-1"></a>  <span class="cf">if</span>(d <span class="sc">&lt;</span> epsilon){</span>
-<span id="cb91-67"><a href="sampling.html#cb91-67" tabindex="-1"></a>    b.store[i] <span class="ot">&lt;-</span> b</span>
-<span id="cb91-68"><a href="sampling.html#cb91-68" tabindex="-1"></a>  } <span class="cf">else</span>{</span>
-<span id="cb91-69"><a href="sampling.html#cb91-69" tabindex="-1"></a>    b.store[i] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb91-70"><a href="sampling.html#cb91-70" tabindex="-1"></a>  }</span>
-<span id="cb91-71"><a href="sampling.html#cb91-71" tabindex="-1"></a>  </span>
-<span id="cb91-72"><a href="sampling.html#cb91-72" tabindex="-1"></a>}</span>
-<span id="cb91-73"><a href="sampling.html#cb91-73" tabindex="-1"></a></span>
-<span id="cb91-74"><a href="sampling.html#cb91-74" tabindex="-1"></a><span class="co">#Get number of reject samples</span></span>
-<span id="cb91-75"><a href="sampling.html#cb91-75" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(b.store))</span></code></pre></div>
-<pre><code>## [1] 39166</code></pre>
-<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="sampling.html#cb93-1" tabindex="-1"></a><span class="co">#Plot Approximate Posterior</span></span>
-<span id="cb93-2"><a href="sampling.html#cb93-2" tabindex="-1"></a><span class="fu">hist</span>(b.store, <span class="at">freq =</span> <span class="cn">FALSE</span>, <span class="at">xlab =</span> <span class="fu">expression</span>(beta), <span class="at">main =</span> <span class="st">&quot;&quot;</span>)</span>
-<span id="cb93-3"><a href="sampling.html#cb93-3" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&#39;red&#39;</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="sampling.html#cb94-1" tabindex="-1"></a><span class="fu">mean</span>(b.store, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<pre><code>## [1] 2.811462</code></pre>
-<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="sampling.html#cb96-1" tabindex="-1"></a><span class="fu">quantile</span>(b.store, <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<pre><code>##     2.5%    97.5% 
-## 1.589679 4.367686</code></pre>
-</div>
+$$
+This likelihood function cannot be evaluated as we do not observe the infection time $i$ or recovery time $r$. Instead we can use ABC sampling with rejection. Each iteration, sample a value for $\beta$, simulate an outbreak and compare the observed and simulated number of people infected. If they are 'close' we accept the value for $\beta$ as a sample from our posterior distribution. This means all we have to do is simulate outbreaks.  
+
+
+
+``` r
+#This function simualtes an outbreak of a disease in a population of size N, with infection rate beta and recovery rate gamma.
+simSIR.Markov <- function(N, beta, gamma) {
+  
+  # initial number of infectives and susceptibles;
+  I <- 1
+  S <- N-1;
+  
+  # recording time;
+  t <- 0;
+  times <- c(t);
+  
+  # a vector which records the type of event (1=infection, 2=removal)
+  type <- c(1);
+  
+  while (I > 0) {
+    
+    # time to next event;
+    t <- t + rexp(1, (beta/N)*I*S + gamma*I);
+    times <- append(times, t);
+    
+    if (runif(1) < beta*S/(beta*S + N*gamma)) {
+      # infection
+      I <- I+1;
+      S <- S-1;
+      type <- append(type, 1);
+    }
+    else {
+      #removal
+      I <- I-1
+      type <- append(type, 2);
+    }
+  }
+  
+  
+  # record the times of events (infections/removals), the type of the event, the final size (including
+  # the initial infective) and the duration. 
+  
+  res <- list("t" = times, "type" = type, "final.size" = sum(type==1), "duration" = t, "N" = N);
+  return(res)
+}
+
+#Set Up Example
+set.seed(1234)
+n <- 200
+y <- simSIR.Markov(100, 2, 1)$final.size
+
+
+#Set Up ABC
+n.iter <- 50000
+b.store <- numeric(n.iter)
+epsilon <- 250
+
+#Run ABC
+for(i in 1:n.iter){
+  
+  #Propose an infection rate
+  b <- runif(1, 0, 5)
+  
+  #Simualte an outbreak
+  y.star <- simSIR.Markov(100, b, 1)$final.size
+  
+  #Compute difference
+  d <- sum((y-y.star)^2)
+  
+  #Accept/Reject
+  if(d < epsilon){
+    b.store[i] <- b
+  } else{
+    b.store[i] <- NA
+  }
+  
+}
+
+#Get number of reject samples
+sum(is.na(b.store))
+```
+
+```
+## [1] 39166
+```
+
+``` r
+#Plot Approximate Posterior
+hist(b.store, freq = FALSE, xlab = expression(beta), main = "")
+abline(v = 2, col = 'red')
+```
+
+<img src="_main_files/figure-html/unnamed-chunk-34-1.png" width="672" />
+
+``` r
+mean(b.store, na.rm = TRUE)
+```
+
+```
+## [1] 2.811462
+```
+
+``` r
+quantile(b.store, c(0.025, 0.975), na.rm = TRUE)
+```
+
+```
+##     2.5%    97.5% 
+## 1.589679 4.367686
+```
+:::
+-->
 </div>
 <div id="summary-abc-with-rejection" class="section level3 hasAnchor" number="4.5.2">
 <h3><span class="header-section-number">4.5.2</span> Summary ABC with Rejection<a href="sampling.html#summary-abc-with-rejection" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>ABC with rejection suffers from the curse of dimensionality (see Chapter 5). As the number of data points increases, the probability we get a ‘close’ match decreases. This means we have to increase <span class="math inline">\(\varepsilon\)</span> and degrade the quality of our approximation.</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-68" class="example"><strong>Example 4.11  </strong></span>Let’s repeat the Beta example with <span class="math inline">\(n = 200\)</span> observed data points. We need <span class="math inline">\(\varepsilon &gt; 15\)</span> for any proposals to be accepted.</p>
+<p><span id="exm:unlabeled-div-67" class="example"><strong>Example 4.10  </strong></span>Let’s repeat the Beta example with <span class="math inline">\(n = 200\)</span> observed data points. We need <span class="math inline">\(\varepsilon &gt; 15\)</span> for any proposals to be accepted.</p>
 </div>
 <p>We can avoid the curse of dimensionality by comparing summary statistics instead. This leads us to the Summary ABC algorithm.</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-69" class="definition"><strong>Definition 4.4  </strong></span>To carry out inference for a parameter <span class="math inline">\(\theta\)</span> using an Summary Approximate Bayesian Computation algorithm with rejection</p>
+<p><span id="def:unlabeled-div-68" class="definition"><strong>Definition 4.4  </strong></span>To carry out inference for a parameter <span class="math inline">\(\theta\)</span> using an Summary Approximate Bayesian Computation algorithm with rejection</p>
 <ol style="list-style-type: decimal">
 <li>Sample a value for the parameter <span class="math inline">\(\theta^*\)</span> from the prior distribution <span class="math inline">\(\pi(\theta)\)</span>.</li>
 <li>Generate some data <span class="math inline">\(y*\)</span> from the data generating process using the parameter value <span class="math inline">\(\theta^*\)</span>.</li>
@@ -842,7 +867,7 @@ This likelihood function cannot be evaluated as we do not observe the infection 
 </div>
 <p>Similar to the ABC algorithm with rejection, we also have the following proposition.</p>
 <div class="proposition">
-<p><span id="prp:unlabeled-div-70" class="proposition"><strong>Proposition 4.3  </strong></span>The approximate posterior distribution using ABC with rejection is
+<p><span id="prp:unlabeled-div-69" class="proposition"><strong>Proposition 4.3  </strong></span>The approximate posterior distribution using ABC with rejection is
 <span class="math display">\[
 \pi_\varepsilon(\theta \mid S(y)) \propto \int \pi(y^* \mid \theta^*)\pi(\theta^*)I_{A_\varepsilon(y^*)} dy^*,
 \]</span>
@@ -850,51 +875,51 @@ where <span class="math inline">\({A_\varepsilon(y^*)} = \{y^* \mid ||S(y^*) - S
 </div>
 <p>Using summary statistics only increases the approximation however, as we are approximating the data using a summary of it. The only case when we are not approximating further is when the statistic contains all the information about the underlying sample it is summarising. This is known as a sufficient statistic.</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-71" class="definition"><strong>Definition 4.5  </strong></span>A statistic <span class="math inline">\(S\)</span> is a sufficient statistic for the parameter <span class="math inline">\(\theta\)</span> if the conditional distribution <span class="math inline">\(\pi(y | S(y))\)</span> does not depend on <span class="math inline">\(\theta\)</span>.</p>
+<p><span id="def:unlabeled-div-70" class="definition"><strong>Definition 4.5  </strong></span>A statistic <span class="math inline">\(S\)</span> is a sufficient statistic for the parameter <span class="math inline">\(\theta\)</span> if the conditional distribution <span class="math inline">\(\pi(y | S(y))\)</span> does not depend on <span class="math inline">\(\theta\)</span>.</p>
 </div>
 <div class="proposition">
-<p><span id="prp:unlabeled-div-72" class="proposition"><strong>Proposition 4.4  </strong></span>Using a Summary ABC rejection algorithm with a sufficient statistic <span class="math inline">\(S\)</span>
+<p><span id="prp:unlabeled-div-71" class="proposition"><strong>Proposition 4.4  </strong></span>Using a Summary ABC rejection algorithm with a sufficient statistic <span class="math inline">\(S\)</span>
 <span class="math display">\[
 \lim_{\varepsilon \rightarrow 0} \pi_\varepsilon(\theta \mid S(y)) \overset{D}= \pi(\theta \mid y).
 \]</span></p>
 </div>
 <p>The difficulty with sufficient statistics is that they only exist for ‘nice’ distributions, like the Gamma, Beta and Poisson distributions. In these cases, we can work with the posterior distribution directly or use and MCMC algorithm.</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-73" class="example"><strong>Example 4.12  </strong></span>Let’s repeat the beta distribution example using the mean as the summary statistic. We can set <span class="math inline">\(\varepsilon = 0.001\)</span>.</p>
-<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="sampling.html#cb98-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb98-2"><a href="sampling.html#cb98-2" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">200</span></span>
-<span id="cb98-3"><a href="sampling.html#cb98-3" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rbeta</span>(n, <span class="dv">3</span>, <span class="dv">2</span>)</span>
-<span id="cb98-4"><a href="sampling.html#cb98-4" tabindex="-1"></a></span>
-<span id="cb98-5"><a href="sampling.html#cb98-5" tabindex="-1"></a></span>
-<span id="cb98-6"><a href="sampling.html#cb98-6" tabindex="-1"></a>n.iter <span class="ot">&lt;-</span> <span class="dv">50000</span></span>
-<span id="cb98-7"><a href="sampling.html#cb98-7" tabindex="-1"></a>b.store <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n.iter)</span>
-<span id="cb98-8"><a href="sampling.html#cb98-8" tabindex="-1"></a>epsilon <span class="ot">&lt;-</span> <span class="fl">0.001</span></span>
-<span id="cb98-9"><a href="sampling.html#cb98-9" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n.iter){</span>
-<span id="cb98-10"><a href="sampling.html#cb98-10" tabindex="-1"></a>  </span>
-<span id="cb98-11"><a href="sampling.html#cb98-11" tabindex="-1"></a>  b <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">5</span>)</span>
-<span id="cb98-12"><a href="sampling.html#cb98-12" tabindex="-1"></a>  </span>
-<span id="cb98-13"><a href="sampling.html#cb98-13" tabindex="-1"></a>  y.star <span class="ot">&lt;-</span> <span class="fu">rbeta</span>(n, <span class="dv">3</span>, b)</span>
-<span id="cb98-14"><a href="sampling.html#cb98-14" tabindex="-1"></a>  </span>
-<span id="cb98-15"><a href="sampling.html#cb98-15" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="fu">sum</span>((<span class="fu">mean</span>(y)<span class="sc">-</span><span class="fu">mean</span>(y.star))<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb98-16"><a href="sampling.html#cb98-16" tabindex="-1"></a>  </span>
-<span id="cb98-17"><a href="sampling.html#cb98-17" tabindex="-1"></a>  <span class="cf">if</span>(d <span class="sc">&lt;</span> epsilon){</span>
-<span id="cb98-18"><a href="sampling.html#cb98-18" tabindex="-1"></a>    b.store[i] <span class="ot">&lt;-</span> b</span>
-<span id="cb98-19"><a href="sampling.html#cb98-19" tabindex="-1"></a>  } <span class="cf">else</span>{</span>
-<span id="cb98-20"><a href="sampling.html#cb98-20" tabindex="-1"></a>    b.store[i] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb98-21"><a href="sampling.html#cb98-21" tabindex="-1"></a>  }</span>
-<span id="cb98-22"><a href="sampling.html#cb98-22" tabindex="-1"></a>  </span>
-<span id="cb98-23"><a href="sampling.html#cb98-23" tabindex="-1"></a>}</span>
-<span id="cb98-24"><a href="sampling.html#cb98-24" tabindex="-1"></a></span>
-<span id="cb98-25"><a href="sampling.html#cb98-25" tabindex="-1"></a><span class="co">#Get number of reject samples</span></span>
-<span id="cb98-26"><a href="sampling.html#cb98-26" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(b.store))</span></code></pre></div>
+<p><span id="exm:unlabeled-div-72" class="example"><strong>Example 4.11  </strong></span>Let’s repeat the beta distribution example using the mean as the summary statistic. We can set <span class="math inline">\(\varepsilon = 0.001\)</span>.</p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="sampling.html#cb91-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb91-2"><a href="sampling.html#cb91-2" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">200</span></span>
+<span id="cb91-3"><a href="sampling.html#cb91-3" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rbeta</span>(n, <span class="dv">3</span>, <span class="dv">2</span>)</span>
+<span id="cb91-4"><a href="sampling.html#cb91-4" tabindex="-1"></a></span>
+<span id="cb91-5"><a href="sampling.html#cb91-5" tabindex="-1"></a></span>
+<span id="cb91-6"><a href="sampling.html#cb91-6" tabindex="-1"></a>n.iter <span class="ot">&lt;-</span> <span class="dv">50000</span></span>
+<span id="cb91-7"><a href="sampling.html#cb91-7" tabindex="-1"></a>b.store <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n.iter)</span>
+<span id="cb91-8"><a href="sampling.html#cb91-8" tabindex="-1"></a>epsilon <span class="ot">&lt;-</span> <span class="fl">0.001</span></span>
+<span id="cb91-9"><a href="sampling.html#cb91-9" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n.iter){</span>
+<span id="cb91-10"><a href="sampling.html#cb91-10" tabindex="-1"></a>  </span>
+<span id="cb91-11"><a href="sampling.html#cb91-11" tabindex="-1"></a>  b <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">5</span>)</span>
+<span id="cb91-12"><a href="sampling.html#cb91-12" tabindex="-1"></a>  </span>
+<span id="cb91-13"><a href="sampling.html#cb91-13" tabindex="-1"></a>  y.star <span class="ot">&lt;-</span> <span class="fu">rbeta</span>(n, <span class="dv">3</span>, b)</span>
+<span id="cb91-14"><a href="sampling.html#cb91-14" tabindex="-1"></a>  </span>
+<span id="cb91-15"><a href="sampling.html#cb91-15" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="fu">sum</span>((<span class="fu">mean</span>(y)<span class="sc">-</span><span class="fu">mean</span>(y.star))<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb91-16"><a href="sampling.html#cb91-16" tabindex="-1"></a>  </span>
+<span id="cb91-17"><a href="sampling.html#cb91-17" tabindex="-1"></a>  <span class="cf">if</span>(d <span class="sc">&lt;</span> epsilon){</span>
+<span id="cb91-18"><a href="sampling.html#cb91-18" tabindex="-1"></a>    b.store[i] <span class="ot">&lt;-</span> b</span>
+<span id="cb91-19"><a href="sampling.html#cb91-19" tabindex="-1"></a>  } <span class="cf">else</span>{</span>
+<span id="cb91-20"><a href="sampling.html#cb91-20" tabindex="-1"></a>    b.store[i] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb91-21"><a href="sampling.html#cb91-21" tabindex="-1"></a>  }</span>
+<span id="cb91-22"><a href="sampling.html#cb91-22" tabindex="-1"></a>  </span>
+<span id="cb91-23"><a href="sampling.html#cb91-23" tabindex="-1"></a>}</span>
+<span id="cb91-24"><a href="sampling.html#cb91-24" tabindex="-1"></a></span>
+<span id="cb91-25"><a href="sampling.html#cb91-25" tabindex="-1"></a><span class="co">#Get number of reject samples</span></span>
+<span id="cb91-26"><a href="sampling.html#cb91-26" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(b.store))</span></code></pre></div>
 <pre><code>## [1] 45028</code></pre>
-<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="sampling.html#cb100-1" tabindex="-1"></a><span class="co">#Plot Approximate Posterior</span></span>
-<span id="cb100-2"><a href="sampling.html#cb100-2" tabindex="-1"></a><span class="fu">hist</span>(b.store, <span class="at">freq =</span> <span class="cn">FALSE</span>, <span class="at">xlab =</span> <span class="fu">expression</span>(beta), <span class="at">main =</span> <span class="st">&quot;&quot;</span>)</span>
-<span id="cb100-3"><a href="sampling.html#cb100-3" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&#39;red&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="sampling.html#cb93-1" tabindex="-1"></a><span class="co">#Plot Approximate Posterior</span></span>
+<span id="cb93-2"><a href="sampling.html#cb93-2" tabindex="-1"></a><span class="fu">hist</span>(b.store, <span class="at">freq =</span> <span class="cn">FALSE</span>, <span class="at">xlab =</span> <span class="fu">expression</span>(beta), <span class="at">main =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb93-3"><a href="sampling.html#cb93-3" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&#39;red&#39;</span>)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
-<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="sampling.html#cb101-1" tabindex="-1"></a><span class="fu">mean</span>(b.store, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="sampling.html#cb94-1" tabindex="-1"></a><span class="fu">mean</span>(b.store, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## [1] 1.930908</code></pre>
-<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="sampling.html#cb103-1" tabindex="-1"></a><span class="fu">quantile</span>(b.store, <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="sampling.html#cb96-1" tabindex="-1"></a><span class="fu">quantile</span>(b.store, <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>##     2.5%    97.5% 
 ## 1.593348 2.302256</code></pre>
 </div>
@@ -904,19 +929,19 @@ where <span class="math inline">\({A_\varepsilon(y^*)} = \{y^* \mid ||S(y^*) - S
 <h2><span class="header-section-number">4.6</span> Lab<a href="sampling.html#lab-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The aim of this lab is to code up some sampling methods. You have already done some similar work in lab 1 (e.g. estimating <span class="math inline">\(\pi\)</span>).</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-74" class="exercise"><strong>Exercise 4.1  </strong></span>Visit random.org to generate some truly random numbers. How does this site generate numbers that are truly random?</p>
+<p><span id="exr:unlabeled-div-73" class="exercise"><strong>Exercise 4.1  </strong></span>Visit random.org to generate some truly random numbers. How does this site generate numbers that are truly random?</p>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-75" class="exercise"><strong>Exercise 4.2  </strong></span>A random variable <span class="math inline">\(X\)</span> has density <span class="math inline">\(\pi(x) = ax^2\)</span> for <span class="math inline">\(x\in[0,1]\)</span> and 0 otherwise. Find the value <span class="math inline">\(a\)</span>. Use the inverse transform method to generate 10,000 samples from this distribution. Plot a histogram against the true density function.</p>
+<p><span id="exr:unlabeled-div-74" class="exercise"><strong>Exercise 4.2  </strong></span>A random variable <span class="math inline">\(X\)</span> has density <span class="math inline">\(\pi(x) = ax^2\)</span> for <span class="math inline">\(x\in[0,1]\)</span> and 0 otherwise. Find the value <span class="math inline">\(a\)</span>. Use the inverse transform method to generate 10,000 samples from this distribution. Plot a histogram against the true density function.</p>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-76" class="exercise"><strong>Exercise 4.3  </strong></span>Let <span class="math inline">\(X\)</span> have the density <span class="math inline">\(\pi(x) = \frac{1}{\theta}x^{\frac{1-\theta}{\theta}}\)</span> for <span class="math inline">\(x \in [0, 1]\)</span>. Use the inverse transform method to generate 10,000 samples from this distribution with <span class="math inline">\(\theta = \{1, 5, 10\}\)</span>.</p>
+<p><span id="exr:unlabeled-div-75" class="exercise"><strong>Exercise 4.3  </strong></span>Let <span class="math inline">\(X\)</span> have the density <span class="math inline">\(\pi(x) = \frac{1}{\theta}x^{\frac{1-\theta}{\theta}}\)</span> for <span class="math inline">\(x \in [0, 1]\)</span>. Use the inverse transform method to generate 10,000 samples from this distribution with <span class="math inline">\(\theta = \{1, 5, 10\}\)</span>.</p>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-77" class="exercise"><strong>Exercise 4.4  </strong></span>Let <span class="math inline">\(X\)</span> have the density <span class="math inline">\(\pi(x) = 3x^2\)</span> for <span class="math inline">\(x \in [0, 1]\)</span> and 0 otherwise. Use a rejection sampling method to generate 10,000 from this distribution. Plot the results against the true density to check you have the same distribution.</p>
+<p><span id="exr:unlabeled-div-76" class="exercise"><strong>Exercise 4.4  </strong></span>Let <span class="math inline">\(X\)</span> have the density <span class="math inline">\(\pi(x) = 3x^2\)</span> for <span class="math inline">\(x \in [0, 1]\)</span> and 0 otherwise. Use a rejection sampling method to generate 10,000 from this distribution. Plot the results against the true density to check you have the same distribution.</p>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-78" class="exercise"><strong>Exercise 4.5  </strong></span>The half normal distribution with mean 0 and variance 1 has density function
+<p><span id="exr:unlabeled-div-77" class="exercise"><strong>Exercise 4.5  </strong></span>The half normal distribution with mean 0 and variance 1 has density function
 <span class="math display">\[
 \pi(x) = \frac{2}{\sqrt{2\pi}}\exp{(-x^2/2)}
 \]</span>
@@ -927,13 +952,13 @@ for <span class="math inline">\(x \geq 0\)</span> and 0 otherwise.</p>
 </ol>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-79" class="exercise"><strong>Exercise 4.6  </strong></span>You observe the following data from an <span class="math inline">\(N(5, \sigma^2)\)</span> distribution.</p>
+<p><span id="exr:unlabeled-div-78" class="exercise"><strong>Exercise 4.6  </strong></span>You observe the following data from an <span class="math inline">\(N(5, \sigma^2)\)</span> distribution.</p>
 <pre><code>-5.93,  33.12, -21.41, -12.42, -17.64,  -5.47, -27.95, -22.25, -20.40, -26.28, -24.57,  
 3.06,  44.28, 6.02, -21.14,  14.79, -15.10, 53.18,  38.61,   5.71</code></pre>
 <p>Use an Exp(0.1) prior distribution on <span class="math inline">\(\sigma^2\)</span> and develop a summary statistic ABC algorithm to draw samples from the approximate posterior distribution.</p>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-80" class="exercise"><strong>Exercise 4.7  </strong></span>You observe the following data from an <span class="math inline">\(Exp(\lambda)\)</span> distribution.</p>
+<p><span id="exr:unlabeled-div-79" class="exercise"><strong>Exercise 4.7  </strong></span>You observe the following data from an <span class="math inline">\(Exp(\lambda)\)</span> distribution.</p>
 <pre><code>2.6863422, 8.8468112, 8.8781831, 0.2712696, 1.8902442</code></pre>
 <p>Use an <span class="math inline">\(Beta(1, 3)\)</span> prior distribution on <span class="math inline">\(\lambda\)</span> and develop an ABC algorithm to draw samples from the approximate posterior distribution. Write the ABC algorithm as a function so you can run it for different values of <span class="math inline">\(\varepsilon\)</span>. Run your algorithm for <span class="math inline">\(\varepsilon = \{20, \ldots, 100\}\)</span> and record the approximate posterior median. Plot the relative error in your estimate against the true value of lambda, which is 0.2.</p>
 </div>
