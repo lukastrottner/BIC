@@ -55,7 +55,7 @@
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -65,7 +65,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -127,7 +127,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
-  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -327,11 +326,11 @@ div.csl-indent {
 </div>
 <p>By relabelling, we may always assume wlog that <span class="math inline">\(S = \{1,\ldots,N\}\)</span> for a finite Markov chain with <span class="math inline">\(N\)</span> states.</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-82" class="definition"><strong>Definition 5.4  </strong></span>For a finite Markov chain the probability of transitioning from state <span class="math inline">\(i\)</span> to state <span class="math inline">\(j\)</span> in a Markov chain is given by <span class="math inline">\(p_{ij}\)</span>. The <strong><em>transition matrix</em></strong> for a Markov chain with <span class="math inline">\(N\)</span> states is the <span class="math inline">\(N \times N\)</span> matrix <span class="math inline">\(P = (p_{i,j})_{i,j=1,\ldots,n}\)</span>, where the <span class="math inline">\(\{i, j\}^{th}\)</span> entry <span class="math inline">\(p_{ij}\)</span> is the probability of moving from state <span class="math inline">\(i\)</span> to state <span class="math inline">\(j\)</span>, i.e., <span class="math inline">\(\mathbb{P}(Y_{n+1} = i \mid Y_n = j) = \mathbb{P}(Y_{1} = i \mid Y_0 = j).\)</span></p>
+<p><span id="def:unlabeled-div-82" class="definition"><strong>Definition 5.4  </strong></span>For a finite Markov chain the probability of transitioning from state <span class="math inline">\(i\)</span> to state <span class="math inline">\(j\)</span> in a Markov chain is given by <span class="math inline">\(p_{ij}\)</span>. The <strong><em>transition matrix</em></strong> for a Markov chain with <span class="math inline">\(N\)</span> states is the <span class="math inline">\(N \times N\)</span> matrix <span class="math inline">\(P = (p_{ij})_{i,j=1,\ldots,N}\)</span>, where the <span class="math inline">\(\{i, j\}^{th}\)</span> entry <span class="math inline">\(p_{ij}\)</span> is the probability of moving from state <span class="math inline">\(i\)</span> to state <span class="math inline">\(j\)</span>, i.e., <span class="math inline">\(\mathbb{P}(Y_{n+1} = i \mid Y_n = j) = \mathbb{P}(Y_{1} = i \mid Y_0 = j).\)</span></p>
 </div>
 <p>These properties make Markov chains nice to work with. Two other important definitions are:</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-83" class="definition"><strong>Definition 5.5  </strong></span>For a finite Markov chain, the <strong><em>period</em></strong> of a state <span class="math inline">\(i\)</span> is given by <span class="math inline">\(d_i = \textrm{gcd}\{n &gt; 0; p_{ii} &gt; 0 \}\)</span>. A state is <strong><em>aperiodic</em></strong> if <span class="math inline">\(d_i = 1\)</span>. An <strong><em>aperiodic chain</em></strong> is a chain where all states are aperiodic.</p>
+<p><span id="def:unlabeled-div-83" class="definition"><strong>Definition 5.5  </strong></span>For a finite Markov chain, the <strong><em>period</em></strong> of a state <span class="math inline">\(i\)</span> is given by <span class="math inline">\(d_i = \textrm{gcd}\{n &gt; 0; P^n(i,i) &gt; 0 \}\)</span>. A state is <strong><em>aperiodic</em></strong> if <span class="math inline">\(d_i = 1\)</span>. An <strong><em>aperiodic chain</em></strong> is a chain where all states are aperiodic.</p>
 </div>
 <div class="definition">
 <p><span id="def:unlabeled-div-84" class="definition"><strong>Definition 5.6  </strong></span>A finite Markov chain is <strong><em>irreducible</em></strong> if for any <span class="math inline">\(i,j \in S\)</span> there exists an <span class="math inline">\(n \in \mathbb{N}_0\)</span> such that <span class="math inline">\(\mathbb{P} (Y_n = j \mid Y_0 = i) &gt; 0\)</span>. In other words, it is possible to move from any state to any other state in a finite number of steps.</p>
@@ -340,9 +339,9 @@ div.csl-indent {
 <span class="math display">\[
 \mathbb{P}(Y_1 = j) = \sum_{i=1}^N q_ip_{ij}.
 \]</span>
-If we denote the distribution of <span class="math inline">\(Y_1 \sim {q}^{(1)}\)</span>, then we can write it in terms of the transition matrix <span class="math inline">\({q}^{(1)} = {q}P\)</span>. Now suppose we would like to determine the distribution of <span class="math inline">\(Y_2 \sim {q}^{(2)}\)</span>; thanks to the Markov property, this is the distribution for <span class="math inline">\(Y_2\)</span> multiplied by the transition matrix from the right, so <span class="math inline">\(Y_3 \sim qP^2\)</span>. Inductively, <span class="math inline">\(Y_k \sim qP^{k-1}\)</span>. To use Markov chains to sample from distributions, we need to identify the eigenvalues of the transition matrix.</p>
+If we denote the distribution of <span class="math inline">\(Y_1 \sim {q}^{(1)}\)</span>, then we can write it in terms of the transition matrix <span class="math inline">\({q}^{(1)} = {q}P\)</span>. Now suppose we would like to determine the distribution of <span class="math inline">\(Y_2 \sim {q}^{(2)}\)</span>; thanks to the Markov property, this is the distribution for <span class="math inline">\(Y_1\)</span> multiplied by the transition matrix from the right, so <span class="math inline">\(Y_2 \sim qP^2\)</span>. Inductively, <span class="math inline">\(Y_k \sim qP^{k}\)</span>. To use Markov chains to sample from distributions, we need to identify the eigenvalues of the transition matrix.</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-85" class="definition"><strong>Definition 5.7  </strong></span>Suppose that there exists a probability vector <span class="math inline">\(\pi\)</span> (that is, <span class="math inline">\(p_i \geq 0\)</span> and <span class="math inline">\(\sum_{i=1}^n \pi(i) = 1\)</span>) that is a left-eigenvector with eigenvalue <span class="math inline">\(1\)</span> for the transition matrix <span class="math inline">\(P\)</span>, i.e.,
+<p><span id="def:unlabeled-div-85" class="definition"><strong>Definition 5.7  </strong></span>Suppose that there exists a probability vector <span class="math inline">\(\pi\)</span> (that is, <span class="math inline">\(\pi_i \geq 0\)</span> and <span class="math inline">\(\sum_{i=1}^n \pi(i) = 1\)</span>) that is a left-eigenvector with eigenvalue <span class="math inline">\(1\)</span> for the transition matrix <span class="math inline">\(P\)</span>, i.e.,
 <span class="math display">\[
 \pi P = \pi.
 \]</span>
@@ -392,7 +391,7 @@ However, if started in <span class="math inline">\(1\)</span>, the chain does no
 <p><span id="thm:unlabeled-div-91" class="theorem"><strong>Theorem 5.3  (Detailed Balance) </strong></span>Let <span class="math inline">\(P\)</span> be a transition matrix that satisfies detailed balance with respect to the distribution <span class="math inline">\(\pi\)</span>. Then <span class="math inline">\(\pi P = \pi\)</span>.</p>
 </div>
 <div class="proof">
-<p><span id="unlabeled-div-92" class="proof"><em>Proof</em>. </span>The <span class="math inline">\(j^{th}\)</span> row of <span class="math inline">\(\pi P\)</span> is
+<p><span id="unlabeled-div-92" class="proof"><em>Proof</em>. </span>The <span class="math inline">\(j^{th}\)</span> entry of <span class="math inline">\(\pi P\)</span> is
 <span class="math display">\[\begin{align*}
 \sum_{i} \pi_i p_{ij} &amp; = \sum_{i} \pi_j p_{ji} \quad \textrm{(detailed balance)} \\
 &amp; = \pi_j \sum_{i} p_{ji} \\
@@ -410,9 +409,9 @@ Hence <span class="math inline">\(\pi P = \pi\)</span>.</p>
 <span class="math display">\[Q\circ P(x,A) = \int_{S} P(x, dy ) Q(y,A), \quad (x,A) \in S \times \mathcal{B}(S),\]</span>
 and for a probability measure <span class="math inline">\(q\)</span> on <span class="math inline">\(S\)</span> let <span class="math inline">\(qP\)</span> be the probability measure
 <span class="math display">\[qP(A) = \int_S q(dx) P(x,A), \quad A \in \mathcal{B}(S).\]</span></p>
-<p>If <span class="math inline">\(S\)</span> is nice enough, the Markov property is equivalent to demanding that
+<p>If <span class="math inline">\(S\)</span> is nice enough, the Markov property is equivalent to demanding that for some Markov kernel <span class="math inline">\(P\)</span> we have
 <span class="math display">\[\forall A \in \mathcal{B}(S): \quad \mathbb{P}(Y_{n+1} \in A \mid Y_n, \ldots, Y_0) = P(Y_n, A). \]</span>
-Then, if we iteratively define the Markov kernels <span class="math inline">\(P^1 = P\)</span> and
+Then, if we define iteratively the Markov kernels <span class="math inline">\(P^1 = P\)</span> and
 <span class="math display">\[P^{n+1}(x,A) = P \circ P^n(x,A) = \int_{S} P^n(x, dy) P(y, A), \quad (x,A) \in S \times \mathcal{B}(S),\]</span>
 we have the <em>Chapman–Kolmogorov equation</em>
 <span class="math display">\[
@@ -420,21 +419,50 @@ P^{n+m} = P^n \circ P^m
 \]</span>
 and
 <span class="math display">\[
-\mathbb{P}(Y_1 \in A_1, \ldots, Y_n \in A_n \mid Y_0 = x) = \int_S P(x, dy_0)  \int_{A_1, \times \cdots \times A_n} \prod_{i=1}^n P(y_{i-1}, dy_i).
-\]</span>
-Analogously to the finite state space case we then call a distribution <span class="math inline">\(\pi\)</span> on <span class="math inline">\(S\)</span> a <strong><em>stationary distribution</em></strong> if
+\mathbb{P}(Y_1 \in A_1, \ldots, Y_n \in A_n \mid Y_0 = x) = \int_S P(x, dy_0)  \int_{A_1 \times \cdots \times A_n} \prod_{i=1}^n P(y_{i-1}, dy_i).
+\]</span></p>
+<div class="example">
+<p><span id="exm:unlabeled-div-93" class="example"><strong>Example 5.3  </strong></span>Let <span class="math inline">\(X= (X_n)_{n\in \mathbb{N}}\)</span> be an i.i.d. sequence of <span class="math inline">\(\mathbb{R}^d\)</span>-valued random variables with distribution <span class="math inline">\(\mathbb{P}_{X_1} = \eta\)</span> and <span class="math inline">\(X_0 \sim \mu\)</span> be independent of <span class="math inline">\((X_n)_{n\in \mathbb{N}}\)</span>. A <strong><em>random walk</em></strong> <span class="math inline">\(Y\)</span> associated to the sequence of innovations <span class="math inline">\(X\)</span> and initialistion <span class="math inline">\(X_0\)</span> is defined by <span class="math inline">\(Y_0 = X_0\)</span> and
+<span class="math display">\[Y_n = X_0 + \sum_{i=1}^n X_i, \quad n \in \mathbb{N},\]</span>
+which can be equivalently characterised by the recursive relation
+<span class="math display">\[Y_{n+1} = Y_n + X_{n+1}, \quad n \in \mathbb{N}_0. \]</span>
+This immediately yields the Markov property
+<span class="math display">\[\mathbb{P}(Y_{n+1} \in A \mid Y_0,\ldots,Y_n) = \mathbb{P}(Y_{n+1} \in A \mid Y_n) \]</span>
+and defining for <span class="math inline">\(A -x := \{z = y -x: y \in A\}\)</span> the Markov kernel
+<span class="math display">\[P(x,A) = \mathbb{P}(X_1 \in A - x) = \eta(A -x) \]</span>
+we obtain
+<span class="math display">\[\mathbb{P}(Y_{n+1} \in A \mid Y_n) = \mathbb{P}(Y_n + X_{n+1} \in A \mid Y_n) = \mathbb{P}(X_{n+1} \in A - Y_n \mid Y_n) = P(Y_n, A). \]</span></p>
+</div>
+<div class="example">
+<p><span id="exm:Langevin" class="example"><strong>Example 5.4  </strong></span>Let <span class="math inline">\((\xi_n)_{n \in \mathbb{N}} \overset{\mathrm{i.i.d}}{\sim} N(0, I)\)</span> and <span class="math inline">\(V \colon \mathbb{R}^d \to \mathbb{R}\)</span> be a continuously differentiable function. Then, for <span class="math inline">\(X_0 \sim \mu\)</span> independent of <span class="math inline">\((\xi_n)_{n \in \mathbb{N}}\)</span> and a <em>step size</em> <span class="math inline">\(h &gt; 0\)</span> we define recursively
+<span class="math display">\[\begin{align*}
+Y_0 &amp;= X_0 \\
+Y_{n+1} &amp;= Y_n - h \nabla V(Y_n) + \sqrt{2h} \xi_{n+1}, \quad n \in \mathbb{N}_0.
+\end{align*}\]</span>
+This is very reminiscent of a gradient descent algorithm with an additional stochastic perturbation that is distributed according to <span class="math inline">\(N(0,2hI)\)</span> and therefore centered and rather small for small step sizes <span class="math inline">\(h\)</span>. We call this Markov chain a <em>Langevin Markov Chain with step size <span class="math inline">\(h\)</span></em> fot the <em>potential</em> <span class="math inline">\(V\)</span>. Because the innovations are i.i.d. the chain is clearly Markov and since <span class="math inline">\(Y_{n +1} \mid Y_n \sim N(Y_n - h \nabla V(Y_n), 2h I )\)</span> its Markov kernel is given by
+<span class="math display">\[P(x,dy) = \phi_{x - h\nabla V(x), 2h I }(y) \, dy, \]</span>
+where <span class="math inline">\(\phi_{\mu,\Sigma}\)</span> denotes the pdf of a normal random vector with mean <span class="math inline">\(\mu\)</span> and covariance matrix <span class="math inline">\(\Sigma\)</span>.</p>
+</div>
+<p>Analogously to the finite state space case we then call a distribution <span class="math inline">\(\pi\)</span> on <span class="math inline">\(S\)</span> a <strong><em>stationary distribution</em></strong> if
 <span class="math display">\[\pi P = \pi \qquad (\iff \forall A \in \mathcal{B}(S): \int \pi(dx)\, P(x,A) = \pi(A)),\]</span>
 and thus iteratively
 <span class="math display">\[\mathbb{P}(Y_n \in \cdot \mid Y_0 \sim \pi) = \pi.\]</span></p>
 <div class="definition">
-<p><span id="def:unlabeled-div-93" class="definition"><strong>Definition 5.10  </strong></span>A Markov chain <span class="math inline">\(Y\)</span> with unique stationary distribution <span class="math inline">\(\pi\)</span> is called <strong><em>ergodic</em></strong> if
+<p><span id="def:unlabeled-div-94" class="definition"><strong>Definition 5.10  </strong></span>A Markov chain <span class="math inline">\(Y\)</span> with unique stationary distribution <span class="math inline">\(\pi\)</span> is called <strong><em>ergodic</em></strong> if
 <span class="math display">\[\forall x \in S: \quad \lim_{n \to \infty} \lVert P^n(x,\cdot) - \pi \rVert_{\mathrm{TV}} = 0,\]</span>
 where we recall that for two probability measures <span class="math inline">\(\mu,\nu\)</span> on <span class="math inline">\(S\)</span> their total variation distance is given by
 <span class="math display">\[\lVert \mu - \nu \rVert_{\mathrm{TV}} = \sup_{A \in \mathcal{B}(S)} \lvert \mu(A) - \nu(A) \rvert.\]</span></p>
 </div>
+<div class="example">
+<p><span id="exm:unlabeled-div-95" class="example"><strong>Example 5.5  </strong></span>Let’s return to the Langevin Markov chain from above, where
+<span class="math display">\[Y_{n+1} = Y_n - h\nabla V(Y_n) + \sqrt{2h} \xi_{n+1}, \quad (\xi_n)_{n\in \mathbb{N}} \overset{\mathrm{i.i.d.}}{\sim} N(0,I).  \]</span>
+Given appropriate conditions on <span class="math inline">\(h\)</span> the potential <span class="math inline">\(V\)</span>, which are similar to those that guarantee convergence of a gradient descent algorithm to obtain minimisers of <span class="math inline">\(V\)</span> (say, strong convexity and Lipschitz-continuity), the Markov chain is ergodic with invariant distribution <span class="math inline">\(\pi^h\)</span>. Here, for sufficiently small step sizes <span class="math inline">\(h\)</span> we have <span class="math inline">\(\pi^h \approx \pi\)</span>, where <span class="math inline">\(\pi\)</span> has density proportional to
+<span class="math display">\[\pi(y) \propto \mathrm{e}^{-V(y)}, \quad y \in \mathbb{R}^d. \]</span>
+This is our first example of an MCMC algorithm for the target density <span class="math inline">\(\pi\)</span> (called the <strong><em>Langevin Monte-Carlo algorithm</em></strong>) and is especially relevant in high dimensions, where the normalising constant <span class="math inline">\(\int_{\mathbb{R}^d} \mathrm{e}^{-V(y)}\, dy\)</span> is very expensive to calculate numerically, therefore making rejection algorithms infeasible.</p>
+</div>
 <p>Determining whether a general Markov chain is ergodic is a much more demanding task than in the finite state space situation. For a given Markov kernel, verification is based on checking extensions of the notions of irreducibility, aperiodicity and <strong><em>recurrence</em></strong> for countable Markov chains, where the latter property encodes the idea that return times to any state <span class="math inline">\(i\)</span> should be finite almost surely. The main challenge for general state spaces is that there need not be any states <span class="math inline">\(x \in S\)</span> such that <span class="math inline">\(P(y,\{x\}) &gt; 0\)</span> for any <span class="math inline">\(y \in S\)</span> (e.g. when the transition probabilities are absolutely continuous). Instead of going into technical details, we only cite a quantitative result from <span class="citation">(<a href="#ref-hairer11">Hairer and Mattingly 2011</a>)</span> that provides <strong><em>exponentially fast</em></strong> convergence to the invariant distribution given explicit criteria on <span class="math inline">\(P\)</span>.</p>
 <div class="theorem">
-<p><span id="thm:unlabeled-div-94" class="theorem"><strong>Theorem 5.4  </strong></span>Suppose that <span class="math inline">\(Y\)</span> satisfies the following conditions:</p>
+<p><span id="thm:unlabeled-div-96" class="theorem"><strong>Theorem 5.4  </strong></span>Suppose that <span class="math inline">\(Y\)</span> satisfies the following conditions:</p>
 <ol style="list-style-type: decimal">
 <li><p><strong><em>Drift condition</em></strong>: There exists a <em>penalty function</em> <span class="math inline">\(V\colon S \to [1,\infty)\)</span> and constants <span class="math inline">\(K \geq 0, \gamma \in (0,1)\)</span> such that
 <span class="math display">\[\forall x \in S: \underbrace{\int_S V(y)\, P(x,dy)}_{= \mathbb{E}[V(Y_1) \mid Y_0 = x]}  \leq \gamma V(x) + K. \]</span></p></li>
@@ -453,24 +481,25 @@ Then, there exist constants <span class="math inline">\(D &gt; 0,\kappa \in (0,1
 <span class="math display">\[\sup_{x \in S} \lVert P^n(x,\cdot) - \pi \rVert_{\mathrm{TV}} \leq D\kappa^n.\]</span></p>
 </div>
 <div class="proof">
-<p><span id="unlabeled-div-95" class="proof"><em>Proof</em>. </span>Choose <span class="math inline">\(\gamma = 1/2, V \equiv 1, K = 1/2\)</span>. Then, for arbitrary <span class="math inline">\(R &gt; 2 = 2K/(1-\gamma)\)</span>, we have <span class="math inline">\(C = \{x \in S: V(x) \leq R\} = S\)</span> and hence by assumption
+<p><span id="unlabeled-div-97" class="proof"><em>Proof</em>. </span>Choose <span class="math inline">\(\gamma = 1/2, V \equiv 1, K = 1/2\)</span>. Then, for arbitrary <span class="math inline">\(R &gt; 2 = 2K/(1-\gamma)\)</span>, we have <span class="math inline">\(C = \{x \in S: V(x) \leq R\} = S\)</span> and hence by assumption
 <span class="math display">\[\inf_{x \in C} P(x,A) = \inf_{x \in S} P(x,A)  \geq \alpha \nu.\]</span>
 Moreover, for any <span class="math inline">\(x \in S\)</span> by construction.
 <span class="math display">\[\mathbb{E}[V(Y_1) \mid Y_0 = x] = 1 = \gamma V(x) +K.\]</span><br />
-Consequently, the drift and miniorsiation criteria from the previous theorem are satisfied, yielding the assertion.</p>
+Consequently, the drift and minorisation criteria from the previous theorem are satisfied, yielding the assertion.</p>
 </div>
 <div class="remark">
-<p><span id="unlabeled-div-96" class="remark"><em>Remark</em>. </span>It can be shown that <span class="math inline">\(\kappa = 1 - \alpha, D=1\)</span>, see Theorem 16.0.2 in <span class="citation">(<a href="#ref-meyntweedie">Meyn and Tweedie 2009</a>)</span>.</p>
+<p><span id="unlabeled-div-98" class="remark"><em>Remark</em>. </span>It can be shown that <span class="math inline">\(\kappa = 1 - \alpha, D=1\)</span>, see Theorem 16.0.2 in <span class="citation">(<a href="#ref-meyntweedie">Meyn and Tweedie 2009</a>)</span>.</p>
 </div>
 <p>Such results provide the foundation theory for MCMC and allow us to sample approximatively from a posterior distribution <span class="math inline">\(\pi\)</span> for an appropriately constructed chain. What it doesn’t tell us is how to design the Markov chain, and that is what the next sections deal with. The following extension of the detailed balance condition will be helpful for this purpose:</p>
 <div class="theorem">
 <p><span id="thm:reversibility" class="theorem"><strong>Theorem 5.5  (Detailed Balance) </strong></span>Let <span class="math inline">\(P\)</span> be a Markov kernel and <span class="math inline">\(\pi\)</span> be a distribution on the state space <span class="math inline">\(S\)</span>. If <span class="math inline">\(\pi\)</span> and <span class="math inline">\(P\)</span> satisfy detailed balance in the sense
-<span class="math display">\[\begin{align*} \forall x,y \in S: \pi(dx)\, P(x,dy) = \pi(dy)\, P(y,dx) \qquad (\text{i.e.,} \forall B \in \mathcal{B}(S) \otimes \mathcal{B}(S): &amp;\int \mathbf{1}_B(x,y)\, \pi(dx) \, P(x,dy) &amp;\,= \int \mathbf{1}_B(x,y)\, \pi(dy) \, P(y,dx)
+<span class="math display">\[\begin{align*} &amp;\forall x,y \in S: \pi(dx)\, P(x,dy) = \pi(dy)\, P(y,dx) \\
+&amp;(\text{i.e.,} \forall B \in \mathcal{B}(S) \otimes \mathcal{B}(S): \int \mathbf{1}_B(x,y)\, \pi(dx) \, P(x,dy) = \int \mathbf{1}_B(x,y)\, \pi(dy) \, P(y,dx)
 \end{align*}\]</span>
 then <span class="math inline">\(\pi P = \pi\)</span>, i.e., <span class="math inline">\(\pi\)</span> is stationary.</p>
 </div>
 <div class="proof">
-<p><span id="unlabeled-div-97" class="proof"><em>Proof</em>. </span>Using detailed balance and Fubini, we find for any <span class="math inline">\(A \in \mathcal{B}(S)\)</span>,
+<p><span id="unlabeled-div-99" class="proof"><em>Proof</em>. </span>Using detailed balance and Fubini, we find for any <span class="math inline">\(A \in \mathcal{B}(S)\)</span>,
 <span class="math display">\[\begin{align*}
 \pi P(A) &amp;= \int_{x \in S} \int_{y \in A} \pi(dx)\, P(x,dy) =\int_{x \in S} \int_{y \in A} \pi(dy) \, P(y,dx)\\
 &amp;= \int_{y \in A}  \underbrace{\Big(\int_{x \in S} P(y,dx) \Big)}_{= \mathbb{P}(Y_1 \in S \mid Y_0 = y) = 1} \, \pi(dy) = \pi(A).
@@ -506,10 +535,10 @@ As the the denominator doesn’t depend on <span class="math inline">\(\theta\)<
 \]</span>
 This is the likelihood ratio multiplied by the prior ratio.</p>
 <div class="theorem">
-<p><span id="thm:unlabeled-div-98" class="theorem"><strong>Theorem 5.6  </strong></span>The Markov chain generated by the Metropolis–Hastings algorithm satisfies detailed balance with respect to the posterior distribution and the posterior is stationary.</p>
+<p><span id="thm:unlabeled-div-100" class="theorem"><strong>Theorem 5.6  </strong></span>The Markov chain generated by the Metropolis–Hastings algorithm satisfies detailed balance with respect to the posterior distribution and the posterior is stationary.</p>
 </div>
 <div class="proof">
-<p><span id="unlabeled-div-99" class="proof"><em>Proof</em>. </span>For detailed balance we need to show that
+<p><span id="unlabeled-div-101" class="proof"><em>Proof</em>. </span>For detailed balance we need to show that
 <span class="math display">\[\pi(\theta \mid \boldsymbol{y}) P(\theta, d\theta^\prime) \, d\theta = \pi(\theta^\prime) P(\theta^\prime, d\theta) \, d\theta^\prime,  \]</span>
 and stationarity will follow from that by Theorem <a href="markov-chain-monte-carlo.html#thm:reversibility">5.5</a>. The case <span class="math inline">\(\theta = \theta^\prime\)</span> is trivial, so let us consider the case <span class="math inline">\(\theta \neq \theta^\prime\)</span>. We then have
 <span class="math display">\[\begin{align*}
@@ -523,17 +552,17 @@ which shows that the lhs of the desired detailed balance equation is given by
 \]</span>
 By symmetric arguments, it follows that the rhs is given by
 <span class="math display">\[
-\pi(\theta^\prime \mid \boldsymbol{y})P(\theta^\prime, d\theta) \, d\theta^\prime = \min\{\pi(\theta \mid \boldsymbol{y})q(\theta^\prime \mid \theta&#39;),\, \pi(\theta^\prime \mid \boldsymbol{y})q(\theta \mid \theta&#39;)\} \, d\theta\, d\theta^\prime,
+\pi(\theta^\prime \mid \boldsymbol{y})P(\theta^\prime, d\theta) \, d\theta^\prime = \min\{\pi(\theta \mid \boldsymbol{y})q(\theta^\prime \mid \theta),\, \pi(\theta^\prime \mid \boldsymbol{y})q(\theta \mid \theta&#39;)\} \, d\theta\, d\theta^\prime,
 \]</span>
 which establishes equality of the lhs and rhs, whence detailed balance for <span class="math inline">\(\theta \neq \theta^\prime\)</span>.</p>
 </div>
 <p>The speed of convergence of the Metropolis–Hastings algorithm and related MCMC algorithms has been a central research questions for the past 30 years or so, as this is fundamental to evaluate their sampling efficiency. Here, we focus on a simple case, where sampling works particularly well, and which sometimes can be applied to target posteriors <span class="math inline">\(\pi(\cdot \mid \boldsymbol{y}\)</span> that are uniformly bounded away from zero on its bounded support.</p>
 <div class="theorem">
-<p><span id="thm:unlabeled-div-100" class="theorem"><strong>Theorem 5.7  </strong></span>Suppose that <span class="math inline">\(\pi(\theta \mid \boldsymbol{y})\)</span> is a posterior with support <span class="math inline">\(S\)</span> and that there exist finite constants <span class="math inline">\(m,M &gt; 0\)</span> we have <span class="math inline">\(m \leq \inf_{\theta \in S} \pi(\theta \mid \boldsymbol{y}) \leq \sup_{\theta \in S} \pi(\theta \mid \boldsymbol{y}) \leq M\)</span>. Let also <span class="math inline">\(q\)</span> be a symmetric proposal density on <span class="math inline">\(S\)</span> (that is, <span class="math inline">\(q(\theta^\prime \mid \theta) = q(\theta \mid \theta^\prime)\)</span> for all <span class="math inline">\(\theta,\theta^\prime \in S\)</span>) such that <span class="math inline">\(q(\theta^\prime \mid \theta) \geq \rho\nu(\theta^\prime)\)</span> for all <span class="math inline">\(\theta \in S\)</span>, some <span class="math inline">\(\rho \in (0,1)\)</span> and some probability density <span class="math inline">\(\nu\)</span> on <span class="math inline">\(S\)</span>. Then, for the Metropolis–Hastings chain it holds that
+<p><span id="thm:unlabeled-div-102" class="theorem"><strong>Theorem 5.7  </strong></span>Suppose that <span class="math inline">\(\pi(\theta \mid \boldsymbol{y})\)</span> is a posterior with support <span class="math inline">\(S\)</span> and that there exist finite constants <span class="math inline">\(m,M &gt; 0\)</span> we have <span class="math inline">\(m \leq \inf_{\theta \in S} \pi(\theta \mid \boldsymbol{y}) \leq \sup_{\theta \in S} \pi(\theta \mid \boldsymbol{y}) \leq M\)</span>. Let also <span class="math inline">\(q\)</span> be a symmetric proposal density on <span class="math inline">\(S\)</span> (that is, <span class="math inline">\(q(\theta^\prime \mid \theta) = q(\theta \mid \theta^\prime)\)</span> for all <span class="math inline">\(\theta,\theta^\prime \in S\)</span>) such that <span class="math inline">\(q(\theta^\prime \mid \theta) \geq \rho\nu(\theta^\prime)\)</span> for all <span class="math inline">\(\theta \in S\)</span>, some <span class="math inline">\(\rho \in (0,1)\)</span> and some probability density <span class="math inline">\(\nu\)</span> on <span class="math inline">\(S\)</span>. Then, for the Metropolis–Hastings chain it holds that
 <span class="math display">\[\sup_{x \in S} \lVert P^n(x,\cdot) - \pi(\cdot \mid \boldsymbol{y}) \rVert_{\mathrm{TV}} \leq \Big(1 - \frac{\rho m}{M}\Big)^n.\]</span></p>
 </div>
 <div class="proof">
-<p><span id="unlabeled-div-101" class="proof"><em>Proof</em>. </span>By symmetry of the proposal density and the upper and lower bounds on the posterior, it follows that<br />
+<p><span id="unlabeled-div-103" class="proof"><em>Proof</em>. </span>By symmetry of the proposal density and the upper and lower bounds on the posterior, it follows that<br />
 <span class="math display">\[\begin{align*}
 p_{\mathrm{acc}}(\theta,\theta^\prime) = \min\Big\{\frac{\pi(\theta^\prime \mid \boldsymbol{y})}{\pi(\theta \mid \boldsymbol{y})}, 1 \Big\} \geq \frac{m}{M}.
 \end{align*}\]</span>
@@ -547,7 +576,7 @@ Since the rhs is independent of <span class="math inline">\(\theta\)</span>, the
 <span class="math display">\[\sup_{x \in S} \lVert P^n(x,\cdot) - \pi(\cdot \mid \boldsymbol{y}) \rVert_{\mathrm{TV}} \leq (1-\alpha)^n = \Big(1 - \frac{\rho m}{M}\Big)^n.\]</span></p>
 </div>
 <div class="example">
-<p><span id="exm:norm" class="example"><strong>Example 5.3  </strong></span>A counter monitors the time until atoms decays. It collects the data <span class="math inline">\(X_1, \ldots, X_N\)</span> and we assume <span class="math inline">\(X_i \sim \hbox{Exp}(\lambda)\)</span>. The time until these atom decay is long, certainly more than 1 second (or minute, hour etc.), so we assume <span class="math inline">\(\lambda \sim \hbox{Beta}(\alpha, \beta)\)</span>.</p>
+<p><span id="exm:norm" class="example"><strong>Example 5.6  </strong></span>A counter monitors the time until atoms decays. It collects the data <span class="math inline">\(X_1, \ldots, X_N\)</span> and we assume <span class="math inline">\(X_i \sim \hbox{Exp}(\lambda)\)</span>. The time until these atom decay is long, certainly more than 1 second (or minute, hour etc.), so we assume <span class="math inline">\(\lambda \sim \hbox{Beta}(\alpha, \beta)\)</span>.</p>
 <p>The prior distribution is given by
 <span class="math display">\[
 \pi(\lambda \mid \boldsymbol{x}) \propto \lambda^{N + \alpha - 1} (1 - \lambda)^{\beta - 1}\exp\left(-\lambda \sum x_i\right)
@@ -621,28 +650,28 @@ As we our proposal distribution is symmetric, <span class="math inline">\(q(\lam
 ## 0.1933055 0.4555422</code></pre>
 </div>
 <div class="example">
-<p><span id="exm:norm" class="example"><strong>Example 5.3  </strong></span>The time until lorry drivers react (in milliseconds) to an obsticle in the road is</p>
+<p><span id="exm:norm" class="example"><strong>Example 5.6  </strong></span>The time until lorry drivers react (in milliseconds) to an obstacle in the road is</p>
 <div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="markov-chain-monte-carlo.html#cb108-1" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.34</span>, <span class="fl">0.47</span>, <span class="fl">0.58</span>, <span class="fl">0.27</span>, <span class="fl">0.74</span>, <span class="fl">0.44</span>, <span class="fl">0.46</span>, <span class="fl">0.65</span>, <span class="fl">0.36</span>, <span class="fl">0.55</span>, <span class="fl">0.58</span>, <span class="fl">0.55</span>, </span>
 <span id="cb108-2"><a href="markov-chain-monte-carlo.html#cb108-2" tabindex="-1"></a>       <span class="fl">0.53</span>, <span class="fl">0.56</span>, <span class="fl">0.54</span>, <span class="fl">0.61</span>, <span class="fl">0.43</span>, <span class="fl">0.52</span>, <span class="fl">0.45</span>, <span class="fl">0.49</span>, <span class="fl">0.32</span>, <span class="fl">0.33</span>, <span class="fl">0.47</span>, <span class="fl">0.58</span>, </span>
 <span id="cb108-3"><a href="markov-chain-monte-carlo.html#cb108-3" tabindex="-1"></a>       <span class="fl">0.34</span>, <span class="fl">0.60</span>, <span class="fl">0.59</span>, <span class="fl">0.43</span>, <span class="fl">0.57</span>, <span class="fl">0.34</span>)</span>
 <span id="cb108-4"><a href="markov-chain-monte-carlo.html#cb108-4" tabindex="-1"></a><span class="fu">hist</span>(y, <span class="at">main =</span> <span class="st">&quot;&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Reaction time (ms)&quot;</span>)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
-<p>Assuming <span class="math inline">\(Y_i \sim N(\mu, \sigma^2)\)</span> are independent and identically distributed for <span class="math inline">\(i=1,...,n\)</span>, by Bayes’ theorem, the posterior distribution is</p>
+<p>Assuming that for fixed <span class="math inline">\(\sigma^2 &gt; 0\)</span>, <span class="math inline">\(Y_i \mid \mu \sim N(\mu, \sigma^2)\)</span> are independent and identically distributed for <span class="math inline">\(i=1,...,n\)</span>, by Bayes’ theorem, the posterior distribution is</p>
 <p><span class="math display">\[
 \pi(\mu \mid \boldsymbol{y}, \sigma^2) \propto \pi(\boldsymbol{y} \mid \mu, \sigma^2) \pi(\mu).
 \]</span>
 One of the issues here is that we have assigned a normal prior distribution to the population mean parameter <span class="math inline">\(\mu\)</span>. The advantage previously was that we could derive a posterior distribution with closed form. The disadvantage however is that the choice of prior distribution assigns some positive probability to impossible values of <span class="math inline">\(\mu\)</span>, i.e. reaction times less than zero.</p>
-<p>Now we have a tool to sample from posterior distributions that don’t have a closed form. We can instead assign an exponential prior distribution, a distribution which only has non-negative support. Letting <span class="math inline">\(\mu \sim \textrm{Exp}(0.01)\)</span> sets a vague prior distribution on <span class="math inline">\(\mu\)</span>. It can be shown that the posterior distribution (exercise) is therefore
+<p>Now we have a tool to sample from posterior distributions that don’t have a closed form. We can instead assign an exponential prior distribution, a distribution which only has non-negative support. Letting <span class="math inline">\(\mu \sim \textrm{Exp}(10)\)</span> sets a vague prior distribution on <span class="math inline">\(\mu\)</span>. It can be shown that the posterior distribution (exercise) is therefore
 <span class="math display">\[
-\pi(\mu \mid \boldsymbol{y}, \sigma^2) \propto \exp\left\{-0.01\mu -\sum_{i=1}^{30}\frac{(y_i - \mu)^2}{\sigma^2}\right\}
+\pi(\mu \mid \boldsymbol{y}, \sigma^2) \propto \exp\left\{-10\mu -\sum_{i=1}^{30}\frac{(y_i - \mu)^2}{\sigma^2}\right\}
 \]</span></p>
-<p>We can use the Metropolis–Hastings algorithm to sample from this posterior distribution. But how should we propose new value of <span class="math inline">\(\mu\)</span>? A common method is a Metropolis–Hastings Random Walk proposal distribution. The proposal distribution is symmetric and centered on <span class="math inline">\(\mu\)</span>. The two most common methods are <span class="math inline">\(\mu&#39; \mid \mu \sim U[\mu - \varepsilon, \mu + \varepsilon]\)</span> and <span class="math inline">\(\mu&#39; \mid \mu \sim N(\mu, \tau^2)\)</span>. We choose the uniform proposal distribution, with
+<p>We can use the Metropolis–Hastings algorithm to sample from this posterior distribution. But how should we propose new value of <span class="math inline">\(\mu\)</span>? A common method is a <em>Metropolis–Hastings Random Walk</em> proposal distribution. The proposal distribution is symmetric and centered on <span class="math inline">\(\mu\)</span>. The two most common methods are <span class="math inline">\(\mu&#39; \mid \mu \sim U[\mu - \varepsilon, \mu + \varepsilon]\)</span> and <span class="math inline">\(\mu&#39; \mid \mu \sim N(\mu, \tau^2)\)</span>. We choose the uniform proposal distribution, with
 <span class="math display">\[
 q(\mu&#39; \mid \mu) = \frac{1}{2\varepsilon}.
 \]</span></p>
 <p>The acceptance probability is therefore
 <span class="math display">\[
-p_\textrm{acc} = \min\left\{\frac{\exp\left\{-0.01\mu&#39; -\sum_{i=1}^{30}\frac{(y_i - \mu&#39;)^2}{\sigma^2}\right\} }{\exp\left\{-0.01\mu -\sum_{i=1}^{30}\frac{(y_i - \mu)^2}{\sigma^2}\right\} }, 1\right\}
+p_\textrm{acc} = \min\left\{\frac{\exp\left\{-10\mu&#39; -\sum_{i=1}^{30}\frac{(y_i - \mu&#39;)^2}{\sigma^2}\right\} }{\exp\left\{-10\mu -\sum_{i=1}^{30}\frac{(y_i - \mu)^2}{\sigma^2}\right\} }, 1\right\}
 \]</span></p>
 <p>We can implement a sampler in R as follows:</p>
 <div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="markov-chain-monte-carlo.html#cb109-1" tabindex="-1"></a><span class="co">#Set up elements for MCMC</span></span>
@@ -662,9 +691,9 @@ p_\textrm{acc} = \min\left\{\frac{\exp\left\{-0.01\mu&#39; -\sum_{i=1}^{30}\frac
 <span id="cb109-15"><a href="markov-chain-monte-carlo.html#cb109-15" tabindex="-1"></a>  <span class="cf">if</span>(mu.proposed <span class="sc">&gt;</span> <span class="dv">0</span>){ <span class="co">#If mu &lt; 0 we can reject straight away</span></span>
 <span id="cb109-16"><a href="markov-chain-monte-carlo.html#cb109-16" tabindex="-1"></a>    </span>
 <span id="cb109-17"><a href="markov-chain-monte-carlo.html#cb109-17" tabindex="-1"></a>    <span class="co">#Compute (log) acceptance probability</span></span>
-<span id="cb109-18"><a href="markov-chain-monte-carlo.html#cb109-18" tabindex="-1"></a>    log.numerator   <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">0.01</span><span class="sc">*</span>mu.proposed <span class="sc">-</span> </span>
+<span id="cb109-18"><a href="markov-chain-monte-carlo.html#cb109-18" tabindex="-1"></a>    log.numerator   <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">10</span><span class="sc">*</span>mu.proposed <span class="sc">-</span> </span>
 <span id="cb109-19"><a href="markov-chain-monte-carlo.html#cb109-19" tabindex="-1"></a>                      <span class="fu">sum</span>(y <span class="sc">-</span> mu.proposed)<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>(<span class="dv">2</span><span class="sc">*</span>sigma<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb109-20"><a href="markov-chain-monte-carlo.html#cb109-20" tabindex="-1"></a>    log.denominator <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">0.01</span><span class="sc">*</span>mu <span class="sc">-</span> <span class="fu">sum</span>(y <span class="sc">-</span> mu)<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>(<span class="dv">2</span><span class="sc">*</span>sigma<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb109-20"><a href="markov-chain-monte-carlo.html#cb109-20" tabindex="-1"></a>    log.denominator <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">10</span><span class="sc">*</span>mu <span class="sc">-</span> <span class="fu">sum</span>(y <span class="sc">-</span> mu)<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>(<span class="dv">2</span><span class="sc">*</span>sigma<span class="sc">^</span><span class="dv">2</span>)</span>
 <span id="cb109-21"><a href="markov-chain-monte-carlo.html#cb109-21" tabindex="-1"></a>    </span>
 <span id="cb109-22"><a href="markov-chain-monte-carlo.html#cb109-22" tabindex="-1"></a>    log.p.acc <span class="ot">&lt;-</span> log.numerator <span class="sc">-</span> log.denominator</span>
 <span id="cb109-23"><a href="markov-chain-monte-carlo.html#cb109-23" tabindex="-1"></a>    u <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1</span>)</span>
@@ -689,13 +718,13 @@ p_\textrm{acc} = \min\left\{\frac{\exp\left\{-0.01\mu&#39; -\sum_{i=1}^{30}\frac
 <p>The 95% credible interval for <span class="math inline">\(\mu\)</span> using this prior distribution is</p>
 <div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="markov-chain-monte-carlo.html#cb112-1" tabindex="-1"></a><span class="fu">quantile</span>(mu.store[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">300</span>)], <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</span></code></pre></div>
 <pre><code>##      2.5%     97.5% 
-## 0.4832146 0.4961484</code></pre>
+## 0.4831480 0.4960669</code></pre>
 <p>Using a normal prior distribution, it was</p>
 <pre><code>0.486 0.493</code></pre>
 <p>It seems that the posterior distribution is very similar when using these two prior distributions. This is because the data are very informative.</p>
 </div>
 <div class="example">
-<p><span id="exm:unlabeled-div-107" class="example"><strong>Example 5.4  </strong></span>In Lab 3.9, we computed the MAP estimate for a parameter from the Pareto distribution. The density function of this distribution is
+<p><span id="exm:unlabeled-div-109" class="example"><strong>Example 5.7  </strong></span>In Lab 3.9, we computed the MAP estimate for a parameter from the Pareto distribution. The density function of this distribution is
 <span class="math display">\[
 \pi(x \mid \beta) = \frac{\beta}{x^{\beta + 1}}, \quad x &gt; 1.
 \]</span>
@@ -713,8 +742,8 @@ The MCMC algorithm will be</p>
 <ol style="list-style-type: decimal">
 <li>Set an initial value <span class="math inline">\(\beta_0\)</span> and set <span class="math inline">\(i =0\)</span>.</li>
 <li>Propose a new value <span class="math inline">\(\beta&#39; \sim N(\beta_i, \sigma^2)\)</span></li>
-<li>Accept <span class="math inline">\(\beta&#39;\)</span> with probability <span class="math inline">\(p_{acc}\)</span> and set <span class="math inline">\(\beta{i+1}= \beta&#39;\)</span>, otherwise reject and set<span class="math inline">\(\beta{i+1}= \beta_i\)</span>.</li>
-<li>Repeat steps 2, 3, and 4 for $ i = 1, , n-1$.</li>
+<li>Accept <span class="math inline">\(\beta&#39;\)</span> with probability <span class="math inline">\(p_{acc}\)</span> and set <span class="math inline">\(\beta_{i+1}= \beta&#39;\)</span>, otherwise reject and set <span class="math inline">\(\beta_{i+1}= \beta_i\)</span>.</li>
+<li>Repeat steps 2, 3, and 4 for <span class="math inline">\(i = 1, \ldots, n-1\)</span>.</li>
 </ol>
 <p>We fix <span class="math inline">\(b=0.01\)</span> and use the data</p>
 <pre><code>x &lt;- c(1.019844, 1.043574, 1.360953, 1.049228, 1.491926, 1.192943, 1.323738, 1.262572, 2.034768, 1.451654)</code></pre>
@@ -780,7 +809,7 @@ The MCMC algorithm will be</p>
 <p>Draw a value for <span class="math inline">\(\theta_1^{(i)}\)</span> from <span class="math inline">\(\pi(\theta_1 \mid \theta_2^{(i-1)}, \ldots, \theta_N^{(i-1)})\)</span>.</p>
 <p>Draw a value for <span class="math inline">\(\theta_2^{(i)}\)</span> from <span class="math inline">\(\pi(\theta_2 \mid \theta_1^{(i)}, \theta_3^{(i-1)}, \ldots, \theta_N^{(i-1)})\)</span>.</p>
 <p><span class="math inline">\(\vdots\)</span></p>
-<p>Draw a value for <span class="math inline">\(\theta_N^{(i)}\)</span> from <span class="math inline">\(\pi(\theta_N \mid \theta_1^{(i)},     \theta_2^{(i)}, \ldots, \theta_{N-1}^{(i)})\)</span>.</p></li>
+<p>Draw a value for <span class="math inline">\(\theta_N^{(i)}\)</span> from <span class="math inline">\(\pi(\theta_N \mid \theta_1^{(i)}, \theta_2^{(i)}, \ldots, \theta_{N-1}^{(i)})\)</span>.</p></li>
 <li><p>Repeat step 2 for <span class="math inline">\(i = 2, \ldots M\)</span>.</p></li>
 </ol>
 <p>In code, this might look like</p>
@@ -796,7 +825,7 @@ for(j in 1:M){
   theta.store[, j] &lt;- theta.current #store current values
 }</code></pre>
 <div class="example">
-<p><span id="exm:unlabeled-div-102" class="example"><strong>Example 5.5  </strong></span>In Example 3.5, we had a hierarchical model with<br />
+<p><span id="exm:unlabeled-div-104" class="example"><strong>Example 5.8  </strong></span>In Example 3.5, we had a hierarchical model with<br />
 <span class="math display">\[\begin{align*}
 \boldsymbol{y} \mid \lambda &amp;\sim \hbox{Exp}(\lambda) &amp; \textrm{(likelihood)} \\
 \lambda \mid \gamma &amp;\sim \hbox{Exp}(\gamma) &amp; \textrm{(prior distribution)} \\
@@ -866,7 +895,7 @@ Therefore the full conditional distribution of <span class="math inline">\(\gamm
 <h2><span class="header-section-number">5.4</span> Metropolis-within-Gibbs<a href="markov-chain-monte-carlo.html#metropolis-within-gibbs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Now we have both the Metropolis–Hastings algorithm and Gibbs sampler, we can combine them to create a generic MCMC algorithm for essentially any posterior distribution with any number of parameters. To create our MCMC algorithm, we update any parameters where the full conditional distribution has closed form with a Gibbs sampler. For parameters where the full conditional distribution does not have a closed form, we use a Metropolis–Hastings algorithm to update the parameters.</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-103" class="example"><strong>Example 5.6  </strong></span>Suppose <span class="math inline">\(X_1, \ldots, X_N \sim \hbox{Weibull}(\beta, \theta)\)</span>, where
+<p><span id="exm:unlabeled-div-105" class="example"><strong>Example 5.9  </strong></span>Suppose <span class="math inline">\(X_1, \ldots, X_N \sim \hbox{Weibull}(\beta, \theta)\)</span>, where
 <span class="math display">\[
 \pi(x \mid\beta,\theta) = \frac{\beta}{\theta}x^{\beta - 1}\exp\left(-\frac{x^\beta}{\theta}\right), \qquad x, \beta, \theta &gt; 0.
 \]</span>
@@ -906,13 +935,13 @@ Otherwise reject <span class="math inline">\(\beta&#39;\)</span> and set <span c
 <p>When running an MCMC algorithm, it is always important to check that the Markov chain has converged and is mixing well. For our purposes, mixing well means the chain is exploring the space of possible values of <span class="math inline">\(\theta\)</span> effectively and effectively and not getting stuck on the same value for a long time.</p>
 <p>A key way of doing this is by looking at the trace plot, which is a time series of the posterior samples simulated by the algorithm. The trace plot should look like it has converged to the stationary distribution and exploring the stationary distribution efficiently. What it shouldn’t look like is a long series of small steps, or being stuck in one spot for a long time. There are two definitions that help us isolate an efficient Markov chain.</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-104" class="definition"><strong>Definition 5.11  </strong></span>The <strong>burn-in period</strong> is the number of iterations the Markov chain takes to reach the stationary distribution.</p>
+<p><span id="def:unlabeled-div-106" class="definition"><strong>Definition 5.11  </strong></span>The <strong>burn-in period</strong> is the number of iterations the Markov chain takes to reach the stationary distribution.</p>
 </div>
 <div class="definition">
-<p><span id="def:unlabeled-div-105" class="definition"><strong>Definition 5.12  </strong></span>The <strong>thinning parameter</strong> is the period of iterations of the Markov chain that are stored.</p>
+<p><span id="def:unlabeled-div-107" class="definition"><strong>Definition 5.12  </strong></span>The <strong>thinning parameter</strong> is the period of iterations of the Markov chain that are stored.</p>
 </div>
 <div class="example">
-<p><span id="exm:unlabeled-div-106" class="example"><strong>Example 5.7  </strong></span>In Example <a href="markov-chain-monte-carlo.html#exm:norm">5.3</a>, we saw a Markov chain that mixes well. We took the burn-in period to be 3,000 iterations, which was how long it took to for the chain to converge. Although the posterior distribution is invariant to the choice of the proposal distribution, it still has a large effect of the efficiency of the algorithm and how well the chain mixes. The ideal trace plot looks like white noise, or a hairy caterpillar.</p>
+<p><span id="exm:unlabeled-div-108" class="example"><strong>Example 5.10  </strong></span>In Example <a href="markov-chain-monte-carlo.html#exm:norm">5.6</a>, we saw a Markov chain that mixes well. We took the burn-in period to be 3,000 iterations, which was how long it took to for the chain to converge. Although the posterior distribution is invariant to the choice of the proposal distribution, it still has a large effect of the efficiency of the algorithm and how well the chain mixes. The ideal trace plot looks like white noise, or a hairy caterpillar.</p>
 <p>In a Metropolis–Hastings random walk algorithm, the proposal distribution often has a large impact on how well the Markov chain mixes. The variance, or step size, of the proposal distribution can be tuned to ensure the chain mixes well.</p>
 <p>The following two examples show poorly mixing Markov chains. The first is where the step size is too big and the chain frequently gets stuck for several hundred iterations.</p>
 <div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="markov-chain-monte-carlo.html#cb134-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>) <span class="co">#to reproduce</span></span>
@@ -1017,18 +1046,21 @@ For large <span class="math inline">\(N\)</span>, even when <span class="math in
 <div id="lab-2" class="section level2 hasAnchor" number="5.7">
 <h2><span class="header-section-number">5.7</span> Lab<a href="markov-chain-monte-carlo.html#lab-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-108" class="exercise"><strong>Exercise 5.1  </strong></span>You observe the following draws from a Binomial distribution with 25 trials and probability of success <span class="math inline">\(p\)</span>.</p>
+<p><span id="exr:unlabeled-div-110" class="exercise"><strong>Exercise 5.1  </strong></span>Consider the Langevin Markov chain with potential <span class="math inline">\(V(x) = \exp(-\lvert x \rvert^3)\)</span> in dimension <span class="math inline">\(d=1\)</span>. Simulate <span class="math inline">\(10,000\)</span> iterates of the Markov chain for different step sizes <span class="math inline">\(h\)</span> and compare the histogram to a plot of the target density <span class="math inline">\(\pi(x) \propto \exp(-V(x))\)</span>. Also experiment with different choices for <span class="math inline">\(V\)</span>.</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-111" class="exercise"><strong>Exercise 5.2  </strong></span>You observe the following draws from a Binomial distribution with 25 trials and probability of success <span class="math inline">\(p\)</span>.</p>
 <pre><code>y &lt;- c(20, 16, 20, 17, 18, 19, 19, 18, 21, 20, 19, 22, 23, 19, 20, 19, 21, 20, 25, 15)</code></pre>
 <p>Use a normal prior distribution with mean 0.5 and variance <span class="math inline">\(0.1^2\)</span>. Write a Metropolis–Hastings Random Walk algorithm to obtain samples from the posterior distribution (you can use R’s built in function for the likelihood function and prior distribution, but if you don’t take logs you will run into small number errors).</p>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-109" class="exercise"><strong>Exercise 5.2  </strong></span>In a medical trial, to investigate the proportion <span class="math inline">\(p\)</span> of the population who have a particular disease a random sample of 20 individuals is taken. Ten of these are subject to a diagnostic test (Test A) which detects the disease when it is present with 100% certainty. The remaining 10 are given a test (test B) which only detects the disease with probability 0.8 when it is present. Neither test can give a false positive result. before collecting the data your prior belief about <span class="math inline">\(p\)</span> is represented by a U(0,1) distribution. Suppose that, for Test A, 5 out of 10 test positive while for test B, 3 out of 10 test positive. Use an MCMC algorithm to investigate the posterior density of <span class="math inline">\(p\)</span> and estimate its posterior mean and variance.</p>
+<p><span id="exr:unlabeled-div-112" class="exercise"><strong>Exercise 5.3  </strong></span>In a medical trial, to investigate the proportion <span class="math inline">\(p\)</span> of the population who have a particular disease a random sample of 20 individuals is taken. Ten of these are subject to a diagnostic test (Test A) which detects the disease when it is present with 100% certainty. The remaining 10 are given a test (test B) which only detects the disease with probability 0.8 when it is present. Neither test can give a false positive result. before collecting the data your prior belief about <span class="math inline">\(p\)</span> is represented by a U(0,1) distribution. Suppose that, for Test A, 5 out of 10 test positive while for test B, 3 out of 10 test positive. Use an MCMC algorithm to investigate the posterior density of <span class="math inline">\(p\)</span> and estimate its posterior mean and variance.</p>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-110" class="exercise"><strong>Exercise 5.3  </strong></span>Code up an MCMC algorithm for Example 3.5 using Gibbs samplers.</p>
+<p><span id="exr:unlabeled-div-113" class="exercise"><strong>Exercise 5.4  </strong></span>Code up an MCMC algorithm for Example 3.5 using Gibbs samplers.</p>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-111" class="exercise"><strong>Exercise 5.4  </strong></span>The density function for the inverse-gamma distribution is
+<p><span id="exr:unlabeled-div-114" class="exercise"><strong>Exercise 5.5  </strong></span>The density function for the inverse-gamma distribution is
 <span class="math display">\[
 \pi(x\mid \alpha, \beta) = \frac{\beta^\alpha}{\Gamma(\alpha)}x^{\alpha - 1}e^{-\beta/x}
 \]</span>
@@ -1040,9 +1072,9 @@ Using independent Gamma prior distributions on the model parameters, <span class
 </div>
 </div>
 <h3>References</h3>
-<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-hairer11" class="csl-entry">
-Hairer, Martin, and Jonathan C. Mattingly. 2011. <span>“Yet Another Look at <span>H</span>arris’ Ergodic Theorem for <span>M</span>arkov Chains.”</span> In <em>Seminar on <span>S</span>tochastic <span>A</span>nalysis, <span>R</span>andom <span>F</span>ields and <span>A</span>pplications <span>VI</span></em>, 63:109–17. Progr. Probab. Birkhäuser/Springer Basel AG, Basel. <a href="https://doi.org/10.1007/978-3-0348-0021-1\_7">https://doi.org/10.1007/978-3-0348-0021-1\_7</a>.
+Hairer, Martin, and Jonathan C. Mattingly. 2011. <span>“Yet Another Look at <span>H</span>arris’ Ergodic Theorem for <span>M</span>arkov Chains.”</span> In <em>Seminar on <span>S</span>tochastic <span>A</span>nalysis, <span>R</span>andom <span>F</span>ields and <span>A</span>pplications <span>VI</span></em>, 63:109–17. Progr. Probab. Birkhäuser/Springer Basel AG, Basel. <a href="https://doi.org/10.1007/978-3-0348-0021-1_7">https://doi.org/10.1007/978-3-0348-0021-1_7</a>.
 </div>
 <div id="ref-meyntweedie" class="csl-entry">
 Meyn, Sean, and Richard L. Tweedie. 2009. <em>Markov Chains and Stochastic Stability</em>. Second. Cambridge University Press, Cambridge. <a href="https://doi.org/10.1017/CBO9780511626630">https://doi.org/10.1017/CBO9780511626630</a>.
