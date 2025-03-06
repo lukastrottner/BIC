@@ -412,7 +412,7 @@ and for a probability measure <span class="math inline">\(q\)</span> on <span cl
 <p>If <span class="math inline">\(S\)</span> is nice enough, the Markov property is equivalent to demanding that for some Markov kernel <span class="math inline">\(P\)</span> we have
 <span class="math display">\[\forall A \in \mathcal{B}(S): \quad \mathbb{P}(Y_{n+1} \in A \mid Y_n, \ldots, Y_0) = P(Y_n, A). \]</span>
 Then, if we define iteratively the Markov kernels <span class="math inline">\(P^1 = P\)</span> and
-<span class="math display">\[P^{n+1}(x,A) = P \circ P^n(x,A) = \int_{S} P^n(x, dy) P(y, A), \quad (x,A) \in S \times \mathcal{B}(S),\]</span>
+<span class="math display">\[P^{n+1}(x,A) = P^n \circ P(x,A) = \int_{S} P^n(x, dy) P(y, A), \quad (x,A) \in S \times \mathcal{B}(S),\]</span>
 we have the <em>Chapman–Kolmogorov equation</em>
 <span class="math display">\[
 P^{n+m} = P^n \circ P^m
