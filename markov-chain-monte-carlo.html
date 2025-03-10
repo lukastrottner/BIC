@@ -538,7 +538,7 @@ This is the likelihood ratio multiplied by the prior ratio.</p>
 </div>
 <div class="proof">
 <p><span id="unlabeled-div-101" class="proof"><em>Proof</em>. </span>For detailed balance we need to show that
-<span class="math display">\[\pi(\theta \mid \boldsymbol{y}) P(\theta, d\theta^\prime) \, d\theta = \pi(\theta^\prime) P(\theta^\prime, d\theta) \, d\theta^\prime,  \]</span>
+<span class="math display">\[\pi(\theta \mid \boldsymbol{y}) P(\theta, d\theta^\prime) \, d\theta = \pi(\theta^\prime \mid \boldsymbol{y}) P(\theta^\prime, d\theta) \, d\theta^\prime,  \]</span>
 and stationarity will follow from that by Theorem <a href="markov-chain-monte-carlo.html#thm:reversibility">5.5</a>. The case <span class="math inline">\(\theta = \theta^\prime\)</span> is trivial, so let us consider the case <span class="math inline">\(\theta \neq \theta^\prime\)</span>. We then have
 <span class="math display">\[\begin{align*}
 \frac{P(\theta,d\theta^\prime)}{d\theta^\prime} &amp;= q(\theta&#39; \mid \theta)p_{acc}(\theta,\theta^\prime)\\
@@ -575,24 +575,24 @@ Since the rhs is independent of <span class="math inline">\(\theta\)</span>, the
 <span class="math display">\[\sup_{x \in S} \lVert P^n(x,\cdot) - \pi(\cdot \mid \boldsymbol{y}) \rVert_{\mathrm{TV}} \leq (1-\alpha)^n = \Big(1 - \frac{\rho m}{M}\Big)^n.\]</span></p>
 </div>
 <div class="example">
-<p><span id="exm:norm" class="example"><strong>Example 5.6  </strong></span>A counter monitors the time until atoms decays. It collects the data <span class="math inline">\(X_1, \ldots, X_N\)</span> and we assume <span class="math inline">\(X_i \sim \hbox{Exp}(\lambda)\)</span>. The time until these atom decay is long, certainly more than 1 second (or minute, hour etc.), so we assume <span class="math inline">\(\lambda \sim \hbox{Beta}(\alpha, \beta)\)</span>.</p>
-<p>The prior distribution is given by
+<p><span id="exm:norm" class="example"><strong>Example 5.6  </strong></span>A counter monitors the time until atoms decays. It collects the data <span class="math inline">\(Y_1, \ldots, Y_N\)</span> and for a decay rate <span class="math inline">\(\lambda\)</span> we assume <span class="math inline">\(Y_1,\ldots, Y_N \mid \lambda \overset{\mathrm{iid}}{\sim} \hbox{Exp}(\lambda)\)</span>. The time until these atom decay is long, certainly more than 1 second (or minute, hour etc.), so we assume <span class="math inline">\(\lambda \sim \hbox{Beta}(\alpha, \beta)\)</span>.</p>
+<p>The posterior distribution is given by
 <span class="math display">\[
-\pi(\lambda \mid \boldsymbol{x}) \propto \lambda^{N + \alpha - 1} (1 - \lambda)^{\beta - 1}\exp\left(-\lambda \sum x_i\right)
+\pi(\lambda \mid \boldsymbol{y}) \propto \lambda^{N + \alpha - 1} (1 - \lambda)^{\beta - 1}\exp\left(-\lambda \sum y_i\right)
 \]</span>
 This doesn’t have a closed form, so we need to use a Metropolis–Hastings algorithm to generate samples from this distribution. A suitable algorithm is</p>
 <ol style="list-style-type: decimal">
-<li>Decide on an starting value the Markov chain and denote it by <span class="math inline">\(\lambda^{(0)}\)</span>. Set <span class="math inline">\(i = 0\)</span>.</li>
-<li>Propose a new value for the parameter and denote it <span class="math inline">\(\lambda&#39;\)</span>. In this example, we are going to propose values using a random walk method where <span class="math inline">\(\lambda&#39; \sim N(\lambda^{(i)}, \sigma^2)\)</span>.</li>
-<li>Accept <span class="math inline">\(\lambda&#39;\)</span> as the value <span class="math inline">\(\lambda^{(i+1)}\)</span> with probability <span class="math inline">\(p_{\textrm{acc}}\)</span>. Otherwise reject this value and set <span class="math inline">\(\lambda^{(i+1)} = \lambda^{(i)}\)</span>.<br />
+<li>Decide on an starting value the Markov chain and denote it by <span class="math inline">\(\lambda^{(0)}\)</span>. Set <span class="math inline">\(i = 1\)</span>.</li>
+<li>Propose a new value for the parameter and denote it <span class="math inline">\(\lambda&#39;\)</span>. In this example, we are going to propose values using a random walk method where <span class="math inline">\(\lambda&#39; \sim N(\lambda^{(i-1)}, \sigma^2)\)</span>.</li>
+<li>Accept <span class="math inline">\(\lambda&#39;\)</span> as the value <span class="math inline">\(\lambda^{(i)}\)</span> with probability <span class="math inline">\(p_{\textrm{acc}}\)</span>. Otherwise reject this value and set <span class="math inline">\(\lambda^{(i)} = \lambda^{(i-1)}\)</span>.<br />
 </li>
 <li>Set <span class="math inline">\(i = i + 1\)</span>.</li>
-<li>Repeat steps 2, 3, 4, for <span class="math inline">\(i = 1, \ldots, n-1\)</span>.</li>
+<li>Repeat steps 2, 3, 4, for <span class="math inline">\(i = 2, \ldots, n-1\)</span>.</li>
 </ol>
 <p>The value <span class="math inline">\(p_{\textrm{acc}}\)</span> is given by
 <span class="math display">\[
-p_{\textrm{acc}} = \min \left\{1, \, \frac{\lambda&#39;^{N + \alpha - 1} (1 - \lambda&#39;)^{\beta - 1}\exp\left(-\lambda&#39; \sum x_i\right)}{\lambda^{N + \alpha - 1} (1 - \lambda)^{\beta - 1}\exp\left(-\lambda \sum x_i\right)}\right\} \\
-= \min \left\{1, \, \left(\frac{\lambda&#39;}{\lambda}\right)^{N + \alpha - 1} \left(\frac{1-\lambda&#39;}{1-\lambda}\right)^{\beta -1} \exp\left((\lambda- \lambda&#39;)\sum x\right)\right\}
+p_{\textrm{acc}} = \min \left\{1, \, \frac{\lambda&#39;^{N + \alpha - 1} (1 - \lambda&#39;)^{\beta - 1}\exp\left(-\lambda&#39; \sum y_i\right)}{\lambda^{N + \alpha - 1} (1 - \lambda)^{\beta - 1}\exp\left(-\lambda \sum y_i\right)}\right\} \\
+= \min \left\{1, \, \left(\frac{\lambda&#39;}{\lambda}\right)^{N + \alpha - 1} \left(\frac{1-\lambda&#39;}{1-\lambda}\right)^{\beta -1} \exp\left((\lambda- \lambda&#39;)\sum y_i\right)\right\}
 \]</span>
 As we our proposal distribution is symmetric, <span class="math inline">\(q(\lambda \mid \lambda&#39;) = q(\lambda&#39; \mid \lambda)\)</span> and this term cancels.</p>
 <p>The code below shows this algorithm in action</p>
@@ -603,7 +603,7 @@ As we our proposal distribution is symmetric, <span class="math inline">\(q(\lam
 <span id="cb102-5"><a href="markov-chain-monte-carlo.html#cb102-5" tabindex="-1"></a></span>
 <span id="cb102-6"><a href="markov-chain-monte-carlo.html#cb102-6" tabindex="-1"></a><span class="co">#Initialise Prior Parameters and Data</span></span>
 <span id="cb102-7"><a href="markov-chain-monte-carlo.html#cb102-7" tabindex="-1"></a>lambda <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
-<span id="cb102-8"><a href="markov-chain-monte-carlo.html#cb102-8" tabindex="-1"></a>sum.x <span class="ot">&lt;-</span> <span class="fl">67.6</span></span>
+<span id="cb102-8"><a href="markov-chain-monte-carlo.html#cb102-8" tabindex="-1"></a>sum.y <span class="ot">&lt;-</span> <span class="fl">67.6</span></span>
 <span id="cb102-9"><a href="markov-chain-monte-carlo.html#cb102-9" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">20</span></span>
 <span id="cb102-10"><a href="markov-chain-monte-carlo.html#cb102-10" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="dv">1</span></span>
 <span id="cb102-11"><a href="markov-chain-monte-carlo.html#cb102-11" tabindex="-1"></a>beta <span class="ot">&lt;-</span> <span class="dv">1</span></span>
@@ -621,7 +621,7 @@ As we our proposal distribution is symmetric, <span class="math inline">\(q(\lam
 <span id="cb102-23"><a href="markov-chain-monte-carlo.html#cb102-23" tabindex="-1"></a>    <span class="co">#Compute p_acc</span></span>
 <span id="cb102-24"><a href="markov-chain-monte-carlo.html#cb102-24" tabindex="-1"></a>    log.p.acc <span class="ot">&lt;-</span> (N <span class="sc">+</span> alpha <span class="sc">-</span> <span class="dv">1</span>)<span class="sc">*</span><span class="fu">log</span>(lambda.prop<span class="sc">/</span>lambda) <span class="sc">+</span> </span>
 <span id="cb102-25"><a href="markov-chain-monte-carlo.html#cb102-25" tabindex="-1"></a>      (beta <span class="sc">-</span> <span class="dv">1</span>)<span class="sc">*</span><span class="fu">log</span>((<span class="dv">1</span><span class="sc">-</span>lambda.prop)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>lambda)) <span class="sc">+</span></span>
-<span id="cb102-26"><a href="markov-chain-monte-carlo.html#cb102-26" tabindex="-1"></a>      (lambda <span class="sc">-</span> lambda.prop)<span class="sc">*</span>sum.x</span>
+<span id="cb102-26"><a href="markov-chain-monte-carlo.html#cb102-26" tabindex="-1"></a>      (lambda <span class="sc">-</span> lambda.prop)<span class="sc">*</span>sum.y</span>
 <span id="cb102-27"><a href="markov-chain-monte-carlo.html#cb102-27" tabindex="-1"></a>    </span>
 <span id="cb102-28"><a href="markov-chain-monte-carlo.html#cb102-28" tabindex="-1"></a>    <span class="co">#Accept/Reject step</span></span>
 <span id="cb102-29"><a href="markov-chain-monte-carlo.html#cb102-29" tabindex="-1"></a>    <span class="cf">if</span>(<span class="fu">log</span>(<span class="fu">runif</span>(<span class="dv">1</span>)) <span class="sc">&lt;</span> log.p.acc)</span>
