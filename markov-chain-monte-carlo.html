@@ -674,7 +674,7 @@ q(\mu&#39; \mid \mu) = \frac{1}{2\varepsilon} \boldsymbol{1}_{[\mu-\varepsilon,\
 \]</span></p>
 <p>The acceptance probability is therefore
 <span class="math display">\[
-p_\textrm{acc} = \min\left\{\frac{\exp\left\{-10\mu&#39; -\sum_{i=1}^{30}\frac{(y_i - \mu&#39;)^2}{\sigma^2}\right\} }{\exp\left\{-10\mu -\sum_{i=1}^{30}\frac{(y_i - \mu)^2}{\sigma^2}\right\} }, 1\right\}
+p_\textrm{acc} = \min\left\{\frac{\exp\left\{-10\mu&#39; -\sum_{i=1}^{30}\frac{(y_i - \mu&#39;)^2}{2\sigma^2}\right\} }{\exp\left\{-10\mu -\sum_{i=1}^{30}\frac{(y_i - \mu)^2}{2\sigma^2}\right\} }, 1\right\}
 \]</span></p>
 <p>We can implement a sampler in R as follows:</p>
 <div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="markov-chain-monte-carlo.html#cb109-1" tabindex="-1"></a><span class="co">#Set up elements for MCMC</span></span>
@@ -718,6 +718,7 @@ p_\textrm{acc} = \min\left\{\frac{\exp\left\{-10\mu&#39; -\sum_{i=1}^{30}\frac{(
 <p><img src="_main_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
 <div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="markov-chain-monte-carlo.html#cb111-1" tabindex="-1"></a><span class="fu">hist</span>(mu.store[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">300</span>)], <span class="at">xlab =</span> <span class="fu">expression</span>(mu), <span class="at">main =</span> <span class="st">&quot;Posterior distribution&quot;</span>)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-40-2.png" width="672" /></p>
+<p>Removing such a <em>burn-in period</em> from the generated to data to ensure that the chain has <em>mixed</em> sufficiently is common practice. The necessary length of the burn-in phase generally depends on how good the initialisation relative to the target distribution is, where an arbitrary choice such as some deterministic value is often referred to as a <em>cold start</em>, whereas more informed choices are called <em>warm starts</em>. See also our later discussion on MCMC diagnostics.</p>
 <p>The 95% credible interval for <span class="math inline">\(\mu\)</span> using this prior distribution is</p>
 <div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="markov-chain-monte-carlo.html#cb112-1" tabindex="-1"></a><span class="fu">quantile</span>(mu.store[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">300</span>)], <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</span></code></pre></div>
 <pre><code>##      2.5%     97.5% 
@@ -944,7 +945,7 @@ Otherwise reject <span class="math inline">\(\beta&#39;\)</span> and set <span c
 <p><span id="def:unlabeled-div-107" class="definition"><strong>Definition 5.12  </strong></span>The <strong>thinning parameter</strong> is the period of iterations of the Markov chain that are stored.</p>
 </div>
 <div class="example">
-<p><span id="exm:unlabeled-div-108" class="example"><strong>Example 5.10  </strong></span>In Example <a href="markov-chain-monte-carlo.html#exm:norm">5.6</a>, we saw a Markov chain that mixes well. We took the burn-in period to be 3,000 iterations, which was how long it took to for the chain to converge. Although the posterior distribution is invariant to the choice of the proposal distribution, it still has a large effect of the efficiency of the algorithm and how well the chain mixes. The ideal trace plot looks like white noise, or a hairy caterpillar.</p>
+<p><span id="exm:unlabeled-div-108" class="example"><strong>Example 5.10  </strong></span>In Example <a href="markov-chain-monte-carlo.html#exm:norm">5.6</a>, we saw a Markov chain that mixes well. We took the burn-in period to be 300 iterations, which was how long it took to for the chain to converge (visually). Although the posterior distribution is invariant to the choice of the proposal distribution, it still has a large effect of the efficiency of the algorithm and how well the chain mixes. The ideal trace plot looks like white noise, or a hairy caterpillar.</p>
 <p>In a Metropolis–Hastings random walk algorithm, the proposal distribution often has a large impact on how well the Markov chain mixes. The variance, or step size, of the proposal distribution can be tuned to ensure the chain mixes well.</p>
 <p>The following two examples show poorly mixing Markov chains. The first is where the step size is too big and the chain frequently gets stuck for several hundred iterations.</p>
 <div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="markov-chain-monte-carlo.html#cb134-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>) <span class="co">#to reproduce</span></span>
