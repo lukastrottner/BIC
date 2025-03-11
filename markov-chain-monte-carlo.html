@@ -518,7 +518,7 @@ then <span class="math inline">\(\pi P = \pi\)</span>, i.e., <span class="math i
 p_{\textrm{acc}} = p_{\textrm{acc}}(\theta,\theta^\prime) = \min\left\{\frac{\pi(\theta&#39; \mid \boldsymbol{y})}{\pi(\theta \mid \boldsymbol{y})}\frac{q(\theta \mid \theta&#39;)}{q(\theta&#39; \mid \theta)}, 1\right\},
 \]</span>
 otherwise set <span class="math inline">\(\theta^{(i)} = \theta\)</span> (in the acceptance probability use the convention <span class="math inline">\(x/0 = +\infty\)</span> for any <span class="math inline">\(x\)</span>)</p></li>
-<li><p>Set <span class="math inline">\(i = i+1\)</span> and repeat steps 3 to 4 for <span class="math inline">\(i = 2, \ldots, n-1\)</span>.</p></li>
+<li><p>Repeat steps 3 to 4 for <span class="math inline">\(i = 2, \ldots, n\)</span>.</p></li>
 </ol>
 <p>This yields a Markov chain with transition kernel given by
 <span class="math display">\[P(\theta,d\theta^\prime) = p_{\textrm{acc}}(\theta,\theta^\prime) q(\theta^\prime \mid \theta)\, d\theta^\prime + \delta_{\theta}(d \theta^\prime) \int (1- p_{\mathrm{acc}}(\theta,z)) q(z \mid \theta) \, dz. \]</span>
@@ -583,11 +583,10 @@ Since the rhs is independent of <span class="math inline">\(\theta\)</span>, the
 This doesn’t have a closed form, so we need to use a Metropolis–Hastings algorithm to generate samples from this distribution. A suitable algorithm is</p>
 <ol style="list-style-type: decimal">
 <li>Decide on an starting value the Markov chain and denote it by <span class="math inline">\(\lambda^{(0)}\)</span>. Set <span class="math inline">\(i = 1\)</span>.</li>
-<li>Propose a new value for the parameter and denote it <span class="math inline">\(\lambda&#39;\)</span>. In this example, we are going to propose values using a random walk method where <span class="math inline">\(\lambda&#39; \sim N(\lambda^{(i-1)}, \sigma^2)\)</span>.</li>
+<li>Propose a new value for the parameter and denote it <span class="math inline">\(\lambda&#39;\)</span> given <span class="math inline">\(\lambda = \lambda^{(i-1)}\)</span>. In this example, we are going to propose values using a random walk method where <span class="math inline">\(\lambda&#39; \sim N(\lambda^{(i-1)}, \sigma^2)\)</span>.</li>
 <li>Accept <span class="math inline">\(\lambda&#39;\)</span> as the value <span class="math inline">\(\lambda^{(i)}\)</span> with probability <span class="math inline">\(p_{\textrm{acc}}\)</span>. Otherwise reject this value and set <span class="math inline">\(\lambda^{(i)} = \lambda^{(i-1)}\)</span>.<br />
 </li>
-<li>Set <span class="math inline">\(i = i + 1\)</span>.</li>
-<li>Repeat steps 2, 3, 4, for <span class="math inline">\(i = 2, \ldots, n-1\)</span>.</li>
+<li>Repeat steps 2 and 3 for <span class="math inline">\(i = 2, \ldots, n\)</span>.</li>
 </ol>
 <p>The value <span class="math inline">\(p_{\textrm{acc}}\)</span> is given by
 <span class="math display">\[
@@ -744,10 +743,10 @@ p_{acc} = \min \left\{1, \frac{\beta&#39;^{N + a - 1}e^{-b\beta&#39;}}{\prod y_i
 \]</span>
 The MCMC algorithm will be</p>
 <ol style="list-style-type: decimal">
-<li>Set an initial value <span class="math inline">\(\beta_0\)</span> and set <span class="math inline">\(i =0\)</span>.</li>
-<li>Propose a new value <span class="math inline">\(\beta&#39; \sim N(\beta_i, \sigma^2)\)</span></li>
-<li>Accept <span class="math inline">\(\beta&#39;\)</span> with probability <span class="math inline">\(p_{acc}\)</span> and set <span class="math inline">\(\beta_{i+1}= \beta&#39;\)</span>, otherwise reject and set <span class="math inline">\(\beta_{i+1}= \beta_i\)</span>.</li>
-<li>Repeat steps 2, 3, and 4 for <span class="math inline">\(i = 1, \ldots, n-1\)</span>.</li>
+<li>Set an initial value <span class="math inline">\(\beta^{(0)}\)</span> and set <span class="math inline">\(i =1\)</span>.</li>
+<li>Propose a new value <span class="math inline">\(\beta&#39; \sim N(\beta^{(i-1)}, \sigma^2)\)</span></li>
+<li>Accept <span class="math inline">\(\beta&#39;\)</span> with probability <span class="math inline">\(p_{acc}\)</span> and set <span class="math inline">\(\beta^{(i)} = \beta&#39;\)</span>, otherwise reject and set <span class="math inline">\(\beta^{(i)} = \beta^{(i-1)}\)</span>.</li>
+<li>Repeat steps 2, and 3 for <span class="math inline">\(i = 2, \ldots, n\)</span>.</li>
 </ol>
 <p>We fix <span class="math inline">\(b=0.01\)</span> and use the data</p>
 <pre><code>x &lt;- c(1.019844, 1.043574, 1.360953, 1.049228, 1.491926, 1.192943, 1.323738, 1.262572, 2.034768, 1.451654)</code></pre>
