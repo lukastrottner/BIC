@@ -597,56 +597,61 @@ p_{\textrm{acc}} = \min \left\{1, \, \frac{\lambda&#39;^{N + \alpha - 1} (1 - \l
 As we our proposal distribution is symmetric, <span class="math inline">\(q(\lambda \mid \lambda&#39;) = q(\lambda&#39; \mid \lambda)\)</span> and this term cancels.</p>
 <p>The code below shows this algorithm in action</p>
 <div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="markov-chain-monte-carlo.html#cb102-1" tabindex="-1"></a><span class="co"># Set Up MCMC Algorithm ---------------------------------------------------</span></span>
-<span id="cb102-2"><a href="markov-chain-monte-carlo.html#cb102-2" tabindex="-1"></a></span>
+<span id="cb102-2"><a href="markov-chain-monte-carlo.html#cb102-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>) <span class="co">#to reproduce</span></span>
 <span id="cb102-3"><a href="markov-chain-monte-carlo.html#cb102-3" tabindex="-1"></a>n.iter <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
 <span id="cb102-4"><a href="markov-chain-monte-carlo.html#cb102-4" tabindex="-1"></a>lambda.store <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n.iter) <span class="co">#Store value of Markov chain at end of every iteration</span></span>
 <span id="cb102-5"><a href="markov-chain-monte-carlo.html#cb102-5" tabindex="-1"></a></span>
-<span id="cb102-6"><a href="markov-chain-monte-carlo.html#cb102-6" tabindex="-1"></a><span class="co">#Initialise Prior Parameters and Data</span></span>
-<span id="cb102-7"><a href="markov-chain-monte-carlo.html#cb102-7" tabindex="-1"></a>lambda <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
-<span id="cb102-8"><a href="markov-chain-monte-carlo.html#cb102-8" tabindex="-1"></a>sum.y <span class="ot">&lt;-</span> <span class="fl">67.6</span></span>
-<span id="cb102-9"><a href="markov-chain-monte-carlo.html#cb102-9" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">20</span></span>
-<span id="cb102-10"><a href="markov-chain-monte-carlo.html#cb102-10" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb102-11"><a href="markov-chain-monte-carlo.html#cb102-11" tabindex="-1"></a>beta <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb102-12"><a href="markov-chain-monte-carlo.html#cb102-12" tabindex="-1"></a></span>
-<span id="cb102-13"><a href="markov-chain-monte-carlo.html#cb102-13" tabindex="-1"></a></span>
-<span id="cb102-14"><a href="markov-chain-monte-carlo.html#cb102-14" tabindex="-1"></a><span class="co"># Run MCMC Algorithm ------------------------------------------------------</span></span>
-<span id="cb102-15"><a href="markov-chain-monte-carlo.html#cb102-15" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n.iter){</span>
-<span id="cb102-16"><a href="markov-chain-monte-carlo.html#cb102-16" tabindex="-1"></a>  </span>
-<span id="cb102-17"><a href="markov-chain-monte-carlo.html#cb102-17" tabindex="-1"></a>  <span class="co">#Propose new value of lambda</span></span>
-<span id="cb102-18"><a href="markov-chain-monte-carlo.html#cb102-18" tabindex="-1"></a>  lambda.prop <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, lambda, <span class="fl">0.1</span>)</span>
-<span id="cb102-19"><a href="markov-chain-monte-carlo.html#cb102-19" tabindex="-1"></a>  </span>
-<span id="cb102-20"><a href="markov-chain-monte-carlo.html#cb102-20" tabindex="-1"></a>  <span class="co">#Check lambda \in [0, 1]</span></span>
-<span id="cb102-21"><a href="markov-chain-monte-carlo.html#cb102-21" tabindex="-1"></a>  <span class="cf">if</span>(lambda.prop <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> lambda.prop <span class="sc">&lt;</span> <span class="dv">1</span>){</span>
-<span id="cb102-22"><a href="markov-chain-monte-carlo.html#cb102-22" tabindex="-1"></a>    </span>
-<span id="cb102-23"><a href="markov-chain-monte-carlo.html#cb102-23" tabindex="-1"></a>    <span class="co">#Compute p_acc</span></span>
-<span id="cb102-24"><a href="markov-chain-monte-carlo.html#cb102-24" tabindex="-1"></a>    log.p.acc <span class="ot">&lt;-</span> (N <span class="sc">+</span> alpha <span class="sc">-</span> <span class="dv">1</span>)<span class="sc">*</span><span class="fu">log</span>(lambda.prop<span class="sc">/</span>lambda) <span class="sc">+</span> </span>
-<span id="cb102-25"><a href="markov-chain-monte-carlo.html#cb102-25" tabindex="-1"></a>      (beta <span class="sc">-</span> <span class="dv">1</span>)<span class="sc">*</span><span class="fu">log</span>((<span class="dv">1</span><span class="sc">-</span>lambda.prop)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>lambda)) <span class="sc">+</span></span>
-<span id="cb102-26"><a href="markov-chain-monte-carlo.html#cb102-26" tabindex="-1"></a>      (lambda <span class="sc">-</span> lambda.prop)<span class="sc">*</span>sum.y</span>
+<span id="cb102-6"><a href="markov-chain-monte-carlo.html#cb102-6" tabindex="-1"></a><span class="co">#set true parameter to generate data</span></span>
+<span id="cb102-7"><a href="markov-chain-monte-carlo.html#cb102-7" tabindex="-1"></a>lambda_true <span class="ot">&lt;-</span> <span class="fl">0.3</span></span>
+<span id="cb102-8"><a href="markov-chain-monte-carlo.html#cb102-8" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb102-9"><a href="markov-chain-monte-carlo.html#cb102-9" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rexp</span>(N,lambda_true)</span>
+<span id="cb102-10"><a href="markov-chain-monte-carlo.html#cb102-10" tabindex="-1"></a></span>
+<span id="cb102-11"><a href="markov-chain-monte-carlo.html#cb102-11" tabindex="-1"></a><span class="co">#Initialise Prior Parameters and Data</span></span>
+<span id="cb102-12"><a href="markov-chain-monte-carlo.html#cb102-12" tabindex="-1"></a>lambda <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
+<span id="cb102-13"><a href="markov-chain-monte-carlo.html#cb102-13" tabindex="-1"></a><span class="co">#sum.y &lt;- 67.6</span></span>
+<span id="cb102-14"><a href="markov-chain-monte-carlo.html#cb102-14" tabindex="-1"></a>sum.y <span class="ot">&lt;-</span> <span class="fu">sum</span>(y)</span>
+<span id="cb102-15"><a href="markov-chain-monte-carlo.html#cb102-15" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb102-16"><a href="markov-chain-monte-carlo.html#cb102-16" tabindex="-1"></a>beta <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb102-17"><a href="markov-chain-monte-carlo.html#cb102-17" tabindex="-1"></a></span>
+<span id="cb102-18"><a href="markov-chain-monte-carlo.html#cb102-18" tabindex="-1"></a></span>
+<span id="cb102-19"><a href="markov-chain-monte-carlo.html#cb102-19" tabindex="-1"></a><span class="co"># Run MCMC Algorithm ------------------------------------------------------</span></span>
+<span id="cb102-20"><a href="markov-chain-monte-carlo.html#cb102-20" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n.iter){</span>
+<span id="cb102-21"><a href="markov-chain-monte-carlo.html#cb102-21" tabindex="-1"></a>  </span>
+<span id="cb102-22"><a href="markov-chain-monte-carlo.html#cb102-22" tabindex="-1"></a>  <span class="co">#Propose new value of lambda</span></span>
+<span id="cb102-23"><a href="markov-chain-monte-carlo.html#cb102-23" tabindex="-1"></a>  lambda.prop <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, lambda, <span class="fl">0.1</span>)</span>
+<span id="cb102-24"><a href="markov-chain-monte-carlo.html#cb102-24" tabindex="-1"></a>  </span>
+<span id="cb102-25"><a href="markov-chain-monte-carlo.html#cb102-25" tabindex="-1"></a>  <span class="co">#Check lambda \in [0, 1]</span></span>
+<span id="cb102-26"><a href="markov-chain-monte-carlo.html#cb102-26" tabindex="-1"></a>  <span class="cf">if</span>(lambda.prop <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> lambda.prop <span class="sc">&lt;</span> <span class="dv">1</span>){</span>
 <span id="cb102-27"><a href="markov-chain-monte-carlo.html#cb102-27" tabindex="-1"></a>    </span>
-<span id="cb102-28"><a href="markov-chain-monte-carlo.html#cb102-28" tabindex="-1"></a>    <span class="co">#Accept/Reject step</span></span>
-<span id="cb102-29"><a href="markov-chain-monte-carlo.html#cb102-29" tabindex="-1"></a>    <span class="cf">if</span>(<span class="fu">log</span>(<span class="fu">runif</span>(<span class="dv">1</span>)) <span class="sc">&lt;</span> log.p.acc)</span>
-<span id="cb102-30"><a href="markov-chain-monte-carlo.html#cb102-30" tabindex="-1"></a>      lambda <span class="ot">&lt;-</span> lambda.prop</span>
-<span id="cb102-31"><a href="markov-chain-monte-carlo.html#cb102-31" tabindex="-1"></a>    </span>
-<span id="cb102-32"><a href="markov-chain-monte-carlo.html#cb102-32" tabindex="-1"></a>  }</span>
-<span id="cb102-33"><a href="markov-chain-monte-carlo.html#cb102-33" tabindex="-1"></a>  </span>
-<span id="cb102-34"><a href="markov-chain-monte-carlo.html#cb102-34" tabindex="-1"></a>  <span class="co">#Store current value of Markov Chain</span></span>
-<span id="cb102-35"><a href="markov-chain-monte-carlo.html#cb102-35" tabindex="-1"></a>  lambda.store[i] <span class="ot">&lt;-</span> lambda</span>
-<span id="cb102-36"><a href="markov-chain-monte-carlo.html#cb102-36" tabindex="-1"></a>  </span>
-<span id="cb102-37"><a href="markov-chain-monte-carlo.html#cb102-37" tabindex="-1"></a>}</span>
-<span id="cb102-38"><a href="markov-chain-monte-carlo.html#cb102-38" tabindex="-1"></a></span>
-<span id="cb102-39"><a href="markov-chain-monte-carlo.html#cb102-39" tabindex="-1"></a><span class="co">#Plot trace plot (Markov chain values)</span></span>
-<span id="cb102-40"><a href="markov-chain-monte-carlo.html#cb102-40" tabindex="-1"></a><span class="fu">plot</span>(lambda.store, <span class="at">type =</span> <span class="st">&#39;l&#39;</span>, <span class="at">xlab =</span> <span class="st">&quot;iteration&quot;</span>, <span class="at">ylab =</span> <span class="fu">expression</span>(lambda))</span>
-<span id="cb102-41"><a href="markov-chain-monte-carlo.html#cb102-41" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="fl">0.3</span>, <span class="at">col =</span> <span class="dv">2</span>) <span class="co">#the value I used to simulate the data</span></span></code></pre></div>
+<span id="cb102-28"><a href="markov-chain-monte-carlo.html#cb102-28" tabindex="-1"></a>    <span class="co">#Compute p_acc</span></span>
+<span id="cb102-29"><a href="markov-chain-monte-carlo.html#cb102-29" tabindex="-1"></a>    log.p.acc <span class="ot">&lt;-</span> (N <span class="sc">+</span> alpha <span class="sc">-</span> <span class="dv">1</span>)<span class="sc">*</span><span class="fu">log</span>(lambda.prop<span class="sc">/</span>lambda) <span class="sc">+</span> </span>
+<span id="cb102-30"><a href="markov-chain-monte-carlo.html#cb102-30" tabindex="-1"></a>      (beta <span class="sc">-</span> <span class="dv">1</span>)<span class="sc">*</span><span class="fu">log</span>((<span class="dv">1</span><span class="sc">-</span>lambda.prop)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>lambda)) <span class="sc">+</span></span>
+<span id="cb102-31"><a href="markov-chain-monte-carlo.html#cb102-31" tabindex="-1"></a>      (lambda <span class="sc">-</span> lambda.prop)<span class="sc">*</span>sum.y</span>
+<span id="cb102-32"><a href="markov-chain-monte-carlo.html#cb102-32" tabindex="-1"></a>    </span>
+<span id="cb102-33"><a href="markov-chain-monte-carlo.html#cb102-33" tabindex="-1"></a>    <span class="co">#Accept/Reject step</span></span>
+<span id="cb102-34"><a href="markov-chain-monte-carlo.html#cb102-34" tabindex="-1"></a>    <span class="cf">if</span>(<span class="fu">log</span>(<span class="fu">runif</span>(<span class="dv">1</span>)) <span class="sc">&lt;</span> log.p.acc)</span>
+<span id="cb102-35"><a href="markov-chain-monte-carlo.html#cb102-35" tabindex="-1"></a>      lambda <span class="ot">&lt;-</span> lambda.prop</span>
+<span id="cb102-36"><a href="markov-chain-monte-carlo.html#cb102-36" tabindex="-1"></a>    </span>
+<span id="cb102-37"><a href="markov-chain-monte-carlo.html#cb102-37" tabindex="-1"></a>  }</span>
+<span id="cb102-38"><a href="markov-chain-monte-carlo.html#cb102-38" tabindex="-1"></a>  </span>
+<span id="cb102-39"><a href="markov-chain-monte-carlo.html#cb102-39" tabindex="-1"></a>  <span class="co">#Store current value of Markov Chain</span></span>
+<span id="cb102-40"><a href="markov-chain-monte-carlo.html#cb102-40" tabindex="-1"></a>  lambda.store[i] <span class="ot">&lt;-</span> lambda</span>
+<span id="cb102-41"><a href="markov-chain-monte-carlo.html#cb102-41" tabindex="-1"></a>  </span>
+<span id="cb102-42"><a href="markov-chain-monte-carlo.html#cb102-42" tabindex="-1"></a>}</span>
+<span id="cb102-43"><a href="markov-chain-monte-carlo.html#cb102-43" tabindex="-1"></a></span>
+<span id="cb102-44"><a href="markov-chain-monte-carlo.html#cb102-44" tabindex="-1"></a><span class="co">#Plot trace plot (Markov chain values)</span></span>
+<span id="cb102-45"><a href="markov-chain-monte-carlo.html#cb102-45" tabindex="-1"></a><span class="fu">plot</span>(lambda.store, <span class="at">type =</span> <span class="st">&#39;l&#39;</span>, <span class="at">xlab =</span> <span class="st">&quot;iteration&quot;</span>, <span class="at">ylab =</span> <span class="fu">expression</span>(lambda))</span>
+<span id="cb102-46"><a href="markov-chain-monte-carlo.html#cb102-46" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="fl">0.3</span>, <span class="at">col =</span> <span class="dv">2</span>) <span class="co">#the value I used to simulate the data</span></span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
 <div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="markov-chain-monte-carlo.html#cb103-1" tabindex="-1"></a><span class="co">#Plot posterior density</span></span>
 <span id="cb103-2"><a href="markov-chain-monte-carlo.html#cb103-2" tabindex="-1"></a><span class="fu">hist</span>(lambda.store, <span class="at">prob =</span> <span class="cn">TRUE</span>, <span class="at">xlab =</span> <span class="fu">expression</span>(lambda), <span class="at">main =</span> <span class="st">&quot;Posterior density&quot;</span>)</span>
 <span id="cb103-3"><a href="markov-chain-monte-carlo.html#cb103-3" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fl">0.3</span>, <span class="at">col =</span> <span class="dv">2</span>) <span class="co">#the value I used to simulate the data</span></span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-37-2.png" width="672" /></p>
 <div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="markov-chain-monte-carlo.html#cb104-1" tabindex="-1"></a><span class="fu">mean</span>(lambda.store) <span class="co">#posterior mean</span></span></code></pre></div>
-<pre><code>## [1] 0.3086762</code></pre>
+<pre><code>## [1] 0.2910766</code></pre>
 <div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="markov-chain-monte-carlo.html#cb106-1" tabindex="-1"></a><span class="fu">quantile</span>(lambda.store, <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>)) <span class="co">#95% CI</span></span></code></pre></div>
 <pre><code>##      2.5%     97.5% 
-## 0.1933055 0.4555422</code></pre>
+## 0.2382025 0.3476024</code></pre>
 </div>
 <div class="example">
 <p><span id="exm:norm" class="example"><strong>Example 5.6  </strong></span>The time until lorry drivers react (in milliseconds) to an obstacle in the road is</p>
