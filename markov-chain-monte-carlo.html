@@ -596,7 +596,7 @@ This doesn’t have a closed form, so we need to use a Metropolis–Hastings alg
 p_{\textrm{acc}} = \min \left\{1, \, \frac{\lambda&#39;^{N + \alpha - 1} (1 - \lambda&#39;)^{\beta - 1}\exp\left(-\lambda&#39; \sum y_i\right)}{\lambda^{N + \alpha - 1} (1 - \lambda)^{\beta - 1}\exp\left(-\lambda \sum y_i\right)}\right\} \\
 = \min \left\{1, \, \left(\frac{\lambda&#39;}{\lambda}\right)^{N + \alpha - 1} \left(\frac{1-\lambda&#39;}{1-\lambda}\right)^{\beta -1} \exp\left((\lambda- \lambda&#39;)\sum y_i\right)\right\}
 \]</span>
-As we our proposal distribution is symmetric, <span class="math inline">\(q(\lambda \mid \lambda&#39;) = q(\lambda&#39; \mid \lambda)\)</span> and this term cancels.</p>
+for <span class="math inline">\(\lambda^\prime &gt; 0\)</span> and <span class="math inline">\(0\)</span> otherwise. As our proposal distribution is symmetric, <span class="math inline">\(q(\lambda \mid \lambda&#39;) = q(\lambda&#39; \mid \lambda)\)</span> and this term cancels.</p>
 <p>The code below shows this algorithm in action</p>
 <div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="markov-chain-monte-carlo.html#cb102-1" tabindex="-1"></a><span class="co"># Set Up MCMC Algorithm ---------------------------------------------------</span></span>
 <span id="cb102-2"><a href="markov-chain-monte-carlo.html#cb102-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>) <span class="co">#to reproduce</span></span>
@@ -676,9 +676,9 @@ q(\mu&#39; \mid \mu) = \frac{1}{2\varepsilon} \boldsymbol{1}_{[\mu-\varepsilon,\
 \]</span></p>
 <p>The acceptance probability is therefore
 <span class="math display">\[
-p_\textrm{acc} = \min\left\{\frac{\exp\left\{-10\mu&#39; -\sum_{i=1}^{30}\frac{(y_i - \mu&#39;)^2}{2\sigma^2}\right\} }{\exp\left\{-10\mu -\sum_{i=1}^{30}\frac{(y_i - \mu)^2}{2\sigma^2}\right\} }, 1\right\}
-\]</span></p>
-<p>We can implement a sampler in R as follows:</p>
+p_\textrm{acc} = \min\left\{\frac{\exp\left\{-10\mu&#39; -\sum_{i=1}^{30}\frac{(y_i - \mu&#39;)^2}{2\sigma^2}\right\} }{\exp\left\{-10\mu -\sum_{i=1}^{30}\frac{(y_i - \mu)^2}{2\sigma^2}\right\} }, 1\right\}.
+\]</span>
+We can implement a sampler in as follows:</p>
 <div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="markov-chain-monte-carlo.html#cb109-1" tabindex="-1"></a><span class="co">#Set up elements for MCMC</span></span>
 <span id="cb109-2"><a href="markov-chain-monte-carlo.html#cb109-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>) <span class="co">#to reproduce</span></span>
 <span id="cb109-3"><a href="markov-chain-monte-carlo.html#cb109-3" tabindex="-1"></a>n.iter   <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
@@ -732,11 +732,11 @@ p_\textrm{acc} = \min\left\{\frac{\exp\left\{-10\mu&#39; -\sum_{i=1}^{30}\frac{(
 <p>:::{.example}
 In Lab 3.9, we computed the MAP estimate for a parameter from the Pareto distribution. The density function of this distribution is
 <span class="math display">\[
-\pi(x \mid \beta) = \frac{\beta}{x^{\beta + 1}}, \quad x &gt; 1.
+\pi(x \mid \beta) = \frac{\beta}{x^{\beta + 1}}\mathbf{1}_{(1,\infty)}(x), \quad x \in \mathbb{R}.
 \]</span>
 Placing a Gamma prior distribution on <span class="math inline">\(\beta\)</span> such that <span class="math inline">\(\beta \sim \Gamma(a, b)\)</span>. The posterior distribution given the data <span class="math inline">\(\boldsymbol{y} = \{y_1, \ldots, y_N\}\)</span> is
 <span class="math display">\[
-\pi(\beta \mid \boldsymbol{y}) \propto \frac{\beta^{N + a - 1}e^{-b\beta}}{\prod y_i^{\beta + 1}}.
+\pi(\beta \mid \boldsymbol{y}) \propto \frac{\beta^{N + a - 1}e^{-b\beta}}{\prod y_i^{\beta + 1}} \mathbf{1}_{(0,\infty)}(\beta).
 \]</span>
 We can’t sample from this directly, so wee need to use a Metropolis–Hastings algorithm to generate samples from the posterior distribution. We will use a normal proposal distribution.</p>
 <p>The acceptance probability is
@@ -744,7 +744,7 @@ We can’t sample from this directly, so wee need to use a Metropolis–Hastings
 p_{acc} = \min \left\{1, \frac{\beta&#39;^{N + a - 1}e^{-b\beta&#39;}}{\prod y_i^{\beta&#39; + 1}}\frac{\prod y_i^{\beta + 1}}{\beta^{N + a - 1}e^{-b\beta}} \right\} \\
 = \min \left\{1, \left(\frac{\beta&#39;}{\beta}\right)^{N + a - 1}{\prod y_i^{\beta - \beta&#39;}}\exp((\beta - \beta&#39;)b) \right\}.
 \]</span>
-The MCMC algorithm will be</p>
+for <span class="math inline">\(\beta^\prime &gt; 0\)</span> and <span class="math inline">\(0\)</span> otherwise. The MCMC algorithm will be</p>
 <ol style="list-style-type: decimal">
 <li>Set an initial value <span class="math inline">\(\beta^{(0)}\)</span> and set <span class="math inline">\(i =1\)</span>.</li>
 <li>Propose a new value <span class="math inline">\(\beta&#39; \sim N(\beta^{(i-1)}, \sigma^2)\)</span></li>
