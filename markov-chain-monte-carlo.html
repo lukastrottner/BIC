@@ -596,7 +596,7 @@ This doesn’t have a closed form, so we need to use a Metropolis–Hastings alg
 p_{\textrm{acc}} = \min \left\{1, \, \frac{\lambda&#39;^{N + \alpha - 1} (1 - \lambda&#39;)^{\beta - 1}\exp\left(-\lambda&#39; \sum y_i\right)}{\lambda^{N + \alpha - 1} (1 - \lambda)^{\beta - 1}\exp\left(-\lambda \sum y_i\right)}\right\} \\
 = \min \left\{1, \, \left(\frac{\lambda&#39;}{\lambda}\right)^{N + \alpha - 1} \left(\frac{1-\lambda&#39;}{1-\lambda}\right)^{\beta -1} \exp\left((\lambda- \lambda&#39;)\sum y_i\right)\right\}
 \]</span>
-for <span class="math inline">\(\lambda^\prime &gt; 0\)</span> and <span class="math inline">\(0\)</span> otherwise. As our proposal distribution is symmetric, <span class="math inline">\(q(\lambda \mid \lambda&#39;) = q(\lambda&#39; \mid \lambda)\)</span> and this term cancels.</p>
+for <span class="math inline">\(\lambda^\prime \in (0,1)\)</span> and <span class="math inline">\(0\)</span> otherwise. As our proposal distribution is symmetric, <span class="math inline">\(q(\lambda \mid \lambda&#39;) = q(\lambda&#39; \mid \lambda)\)</span> and this term cancels.</p>
 <p>The code below shows this algorithm in action</p>
 <div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="markov-chain-monte-carlo.html#cb102-1" tabindex="-1"></a><span class="co"># Set Up MCMC Algorithm ---------------------------------------------------</span></span>
 <span id="cb102-2"><a href="markov-chain-monte-carlo.html#cb102-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>) <span class="co">#to reproduce</span></span>
