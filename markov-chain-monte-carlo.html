@@ -1059,7 +1059,7 @@ For large <span class="math inline">\(N\)</span>, even when <span class="math in
 <p>Use a normal prior distribution with mean 0.5 and variance <span class="math inline">\(0.1^2\)</span>. Write a Metropolis–Hastings Random Walk algorithm to obtain samples from the posterior distribution (you can use R’s built in function for the likelihood function and prior distribution, but if you don’t take logs you will run into small number errors).</p>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-113" class="exercise"><strong>Exercise 5.3  </strong></span>In a medical trial, to investigate the proportion <span class="math inline">\(p\)</span> of the population who have a particular disease a random sample of 20 individuals is taken. Ten of these are subject to a diagnostic test (Test A) which detects the disease when it is present with 100% certainty. The remaining 10 are given a test (test B) which only detects the disease with probability 0.8 when it is present. Neither test can give a false positive result. before collecting the data your prior belief about <span class="math inline">\(p\)</span> is represented by a U(0,1) distribution. Suppose that, for Test A, 5 out of 10 test positive while for test B, 3 out of 10 test positive. Use an MCMC algorithm to investigate the posterior density of <span class="math inline">\(p\)</span> and estimate its posterior mean and variance.</p>
+<p><span id="exr:unlabeled-div-113" class="exercise"><strong>Exercise 5.3  </strong></span>In a medical trial, to investigate the proportion <span class="math inline">\(p\)</span> of the population who have a particular disease, a random sample of 20 individuals is taken. Ten of these are subject to a diagnostic test (Test A), which detects the disease when it is present with 100% certainty. The remaining 10 are given a test (test B) which only detects the disease with probability 0.8 when it is present. Neither test can give a false positive result. before collecting the data your prior belief about <span class="math inline">\(p\)</span> is represented by a U(0,1) distribution. Suppose that, for Test A, 5 out of 10 test positive while for test B, 3 out of 10 test positive. Use an MCMC algorithm to investigate the posterior density of <span class="math inline">\(p\)</span> and estimate its posterior mean and variance.</p>
 </div>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-114" class="exercise"><strong>Exercise 5.4  </strong></span>Code up an MCMC algorithm for Example 3.5 using Gibbs samplers.</p>
@@ -1067,10 +1067,10 @@ For large <span class="math inline">\(N\)</span>, even when <span class="math in
 <div class="exercise">
 <p><span id="exr:unlabeled-div-115" class="exercise"><strong>Exercise 5.5  </strong></span>The density function for the inverse-gamma distribution is
 <span class="math display">\[
-\pi(x\mid \alpha, \beta) = \frac{\beta^\alpha}{\Gamma(\alpha)}x^{\alpha - 1}e^{-\beta/x}
+\pi(x\mid \alpha, \beta) = \frac{\beta^\alpha}{\Gamma(\alpha)}(1/x)^{\alpha + 1}e^{-\beta/x }\mathbf{1}_{(0,\infty)}(x), \quad x \in \mathbb{R}.
 \]</span>
-Using independent Gamma prior distributions on the model parameters, <span class="math inline">\(\alpha \sim \Gamma(a, b)\)</span> and <span class="math inline">\(\beta \sim Gamma(c, d)\)</span>, write down the posterior distribution for the model parameters. Only one will have a closed form.</p>
-<p>Develop a code an MCMC algorithm to sample from the posterior distribution by alternating between sampling <span class="math inline">\(\alpha\)</span> and then <span class="math inline">\(\beta\)</span>.</p>
+Using independent Gamma prior distributions on the model parameters, <span class="math inline">\(\alpha \sim \Gamma(a, b)\)</span> and <span class="math inline">\(\beta \sim \Gamma(c, d)\)</span>, write down the posterior distribution for the model parameters. Only one will have a closed form.</p>
+<p>Develop a code for an MCMC algorithm to sample from the posterior distribution by alternating between sampling <span class="math inline">\(\alpha\)</span> and then <span class="math inline">\(\beta\)</span>.</p>
 <p>Simulate some data from the inverse-gamma distribution and see if you can recover the parameters used to simulate the data. Is there any correlation between the samples for <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>.</p>
 </div>
 
