@@ -930,7 +930,7 @@ The posterior distribution is therefore
 p_{\textrm{acc}} = \min\left\{\frac{\pi(\beta&#39;\mid \theta^{(i-1)},  \boldsymbol{y})}{\pi(\beta^{(i-1)} \mid \theta^{(i-1)},\boldsymbol{y})} , 1\right\}
 \]</span>
 Otherwise reject <span class="math inline">\(\beta&#39;\)</span> and set <span class="math inline">\(\beta^{(i)} = \beta^{(i-1)}\)</span>.</li>
-<li>Sample <span class="math inline">\(\theta^{(i)} \sim \hbox{inv}-\Gamma(N + a,\, b + \sum y_i^{\beta^{(i)}})\)</span>.</li>
+<li>Sample <span class="math inline">\(\theta^{(i)} \sim \hbox{inv}-\Gamma(N + a,\, b + \sum y_j^{\beta^{(i)}})\)</span>.</li>
 <li>Repeat steps 2-4 for <span class="math inline">\(i=2,\ldots,n\)</span>.</li>
 </ol>
 <p>Note that by symmetry of the proposal distribution $q(^) U[-,+], the acceptance probability in the MH-step does not depend on the proposal but only on the full conditional posterior.</p>
@@ -961,10 +961,11 @@ i.e., at most a logarithmic dependence of the mixing time on <span class="math i
 </div>
 <p>The burn-in period of a Markov chain simulated with some MCMC algorithm should therefore ideally be informed by its mixing time. The practical effect is the following: a natural estimator of the posterior expectation <span class="math inline">\(\pi(f \mid \boldsymbol{y}) := \int f(\theta) \, d\pi(\theta \mid \boldsymbol{y})\)</span> (e.g., for <span class="math inline">\(f = \mathbf{1}_A\)</span> this corresponds to the posterior probability <span class="math inline">\(\pi(A \mid \boldsymbol{y})\)</span> or for <span class="math inline">\(f(z) = z\)</span> this gives the posterior expectation) is given by the empirical mean
 <span class="math display">\[ \frac{1}{n - m} \sum_{i= 0}^{n-m -1} f(Y_{i+m}).\]</span>
-If the Markov chain mixes sufficiently fast, then we have a Law of Large Numbers – in this context referred to as the <strong><em>ergodic theorem</em></strong> – which guarantees that for any burn-in <span class="math inline">\(m\)</span>, almost surely
+If the Markov chain is ergodic, then we have a Law of Large Numbers – in this context referred to as the <strong><em>ergodic theorem</em></strong> – which guarantees that for any burn-in <span class="math inline">\(m\)</span>, almost surely
 <span class="math display">\[\lim_{n \to \infty} \frac{1}{n - m} \sum_{i= 0}^{n-m -1} f(Y_{i+m}) = \pi(f \mid \boldsymbol{y}), \]</span>
-provided the expectation is finite. However, the finite sample performance for a smart choice of <span class="math inline">\(m\)</span> might be significantly better, e.g. when considering the concentration probability
-<span class="math display">\[\mathbb{P}\Big(\Big \lvert \frac{1}{n - m} \sum_{i= 0}^{n-m -1} f(Y_{i+m}) - \pi(f \mid \boldsymbol{y}) \Big\rvert \geq \varepsilon\Big). \]</span></p>
+provided the expectation on the rhs is well-defined and finite. However, the finite sample performance for a smart choice of <span class="math inline">\(m\)</span> might be significantly better, e.g. when considering the concentration probability
+<span class="math display">\[\mathbb{P}\Big(\Big \lvert \frac{1}{n - m} \sum_{i= 0}^{n-m -1} f(Y_{i+m}) - \pi(f \mid \boldsymbol{y}) \Big\rvert \geq \varepsilon\Big). \]</span>
+Getting useful bounds for these types of probabilities, i.e. good concentration inequalities, is strongly related to the ergodic properties of the Markov chain (how fast does the chain converge/how fast does it mix?).</p>
 <div class="definition">
 <p><span id="def:unlabeled-div-110" class="definition"><strong>Definition 5.13  </strong></span>The <strong>thinning parameter</strong> is the period of iterations of the Markov chain that are stored.</p>
 </div>
