@@ -122,29 +122,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 </style>
-<style type="text/css">
-/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-  margin-bottom: 0em;
-}
-.hanging div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}
-</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -221,6 +198,9 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="5.1" data-path="markov-chain-monte-carlo.html"><a href="markov-chain-monte-carlo.html#properties-of-markov-chains"><i class="fa fa-check"></i><b>5.1</b> Properties of Markov Chains</a></li>
 <li class="chapter" data-level="5.2" data-path="markov-chain-monte-carlo.html"><a href="markov-chain-monte-carlo.html#metropolishastings"><i class="fa fa-check"></i><b>5.2</b> Metropolis–Hastings</a></li>
+<li class="chapter" data-level="5.3" data-path="markov-chain-monte-carlo.html"><a href="markov-chain-monte-carlo.html#gibbs-sampler"><i class="fa fa-check"></i><b>5.3</b> Gibbs Sampler</a></li>
+<li class="chapter" data-level="5.4" data-path="markov-chain-monte-carlo.html"><a href="markov-chain-monte-carlo.html#metropolis-within-gibbs"><i class="fa fa-check"></i><b>5.4</b> Metropolis-within-Gibbs</a></li>
+<li class="chapter" data-level="5.5" data-path="markov-chain-monte-carlo.html"><a href="markov-chain-monte-carlo.html#mcmc-diagnostics"><i class="fa fa-check"></i><b>5.5</b> MCMC Diagnostics</a></li>
 <li class="chapter" data-level="5.6" data-path="markov-chain-monte-carlo.html"><a href="markov-chain-monte-carlo.html#beyond-mcmc"><i class="fa fa-check"></i><b>5.6</b> Beyond MCMC</a></li>
 <li class="chapter" data-level="5.7" data-path="markov-chain-monte-carlo.html"><a href="markov-chain-monte-carlo.html#lab-2"><i class="fa fa-check"></i><b>5.7</b> Lab</a></li>
 </ul></li>
@@ -276,50 +256,50 @@ div.csl-indent {
 <h2><span class="header-section-number">6.1</span> Gaussian Processes<a href="advanced-computation.html#gaussian-processes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>So far in the module, we have considered prior distribution on parameters. These parameters have taken values (mostly real) or real-valued vectors. In this section, we’re going to extend this idea further to place prior distributions on functions. That is, we’re going to describe a prior distribution that when sampled gives us functions. The method we’re going to use is called a Gaussian Process (GP).</p>
 <p>Before, we define a GP, we’re going to build an intuitive definition of it. Recall the normal distribution with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>, <span class="math inline">\(N(\mu, \sigma^2)\)</span>. It assigns probabilities to values on the real line – when we sample from it, we get real values. The plot below shows the density function for a <span class="math inline">\(N(0, 1)\)</span> distribution and five samples.</p>
-<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="advanced-computation.html#cb137-1" tabindex="-1"></a><span class="co">#Plot N(0, 1)</span></span>
-<span id="cb137-2"><a href="advanced-computation.html#cb137-2" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="fl">0.01</span>)</span>
-<span id="cb137-3"><a href="advanced-computation.html#cb137-3" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(x)</span>
-<span id="cb137-4"><a href="advanced-computation.html#cb137-4" tabindex="-1"></a><span class="fu">plot</span>(x, y, <span class="at">type =</span> <span class="st">&#39;l&#39;</span>)</span>
-<span id="cb137-5"><a href="advanced-computation.html#cb137-5" tabindex="-1"></a></span>
-<span id="cb137-6"><a href="advanced-computation.html#cb137-6" tabindex="-1"></a><span class="co">#Add samples</span></span>
-<span id="cb137-7"><a href="advanced-computation.html#cb137-7" tabindex="-1"></a>samples <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">5</span>)</span>
-<span id="cb137-8"><a href="advanced-computation.html#cb137-8" tabindex="-1"></a><span class="fu">rug</span>(samples)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-46-1.png" width="672" /></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="advanced-computation.html#cb1-1" tabindex="-1"></a><span class="co">#Plot N(0, 1)</span></span>
+<span id="cb1-2"><a href="advanced-computation.html#cb1-2" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="fl">0.01</span>)</span>
+<span id="cb1-3"><a href="advanced-computation.html#cb1-3" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(x)</span>
+<span id="cb1-4"><a href="advanced-computation.html#cb1-4" tabindex="-1"></a><span class="fu">plot</span>(x, y, <span class="at">type =</span> <span class="st">&#39;l&#39;</span>)</span>
+<span id="cb1-5"><a href="advanced-computation.html#cb1-5" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="advanced-computation.html#cb1-6" tabindex="-1"></a><span class="co">#Add samples</span></span>
+<span id="cb1-7"><a href="advanced-computation.html#cb1-7" tabindex="-1"></a>samples <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">5</span>)</span>
+<span id="cb1-8"><a href="advanced-computation.html#cb1-8" tabindex="-1"></a><span class="fu">rug</span>(samples)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
 <p>The multivariate normal distribution extends this to the vector space <span class="math inline">\(\mathbb{R}^N\)</span>. Instead of having a mean and variance value, the distribution is defined through a mean vector and covariance matrix. The mean vector describes the expected value of each component of the vector and the covariance matrix describes the relationship between each pair of components in the vector. When we draw samples, we get vectors. The plot below shows the density of the multivariate normal distribution with <span class="math inline">\(N = 2\)</span>, zero mean, <span class="math inline">\(\sigma^2_x = \sigma^2_y = 1\)</span> and <span class="math inline">\(\rho = 0.7\)</span>.</p>
-<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="advanced-computation.html#cb138-1" tabindex="-1"></a><span class="co">#Create Grid</span></span>
-<span id="cb138-2"><a href="advanced-computation.html#cb138-2" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="dv">3</span>,<span class="at">length.out=</span><span class="dv">100</span>)</span>
-<span id="cb138-3"><a href="advanced-computation.html#cb138-3" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="dv">3</span>,<span class="at">length.out=</span><span class="dv">100</span>)</span>
-<span id="cb138-4"><a href="advanced-computation.html#cb138-4" tabindex="-1"></a></span>
-<span id="cb138-5"><a href="advanced-computation.html#cb138-5" tabindex="-1"></a><span class="co">#Evaluate density at grid</span></span>
-<span id="cb138-6"><a href="advanced-computation.html#cb138-6" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>,<span class="at">nrow=</span><span class="dv">100</span>,<span class="at">ncol=</span><span class="dv">100</span>)</span>
-<span id="cb138-7"><a href="advanced-computation.html#cb138-7" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)</span>
-<span id="cb138-8"><a href="advanced-computation.html#cb138-8" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.7</span>, <span class="fl">0.7</span>, <span class="dv">1</span>),<span class="at">nrow=</span><span class="dv">2</span>)</span>
-<span id="cb138-9"><a href="advanced-computation.html#cb138-9" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>) {</span>
-<span id="cb138-10"><a href="advanced-computation.html#cb138-10" tabindex="-1"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>) {</span>
-<span id="cb138-11"><a href="advanced-computation.html#cb138-11" tabindex="-1"></a>    z[i,j] <span class="ot">&lt;-</span> mvtnorm<span class="sc">::</span><span class="fu">dmvnorm</span>(<span class="fu">c</span>(x[i],y[j]),</span>
-<span id="cb138-12"><a href="advanced-computation.html#cb138-12" tabindex="-1"></a>                      <span class="at">mean=</span>mu,<span class="at">sigma=</span>sigma)</span>
-<span id="cb138-13"><a href="advanced-computation.html#cb138-13" tabindex="-1"></a>  }</span>
-<span id="cb138-14"><a href="advanced-computation.html#cb138-14" tabindex="-1"></a>}</span>
-<span id="cb138-15"><a href="advanced-computation.html#cb138-15" tabindex="-1"></a></span>
-<span id="cb138-16"><a href="advanced-computation.html#cb138-16" tabindex="-1"></a><span class="co">#Generate contour plot</span></span>
-<span id="cb138-17"><a href="advanced-computation.html#cb138-17" tabindex="-1"></a><span class="fu">contour</span>(x, y ,z)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-47-1.png" width="672" /></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="advanced-computation.html#cb2-1" tabindex="-1"></a><span class="co">#Create Grid</span></span>
+<span id="cb2-2"><a href="advanced-computation.html#cb2-2" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="dv">3</span>,<span class="at">length.out=</span><span class="dv">100</span>)</span>
+<span id="cb2-3"><a href="advanced-computation.html#cb2-3" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="dv">3</span>,<span class="at">length.out=</span><span class="dv">100</span>)</span>
+<span id="cb2-4"><a href="advanced-computation.html#cb2-4" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="advanced-computation.html#cb2-5" tabindex="-1"></a><span class="co">#Evaluate density at grid</span></span>
+<span id="cb2-6"><a href="advanced-computation.html#cb2-6" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>,<span class="at">nrow=</span><span class="dv">100</span>,<span class="at">ncol=</span><span class="dv">100</span>)</span>
+<span id="cb2-7"><a href="advanced-computation.html#cb2-7" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)</span>
+<span id="cb2-8"><a href="advanced-computation.html#cb2-8" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.7</span>, <span class="fl">0.7</span>, <span class="dv">1</span>),<span class="at">nrow=</span><span class="dv">2</span>)</span>
+<span id="cb2-9"><a href="advanced-computation.html#cb2-9" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>) {</span>
+<span id="cb2-10"><a href="advanced-computation.html#cb2-10" tabindex="-1"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>) {</span>
+<span id="cb2-11"><a href="advanced-computation.html#cb2-11" tabindex="-1"></a>    z[i,j] <span class="ot">&lt;-</span> mvtnorm<span class="sc">::</span><span class="fu">dmvnorm</span>(<span class="fu">c</span>(x[i],y[j]),</span>
+<span id="cb2-12"><a href="advanced-computation.html#cb2-12" tabindex="-1"></a>                      <span class="at">mean=</span>mu,<span class="at">sigma=</span>sigma)</span>
+<span id="cb2-13"><a href="advanced-computation.html#cb2-13" tabindex="-1"></a>  }</span>
+<span id="cb2-14"><a href="advanced-computation.html#cb2-14" tabindex="-1"></a>}</span>
+<span id="cb2-15"><a href="advanced-computation.html#cb2-15" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="advanced-computation.html#cb2-16" tabindex="-1"></a><span class="co">#Generate contour plot</span></span>
+<span id="cb2-17"><a href="advanced-computation.html#cb2-17" tabindex="-1"></a><span class="fu">contour</span>(x, y ,z)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <p>A GP takes this one step further and puts a prior distribution on a function space. It is specified by a mean function, <span class="math inline">\(\mu(\cdot)\)</span> and covariance function <span class="math inline">\(k(\cdot, \cdot)\)</span>. The mean function describes the expected value of each point the function can be evaluated at, and the covariance function describes the relationship between each point on the function. The plot below shows three samples from a GP distribution with mean function the zero function <span class="math inline">\(\mu(x) = 0\, \forall x\)</span> and a covariance function that supports smooth functions.</p>
-<p><img src="_main_files/figure-html/unnamed-chunk-48-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <div class="definition">
-<p><span id="def:unlabeled-div-115" class="definition"><strong>Definition 6.1  </strong></span>A <strong>Gaussian Process</strong> <span class="math inline">\(X = (X(t))_{t \in T}\)</span> is a collection of real-valued random variables indexed by some index set <span class="math inline">\(T\)</span>, any finite number of which have a joint Gaussian distribution. Its mean function <span class="math inline">\(T \ni t \mapsto \mu(t)\)</span> is defined by <span class="math inline">\(\mu(t) = \mathbb{E}[X(t)]\)</span> and its covariance function <span class="math inline">\(k(s,t) = \mathrm{Cov}(X(s), X(t)) = \mathbb{E}\left((X(s) - \mu(s))(X(t) - \mu(t))\right)\)</span>.</p>
+<p><span id="def:unlabeled-div-1" class="definition"><strong>Definition 6.1  </strong></span>A <strong>Gaussian Process</strong> <span class="math inline">\(X = (X(t))_{t \in T}\)</span> is a collection of real-valued random variables indexed by some index set <span class="math inline">\(T\)</span>, any finite number of which have a joint Gaussian distribution. Its mean function <span class="math inline">\(T \ni t \mapsto \mu(t)\)</span> is defined by <span class="math inline">\(\mu(t) = \mathbb{E}[X(t)]\)</span> and its covariance function <span class="math inline">\(k(s,t) = \mathrm{Cov}(X(s), X(t)) = \mathbb{E}\left((X(s) - \mu(s))(X(t) - \mu(t))\right)\)</span>.</p>
 </div>
 <p>It can be shown that a Gaussian process is uniquely characterised by its mean and covariance <em>function</em>, just as a multivariate normal distribution is uniquely characterised by its mean <em>vector</em> and covariance <em>matrix</em>.</p>
 <p>Our particular interest is on Gaussian processes on real valued functions defined on <span class="math inline">\(\mathbb{R}^N\)</span>, and therefore for the particular index set <span class="math inline">\(T = \mathbb{R}^N\)</span>. In this case we use the notation <span class="math inline">\((f(x))_{x \in \mathbb{R}^N}\)</span> for such a <em>random</em> function, which we formalise as follows:</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-116" class="definition"><strong>Definition 6.2  </strong></span>A <strong>GP on a function</strong> <span class="math inline">\(f = (f(x))_{x \in \mathbb{R}^N}\)</span> is defined through its mean function <span class="math inline">\(\mu(x) = \mathbb{E}[f(x)]\)</span> and covariance function <span class="math inline">\(k(x, x&#39;) = \mathrm{Cov}(f(x),f(x^\prime)) = \mathbb{E}\left[(f(x) - \mu(x))(f(x&#39;) - \mu(x&#39;))\right]\)</span>, where <span class="math inline">\(x,x^\prime \in \mathbb{R}^N\)</span>. We write this as <span class="math inline">\(f \sim \mathcal{GP}(\mu, k)\)</span>.</p>
+<p><span id="def:unlabeled-div-2" class="definition"><strong>Definition 6.2  </strong></span>A <strong>GP on a function</strong> <span class="math inline">\(f = (f(x))_{x \in \mathbb{R}^N}\)</span> is defined through its mean function <span class="math inline">\(\mu(x) = \mathbb{E}[f(x)]\)</span> and covariance function <span class="math inline">\(k(x, x&#39;) = \mathrm{Cov}(f(x),f(x^\prime)) = \mathbb{E}\left[(f(x) - \mu(x))(f(x&#39;) - \mu(x&#39;))\right]\)</span>, where <span class="math inline">\(x,x^\prime \in \mathbb{R}^N\)</span>. We write this as <span class="math inline">\(f \sim \mathcal{GP}(\mu, k)\)</span>.</p>
 </div>
 <p>In particular, for such a Gaussian process <span class="math inline">\(f\)</span>, we have that
 <span class="math display">\[\forall n \in \mathbb{N}, \boldsymbol{x} = (x_1,\ldots  x_n) \in (\mathbb{R}^N)^n: f(\boldsymbol{x}) := (f(x_1),\ldots,f(x_n)) \sim N\big(\mu(\boldsymbol{x}) , k(\boldsymbol{x},\boldsymbol{x})\big),\]</span>
 where <span class="math inline">\(\mu(\boldsymbol{x}) := (\mu(x_1),\ldots, \mu(x_n))\)</span> and <span class="math inline">\(k(\boldsymbol{x},\boldsymbol{x}) := (k(x_i,x_j))_{i,j = 1,\ldots, n}\)</span>.</p>
 <p>Before we go any further, it is worth proceeding with caution. Those with good memories will recall Bernstein-von-Mises’ theorem from Chapter 3.</p>
 <div class="theorem">
-<p><span id="thm:unlabeled-div-117" class="theorem"><strong>Theorem 6.1  (Bernstein-von-Mises) </strong></span>For a well-specified model <span class="math inline">\(\pi(\boldsymbol{y} \mid \theta)\)</span> with a fixed number of parameters, and for a smooth prior distribution <span class="math inline">\(\pi(\theta)\)</span> that is non-zero around the MLE <span class="math inline">\(\hat{\theta}\)</span>, then
+<p><span id="thm:unlabeled-div-3" class="theorem"><strong>Theorem 6.1  (Bernstein-von-Mises) </strong></span>For a well-specified model <span class="math inline">\(\pi(\boldsymbol{y} \mid \theta)\)</span> with a fixed number of parameters, and for a smooth prior distribution <span class="math inline">\(\pi(\theta)\)</span> that is non-zero around the MLE <span class="math inline">\(\hat{\theta}\)</span>, then
 <span class="math display">\[
 \left|\left| \pi(\theta \mid \boldsymbol{y}) - N\left(\hat{\theta}, \frac{I(\hat{\theta})^{-1}}{n}\right) \right|\right|_{TV} \rightarrow 0.
 \]</span></p>
@@ -330,28 +310,28 @@ where <span class="math inline">\(\mu(\boldsymbol{x}) := (\mu(x_1),\ldots, \mu(x
 <p>One issue when using GPs is describing the covariance function. How do we decide how each pair of points (there being an infinite number of them)? There are lots of standard choices of covariance functions that we can choose from, each one making different assumptions about the function we are interested in.</p>
 <p>The most common covariance function is the squared exponential functions. It is used to model functions that are ‘nice’, i.e. they are smooth, continuous and infinitely differentiable.</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-118" class="definition"><strong>Definition 6.3  </strong></span>The <strong>squared exponential covariance function</strong> takes the form
+<p><span id="def:unlabeled-div-4" class="definition"><strong>Definition 6.3  </strong></span>The <strong>squared exponential covariance function</strong> takes the form
 <span class="math display">\[
 k(x, x&#39;) = \alpha^2\exp\left\{-\frac{1}{l^2}(x-x&#39;)^2\right\},
 \]</span>
 where <span class="math inline">\(\alpha^2\)</span> is the signal variance and <span class="math inline">\(l&gt;0\)</span> is the length scale parameter.</p>
 </div>
 <p>For now, consider <span class="math inline">\(\alpha = l = 1\)</span>. What is the covariance between the function evaluated at 0 and the function evaluated at <span class="math inline">\(x\)</span>? The plot below shows the covariance.</p>
-<p><img src="_main_files/figure-html/unnamed-chunk-49-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <p>The covariance is highest when the <span class="math inline">\(x\)</span> is near to 0, i.e. the points are immediately next to each other. If the value of <span class="math inline">\(x\)</span> is <span class="math inline">\(\pm 2\)</span>, the covariance is 0. As we are dealing with a joint normal distribution, a covariance of 0 implies independence. So with this covariance function, the value of <span class="math inline">\(f(x)\)</span> is independent of <span class="math inline">\(f(0)\)</span> if <span class="math inline">\(|x|\)</span> is larger than about two. The parameter <span class="math inline">\(l\)</span> is called the length scale parameter and dictates how quickly the covariance decays. Small values of <span class="math inline">\(l\)</span> mean that the value of the function at nearby points are independent of each other, resulting in functions that look like white noise. Large values of <span class="math inline">\(l\)</span> mean that even if points are far away, they are still highly dependent on each other. This gives very flat functions.</p>
 <p>The choice of covariance function is a modelling choice – it depends completely on the data generating process you are trying to model. The following properties are useful when deciding which covariance function to use.</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-119" class="definition"><strong>Definition 6.4  </strong></span>A <strong>stationary</strong> covariance function is a function of <span class="math inline">\(x - x&#39;\)</span>. That means it is invariant to translations in space.</p>
+<p><span id="def:unlabeled-div-5" class="definition"><strong>Definition 6.4  </strong></span>A <strong>stationary</strong> covariance function is a function of <span class="math inline">\(x - x&#39;\)</span>. That means it is invariant to translations in space.</p>
 </div>
 <div class="definition">
-<p><span id="def:unlabeled-div-120" class="definition"><strong>Definition 6.5  </strong></span>An <strong>isotropic</strong> covariance function is a function only of <span class="math inline">\(|x - x&#39;|\)</span>. That means it is invariant to rigid translations in space.</p>
+<p><span id="def:unlabeled-div-6" class="definition"><strong>Definition 6.5  </strong></span>An <strong>isotropic</strong> covariance function is a function only of <span class="math inline">\(|x - x&#39;|\)</span>. That means it is invariant to rigid translations in space.</p>
 </div>
 <div class="definition">
-<p><span id="def:unlabeled-div-121" class="definition"><strong>Definition 6.6  </strong></span>An <strong>dot product</strong> covariance function is a function only of <span class="math inline">\(x\cdot x&#39;\)</span>. That means it is invariant to rigid rotations in space, but not translations.</p>
+<p><span id="def:unlabeled-div-7" class="definition"><strong>Definition 6.6  </strong></span>An <strong>dot product</strong> covariance function is a function only of <span class="math inline">\(x\cdot x&#39;\)</span>. That means it is invariant to rigid rotations in space, but not translations.</p>
 </div>
 <p>What is most important is that the matrix resulting from a covariance function is positive semi-definite to be a valid choice for a Gaussian process. This is because covariance matrices must be positive semi-definite. More formally:</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-122" class="definition"><strong>Definition 6.7  </strong></span>An <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(\Sigma\)</span> is positive semi-definite if it is symmetric and
+<p><span id="def:unlabeled-div-8" class="definition"><strong>Definition 6.7  </strong></span>An <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(\Sigma\)</span> is positive semi-definite if it is symmetric and
 <span class="math display">\[
 x^T\Sigma x \geq 0 \quad \hbox{for all } x \in \mathbb{R}^n.
 \]</span>
@@ -359,54 +339,54 @@ A function <span class="math inline">\(k\colon \mathbb{R}^N \times \mathbb{R}^N 
 </div>
 <p>The squared exponential covariance function is isotropic and produces functions that are continuous and differentiable. There are many other types of covariance functions, including ones that don’t produce functions that are continuous or differentiable. Three more are given below.</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-123" class="definition"><strong>Definition 6.8  </strong></span>The <strong>Matérn</strong> covariance function models functions that are differentiable only once:
+<p><span id="def:unlabeled-div-9" class="definition"><strong>Definition 6.8  </strong></span>The <strong>Matérn</strong> covariance function models functions that are differentiable only once:
 <span class="math display">\[
 k(x, x&#39;) = \left(1 + \frac{\sqrt{3}\lvert x - x&#39;\rvert}{l} \right)\exp\left\{-\frac{\sqrt{3}\lvert x - x&#39;\rvert}{l} \right\}.
 \]</span></p>
 </div>
 <div class="definition">
-<p><span id="def:unlabeled-div-124" class="definition"><strong>Definition 6.9  </strong></span>The <strong>periodic</strong> covariance function models functions that are periodic and it is given by
+<p><span id="def:unlabeled-div-10" class="definition"><strong>Definition 6.9  </strong></span>The <strong>periodic</strong> covariance function models functions that are periodic and it is given by
 <span class="math display">\[
 k(x, x&#39;) = \alpha^2 \exp\left\{-\frac{2}{l}\sin^2\frac{\lvert x-x&#39;\rvert^2}{p} \right\},
 \]</span>
 where the period is <span class="math inline">\(p\)</span>.</p>
 </div>
 <div class="definition">
-<p><span id="def:unlabeled-div-125" class="definition"><strong>Definition 6.10  </strong></span>The <strong>dot product</strong> covariance function models functions that are rotationally invariant and it is given by
+<p><span id="def:unlabeled-div-11" class="definition"><strong>Definition 6.10  </strong></span>The <strong>dot product</strong> covariance function models functions that are rotationally invariant and it is given by
 <span class="math display">\[
 k(x, x&#39;) = \alpha^2 + x\cdot x&#39;.
 \]</span></p>
 </div>
 <p>These are just some covariance functions. In addition to the covariance functions defined, we can make new covariance functons by combining existing ones.</p>
 <div class="proposition">
-<p><span id="prp:unlabeled-div-126" class="proposition"><strong>Proposition 6.1  </strong></span>If <span class="math inline">\(k_1\)</span> and <span class="math inline">\(k_2\)</span> are covariance functions, then so is <span class="math inline">\(k = k_1 + k_2\)</span>.</p>
+<p><span id="prp:unlabeled-div-12" class="proposition"><strong>Proposition 6.1  </strong></span>If <span class="math inline">\(k_1\)</span> and <span class="math inline">\(k_2\)</span> are covariance functions, then so is <span class="math inline">\(k = k_1 + k_2\)</span>.</p>
 </div>
 <div class="proof">
-<p><span id="unlabeled-div-127" class="proof"><em>Proof</em>. </span>Let <span class="math inline">\(x_1,\ldots,x_n \in \mathbb{R}^N\)</span> and <span class="math inline">\(a \in \mathbb{R}^n\)</span> be arbitrarily chosen. Then,
+<p><span id="unlabeled-div-13" class="proof"><em>Proof</em>. </span>Let <span class="math inline">\(x_1,\ldots,x_n \in \mathbb{R}^N\)</span> and <span class="math inline">\(a \in \mathbb{R}^n\)</span> be arbitrarily chosen. Then,
 <span class="math display">\[a^\top k(\boldsymbol{x},\boldsymbol{x}) a = \underbrace{\boldsymbol{a}^\top k_1(\boldsymbol{x},\boldsymbol{x}) \boldsymbol{a}}_{\geq 0} + \underbrace{\boldsymbol{a}^\top k_2(\boldsymbol{x},\boldsymbol{x}) \boldsymbol{a}}_{\geq 0} \geq 0, \]</span>
 so <span class="math inline">\(k\)</span> is a covariance function. An alternative probabilistic proof would be this: let <span class="math inline">\(f_1\)</span> and <span class="math inline">\(f_2\)</span> be <em>independent</em> Gaussian processes with covariance functions <span class="math inline">\(k_1\)</span> and <span class="math inline">\(k_2\)</span> and zero mean function, respectively. For any <span class="math inline">\(\boldsymbol{x} = (x_1,\ldots,x_n)\)</span> we then have <span class="math inline">\(f_i(\boldsymbol{x}) \sim N(\boldsymbol{0}, k_i(\boldsymbol{x},\boldsymbol{x}))\)</span> and therefore by independence of <span class="math inline">\(f_1\)</span> and <span class="math inline">\(f_2\)</span>,
 <span class="math display">\[f_1(\boldsymbol{x}) + f_2(\boldsymbol{x}) \sim N\big(\boldsymbol{0}, k_1(\boldsymbol{x},\boldsymbol{x}) + k_2(\boldsymbol{x},\boldsymbol{x})\big) = N\big(\boldsymbol{0}, k(\boldsymbol{x},\boldsymbol{x})\big),\]</span>
 so <span class="math inline">\(k\)</span> is a covariance function.</p>
 </div>
 <div class="proposition">
-<p><span id="prp:unlabeled-div-128" class="proposition"><strong>Proposition 6.2  </strong></span>If <span class="math inline">\(k_1\)</span> and <span class="math inline">\(k_2\)</span> are covariance functions, then so is <span class="math inline">\(k_1k_2\)</span>.</p>
+<p><span id="prp:unlabeled-div-14" class="proposition"><strong>Proposition 6.2  </strong></span>If <span class="math inline">\(k_1\)</span> and <span class="math inline">\(k_2\)</span> are covariance functions, then so is <span class="math inline">\(k_1k_2\)</span>.</p>
 </div>
 <div class="proof">
-<p><span id="unlabeled-div-129" class="proof"><em>Proof</em>. </span>See problem sheet.</p>
+<p><span id="unlabeled-div-15" class="proof"><em>Proof</em>. </span>See problem sheet.</p>
 </div>
 </div>
 <div id="gaussian-process-regression" class="section level3 hasAnchor" number="6.1.2">
 <h3><span class="header-section-number">6.1.2</span> Gaussian Process Regression<a href="advanced-computation.html#gaussian-process-regression" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>One of the main applications of GPs in in regression. Suppose we observe the points below <span class="math inline">\(\boldsymbol{y} = \{y_1, \ldots, y_N\}\)</span> and want to fit a curve through them. One method is to write down a set of functions of the form <span class="math inline">\(\boldsymbol{y} =  X^T\boldsymbol{\beta} + \boldsymbol{\varepsilon}\)</span>, where <span class="math inline">\(X\)</span> is the design matrix and <span class="math inline">\(\boldsymbol{\beta}\)</span> a vector of parameters. For each design matrix <span class="math inline">\(X\)</span>, construct the posterior distributions for <span class="math inline">\(\boldsymbol{\beta}\)</span> and use some goodness-of-fit measure to choose the most suitable design matrix.</p>
-<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="advanced-computation.html#cb139-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">5</span><span class="sc">:</span><span class="dv">5</span></span>
-<span id="cb139-2"><a href="advanced-computation.html#cb139-2" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">sin</span>(x<span class="sc">/</span><span class="dv">2</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span>x<span class="sc">/</span><span class="dv">5</span>) <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(x), <span class="dv">0</span>, <span class="fl">0.2</span>)</span>
-<span id="cb139-3"><a href="advanced-computation.html#cb139-3" tabindex="-1"></a><span class="fu">plot</span>(x, y)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-50-1.png" width="672" /></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="advanced-computation.html#cb3-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">5</span><span class="sc">:</span><span class="dv">5</span></span>
+<span id="cb3-2"><a href="advanced-computation.html#cb3-2" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">sin</span>(x<span class="sc">/</span><span class="dv">2</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span>x<span class="sc">/</span><span class="dv">5</span>) <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(x), <span class="dv">0</span>, <span class="fl">0.2</span>)</span>
+<span id="cb3-3"><a href="advanced-computation.html#cb3-3" tabindex="-1"></a><span class="fu">plot</span>(x, y)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>One difficulty is writing down the design matrices <span class="math inline">\(X\)</span>, it is often not straightforward to propose or justify these forms GPs allow us to take a much less arbitrary approach, simply saying that <span class="math inline">\(y_i = f(x_i) + \varepsilon_i\)</span> and placing a GP prior distribution on <span class="math inline">\(f\)</span>.</p>
 <p>Although we’re placing an prior distribution with an infinite dimension on <span class="math inline">\(f\)</span>, we only ever need to work with a finite dimensional object, making this much easier. We only observe the function at finite number of points <span class="math inline">\(\boldsymbol{f} = \{f(x_1), \ldots, f(x_N)\}\)</span> and we will infer the value of the function at points on a fine grid, <span class="math inline">\(\boldsymbol{f}^* = \{f(x_1^*), \ldots, f(x_N^*)\}\)</span>. By the definition of a GP, the distribution of these points is a multivariate normal distribution.</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-130" class="example"><strong>Example 6.1  </strong></span>Suppose we observe <span class="math inline">\(\boldsymbol{y} = \{y_1, \ldots, y_N\}\)</span> at <span class="math inline">\(\boldsymbol{x} = \{x_1, \ldots, x_N\}\)</span>. The plot below shows these points.</p>
-<p><img src="_main_files/figure-html/unnamed-chunk-51-1.png" width="672" /></p>
+<p><span id="exm:unlabeled-div-16" class="example"><strong>Example 6.1  </strong></span>Suppose we observe <span class="math inline">\(\boldsymbol{y} = \{y_1, \ldots, y_N\}\)</span> at <span class="math inline">\(\boldsymbol{x} = \{x_1, \ldots, x_N\}\)</span>. The plot below shows these points.</p>
+<p><img src="_main_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>Using the model <span class="math inline">\(y_i = f(x_i) + \varepsilon_i\)</span>, where <span class="math inline">\(\varepsilon_i \sim N(0, \sigma^2)\)</span>, we want to infer the function <span class="math inline">\(f\)</span> evaluated at a gird of points <span class="math inline">\(\boldsymbol{f}^* = \{f(x_1^*), \ldots, f(x_N^*)\}\)</span>. We place a GP prior distribution on <span class="math inline">\(f \sim \mathcal{GP}(0, k)\)</span>, where <span class="math inline">\(k\)</span> is the squared exponential covariance function. Using the model, the covariance between points <span class="math inline">\(y_i\)</span> and <span class="math inline">\(y_j\)</span> is
 <span class="math display">\[
 \textrm{cov}(y_i, y_j) = k(x_i, x_j) + \sigma^21_{i=j}.
@@ -430,7 +410,7 @@ The off-diagonal terms in the covariance matrix describe the relationship betwee
 \]</span>
 where <span class="math inline">\(\boldsymbol{\mu}^* = K(\boldsymbol{x}^*, \boldsymbol{x})(K(\boldsymbol{x}, \boldsymbol{x}) + \sigma^2 I)^{-1} \boldsymbol{y}\)</span> and <span class="math inline">\(K^* = K(\boldsymbol{x}^*, \boldsymbol{x}^*) -  K(\boldsymbol{x}^*, \boldsymbol{x})(K(\boldsymbol{x}, \boldsymbol{x}) + \sigma^2I)^{-1}K(\boldsymbol{x}, \boldsymbol{x}^*)\)</span>.</p>
 <p>We set the fine gird to be <span class="math inline">\(\boldsymbol{x}^* = \{-5, -4.99, -4.98, \ldots, 5\}\)</span>, the GP parameters <span class="math inline">\(\alpha = l = 1\)</span> and <span class="math inline">\(\sigma = 0.2\)</span>. The posterior mean and 95% credible interval are shown below.
-<img src="_main_files/figure-html/unnamed-chunk-52-1.png" width="672" />
+<img src="_main_files/figure-html/unnamed-chunk-7-1.png" width="672" />
 The posterior mean for <span class="math inline">\(f\)</span> is a smooth line passing near each point. The 95% credible interval for <span class="math inline">\(f\)</span> has the smallest variance near each point, and largest furthest away from the points.</p>
 </div>
 </div>
@@ -445,10 +425,10 @@ The posterior mean for <span class="math inline">\(f\)</span> is a smooth line p
 <p>The Bayesian framework provides a natural way for dealing with missing, partially, or completely unobserved data using the technique called data augmentation. It allows us to treat the missing/hidden information as random variables and infer them alongside the model parameters.</p>
 <p>In data augmentation, we distinguish between two likelihood functions.</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-131" class="definition"><strong>Definition 6.11  </strong></span>The <strong>observed data likelihood function</strong> is the likelihood function of the observed data.</p>
+<p><span id="def:unlabeled-div-17" class="definition"><strong>Definition 6.11  </strong></span>The <strong>observed data likelihood function</strong> is the likelihood function of the observed data.</p>
 </div>
 <div class="definition">
-<p><span id="def:unlabeled-div-132" class="definition"><strong>Definition 6.12  </strong></span>The <strong>complete data likelihood function</strong> is the likelihood function of the observed data and any unobserved data had they been fully observed.</p>
+<p><span id="def:unlabeled-div-18" class="definition"><strong>Definition 6.12  </strong></span>The <strong>complete data likelihood function</strong> is the likelihood function of the observed data and any unobserved data had they been fully observed.</p>
 </div>
 <p>The difference between the two likelihood functions is that the complete data likelihood function is the function had we observed everything we want to observe. However, as the complete data likelihood function contains data we didn’t fully observe, we can’t compute it. Instead we can only evaluate the observed data likelihood function.</p>
 <p>Mathematically, we can write the complete data set <span class="math inline">\(X = (X_1,\dotsc,X_n)\)</span>, with each <span class="math inline">\(X_i = (Y_i, Z_i)\)</span>, where <span class="math inline">\(Y_i\)</span> denotes the observed information while <span class="math inline">\(Z_i\)</span> denotes the unobserved/missing information. If we assume all the <span class="math inline">\(X_i\)</span>’s are independent, then the complete (data) likelihood function is <span class="math inline">\(\pi(x \mid \theta) = \prod_{i=1}^n\pi(x_i\mid \theta) = \prod_{i=1}^n\pi(y_i,z_i\mid \theta)\)</span>. Let <span class="math inline">\(Y = (Y_1,\dotsc,Y_n)\)</span> denote the <strong>observed data</strong> in the complete data set <span class="math inline">\(X\)</span>. The observed data likelihood function is instead <span class="math inline">\(\pi(y\mid \theta) = \prod_{i=1}^n\pi(y_i\mid \theta) = \prod_{i=1}^n \int \pi(y_i,z_i\mid \theta) dz_i\)</span>.</p>
@@ -457,15 +437,15 @@ The posterior mean for <span class="math inline">\(f\)</span> is a smooth line p
 <h3><span class="header-section-number">6.2.1</span> Censored observations<a href="advanced-computation.html#censored-observations" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The first example we will look at is when data is censored. Instead of throwing away these observations, we will instead treat them as random variables and infer their values.</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-133" class="example"><strong>Example 6.2  </strong></span>A bank checks transactions for suspicious activities in batches of 1000. Denote the probability a transaction is suspicious by <span class="math inline">\(p\)</span> and the number of suspicious transactions in a batch by <span class="math inline">\(Y\)</span>.</p>
-<p>The bank checks five batches and observes <span class="math inline">\(y_1, \ldots, y_4\)</span> suspicious transactions in the first four batches. Due to a computer error, the number of suspicious transactions in the final batch is not properly recorded, but is known to be less than 6. It is reasonable to assume <span class="math inline">\(Y_1,\dotsc,Y_5 \mid p \overset{i.i.d}\sim \text{Binomial}(1000,p)\)</span>, but we do not observe the exact value of <span class="math inline">\(Y_5\)</span>.</p>
+<p><span id="exm:unlabeled-div-19" class="example"><strong>Example 6.2  </strong></span>A bank checks transactions for suspicious activities in batches of 1000. Denote the probability a transaction is suspicious by <span class="math inline">\(p\)</span> and the number of suspicious transactions in a batch by <span class="math inline">\(Y\)</span>.</p>
+<p>The bank checks five batches and observes <span class="math inline">\(y_1, \ldots, y_4\)</span> suspicious transactions in the first four batches. Due to a computer error, the number of suspicious transactions in the final batch is not properly recorded, but is known to be less than 6. It is reasonable to assume <span class="math inline">\(Y_1,\dotsc,Y_5 \mid p \overset{i.i.d}\sim \text{Binomial}(1000,p)\)</span>, but we do not observe <span class="math inline">\(Y_5\)</span>.</p>
 <p>The observed data likelihood functions is
 <span class="math display">\[\begin{align*}
-\pi(y_1, \ldots, y_4, y_5 &lt; 6 \mid p) &amp;=\sum_{y_5 = 0}^5 \pi(y_1,\dotsc,y_4,y_5 \mid p) = \sum_{y_5 = 0}^5 \left(\prod_{i=1}^5 \begin{pmatrix} 1000 \\ y_i \end{pmatrix} p^{y_i}(1-p)^{1000 - y_i} \right) \\ &amp;= \left(\prod_{i=1}^4\begin{pmatrix} 1000 \\ y_i \end{pmatrix} p^{y_i}(1-p)^{1000 - y_i} \right)\left(\sum_{y_5=0}^5\begin{pmatrix} 1000 \\ y_5 \end{pmatrix} p^{y_5}(1-p)^{1000 - y_5}\right).
+\pi(y_1, \ldots, y_4 \mid p) &amp;=\sum_{y_5 = 0}^5 \pi(y_1,\dotsc,y_4,y_5 \mid p) = \sum_{y_5 = 0}^5 \left(\prod_{i=1}^5 \begin{pmatrix} 1000 \\ y_i \end{pmatrix} p^{y_i}(1-p)^{1000 - y_i} \right) \\ &amp;= \left(\prod_{i=1}^4\begin{pmatrix} 1000 \\ y_i \end{pmatrix} p^{y_i}(1-p)^{1000 - y_i} \right)\left(\sum_{y_5=0}^5\begin{pmatrix} 1000 \\ y_5 \end{pmatrix} p^{y_5}(1-p)^{1000 - y_5}\right).
 \end{align*}\]</span></p>
 <p>Placing a uniform prior distribution on <span class="math inline">\(p \sim \text{Unif}[0, 1]\)</span> gives the posterior distribution
 <span class="math display">\[
-\pi(p \mid y_1, \ldots, y_4, y_5 &lt;6) \propto \left(\prod_{i=1}^4\begin{pmatrix} 1000 \\ y_i \end{pmatrix} p^{y_i}(1-p)^{y_i} \right)\left(\sum_{y_5=0}^5\begin{pmatrix} 1000 \\ y_5 \end{pmatrix} p^{y_5}(1-p)^{1000 - y_5}\right).
+\pi(p \mid y_1, \ldots, y_4) \propto \left(\prod_{i=1}^4\begin{pmatrix} 1000 \\ y_i \end{pmatrix} p^{y_i}(1-p)^{y_i} \right)\left(\sum_{y_5=0}^5\begin{pmatrix} 1000 \\ y_5 \end{pmatrix} p^{y_5}(1-p)^{1000 - y_5}\right).
 \]</span>
 Although we could sample from this distribution using Metropolis-Hastings algorithms, they do not produce any information regarding the missing data point <span class="math inline">\(y_5\)</span>, which may be of interest itself.</p>
 <p>Instead, we can write down the complete data likelihood by augmenting the unobserved variable <span class="math inline">\(Y_5\)</span> into the observed data likelihood. In other words, we suppose that <span class="math inline">\(y_5\)</span> was observed in the complete data likelihood, which is
@@ -476,11 +456,11 @@ With the same uniform prior, the posterior distribution is
 <span class="math display">\[
 p \mid y_1, \ldots, y_5 \sim \hbox{Beta}\left(\sum_{i=1}^5 y_i + 1, 5000 + 1 - \sum_{i=1}^5 y_i\right).
 \]</span></p>
-<p>The conditional distribution of <span class="math inline">\(Y_5\mid p, y_1, \dotsc,y_4\)</span> can be computed using Bayes rule, with the additional constraint <span class="math inline">\(Y_5 &lt; 6\)</span>
+<p>The conditional distribution of <span class="math inline">\(Y_5\mid p, y_1, \dotsc,y_4\)</span> can be computed using Bayes rule
 <span class="math display">\[
-  \pi( y_5 \mid y_1, \ldots, y_4,y_5&lt;6, p) = \frac{\pi(y_1,\dotsc,y_5\mid p)}{\pi(y_1,\dotsc,y_4, y_5 &lt; 6\mid p)}=\frac{\begin{pmatrix} 1000 \\ y_5 \end{pmatrix} p^{y_5}(1-p)^{1000 - y_5}}{\sum_{j=0}^{5}\begin{pmatrix} 1000 \\ j \end{pmatrix} p^{j}(1-p)^{1000-j}},
+  \pi( y_5 \mid y_1, \ldots, y_4, p) = \frac{\pi(y_1,\dotsc,y_5\mid p)}{\pi(y_1,\dotsc,y_4\mid p)}=\frac{\begin{pmatrix} 1000 \\ y_5 \end{pmatrix} p^{y_5}(1-p)^{1000 - y_5}}{\sum_{j=0}^{5}\begin{pmatrix} 1000 \\ j \end{pmatrix} p^{j}(1-p)^{1000-j}}, \qquad y_5 \in \{0,\dotsc,5\},
 \]</span>
-for <span class="math inline">\(y_5 \in \{0,\dotsc,5\}\)</span>. With these two easy-to-sample conditional distributions identified, we can use a Gibbs sampler alternating between sampling <span class="math inline">\(p\)</span> and <span class="math inline">\(y_5\)</span>.</p>
+where we use <span class="math inline">\(\pi(p) = 1\)</span> in the first equality. With these two easy-to-sample conditional distributions identified, we can use a Gibbs sampler alternating between sampling <span class="math inline">\(p\)</span> and <span class="math inline">\(y_5\)</span>.</p>
 </div>
 </div>
 <div id="latent-variables" class="section level3 hasAnchor" number="6.2.2">
@@ -488,18 +468,18 @@ for <span class="math inline">\(y_5 \in \{0,\dotsc,5\}\)</span>. With these two 
 <p>Latent variable are variables that are cannot be observed, these may be hidden somehow or introduced to help with the modelling. The missing data point <span class="math inline">\(Y_5\)</span> in the previous example is an example of a latent variable.
 Mixture model is an another example where latent variables are particularly useful.</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-134" class="example"><strong>Example 6.3  </strong></span>Royal Mail use image detection software to read postcodes on letters. A camera scans the front of an envelope and then records the barcode. This example is a very simplified version of how the system could work.</p>
+<p><span id="exm:unlabeled-div-20" class="example"><strong>Example 6.3  </strong></span>Royal Mail use image detection software to read postcodes on letters. A camera scans the front of an envelope and then records the barcode. This example is a very simplified version of how the system could work.</p>
 <p>Suppose the machine is processing a bag of letters addressed to people in either B1 or B2 postcodes. The camera scans the first two characters of the postcode (B1 or B2) and records the proportion of the scanned image that is taken up by the characters. The picture below shows an example of what the scanned image looks like.</p>
 <p><img src="postcode.jpeg" /><!-- --></p>
 <p>The scanned image is a 10 by 10 grid of pixels, where the number of pixels coloured black of the <span class="math inline">\(i^{th}\)</span> image is <span class="math inline">\(Y_i\mid \theta \sim \hbox{Binomial}(100, \theta)\)</span>. However, <span class="math inline">\(\theta\)</span> depends on if the letter is going to B1 or B2. To allow for this, we introduce a latent variable <span class="math inline">\(Z_i \in \{1,2\}\)</span> that describes if the characters on the <span class="math inline">\(i^{th}\)</span> image are B1 or B2. In other words, one can think of <span class="math inline">\(Z_i\)</span> as ‘membership’ of <span class="math inline">\(Y_i\)</span> that we cannot observed.</p>
 <p>The observation <span class="math inline">\(y_i\)</span> is the number of pixels of the <span class="math inline">\(i^{th}\)</span> image that is coloured black. We observe <span class="math inline">\(y_i\)</span>, but want to infer its membership <span class="math inline">\(Z_i\)</span>. The difficultly is the lack of one-to-one correspondence between the values <span class="math inline">\(y_i\)</span> can take and the value <span class="math inline">\(z_i\)</span>. Due to the different handwriting and fonts used on envelopes, if the letter is going to B1 (<span class="math inline">\(Z_i = 1\)</span>), then <span class="math inline">\(Y_i \mid Z_i = 1 \sim \hbox{Bin}(100, \theta_1)\)</span> and if it is going to B2 (<span class="math inline">\(Z_i = 2\)</span>), then <span class="math inline">\(Y_i \mid Z_i = 2 \sim \hbox{Bin}(100, \theta_2)\)</span>. The plot below shows the two densities and the overlap between them for <span class="math inline">\(\theta_1 = 0.9\)</span> and <span class="math inline">\(\theta_2 = 0.85\)</span>.</p>
-<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="advanced-computation.html#cb140-1" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span></span>
-<span id="cb140-2"><a href="advanced-computation.html#cb140-2" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(a, <span class="dv">100</span>, <span class="fl">0.9</span>)</span>
-<span id="cb140-3"><a href="advanced-computation.html#cb140-3" tabindex="-1"></a>y <span class="ot">&lt;-</span>  <span class="fu">dbinom</span>(a, <span class="dv">100</span>, <span class="fl">0.85</span>)</span>
-<span id="cb140-4"><a href="advanced-computation.html#cb140-4" tabindex="-1"></a><span class="fu">plot</span>(a, x, <span class="at">type =</span> <span class="st">&#39;l&#39;</span>, <span class="at">xlab =</span> <span class="fu">expression</span>(y),</span>
-<span id="cb140-5"><a href="advanced-computation.html#cb140-5" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;density&quot;</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">70</span>, <span class="dv">100</span>))</span>
-<span id="cb140-6"><a href="advanced-computation.html#cb140-6" tabindex="-1"></a><span class="fu">lines</span>(a, y, <span class="at">lty =</span> <span class="dv">2</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-54-1.png" width="672" /></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="advanced-computation.html#cb4-1" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span></span>
+<span id="cb4-2"><a href="advanced-computation.html#cb4-2" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(a, <span class="dv">100</span>, <span class="fl">0.9</span>)</span>
+<span id="cb4-3"><a href="advanced-computation.html#cb4-3" tabindex="-1"></a>y <span class="ot">&lt;-</span>  <span class="fu">dbinom</span>(a, <span class="dv">100</span>, <span class="fl">0.85</span>)</span>
+<span id="cb4-4"><a href="advanced-computation.html#cb4-4" tabindex="-1"></a><span class="fu">plot</span>(a, x, <span class="at">type =</span> <span class="st">&#39;l&#39;</span>, <span class="at">xlab =</span> <span class="fu">expression</span>(y),</span>
+<span id="cb4-5"><a href="advanced-computation.html#cb4-5" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;density&quot;</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">70</span>, <span class="dv">100</span>))</span>
+<span id="cb4-6"><a href="advanced-computation.html#cb4-6" tabindex="-1"></a><span class="fu">lines</span>(a, y, <span class="at">lty =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <p>Suppose we have <span class="math inline">\(X_i = \{Y_i,Z_i\}\)</span> for <span class="math inline">\(i = 1,\dotsc,N\)</span>, where the <span class="math inline">\(Z_i\)</span>’s are latent variables that we do not observe. We assume <span class="math inline">\(Z_i\mid p \overset{i.i.d.}\sim  2-\hbox{Bernoulli}(p)\)</span>, so that <span class="math inline">\(\mathbb{P}(Z_i = 1\mid p) = p\)</span> and <span class="math inline">\(\mathbb{P}(Z_i = 2\mid p) = 1-p\)</span>, where the parameter <span class="math inline">\(p\)</span> determines the proportion of letters from B1 or B2. For each <span class="math inline">\(i\)</span>, we have
 <span class="math display">\[\begin{align*}
 \pi(y_i\mid p, \theta_1,\theta_2) &amp;= \pi(y_i\mid Z_i = 1)\mathbb{P}(Z_i = 1) +  \pi(y_i\mid Z_i = 2)\mathbb{P}(Z_i = 2) \\ &amp;= p \,\pi(y_i\mid \theta_1)+(1-p)\,\pi(y_i\mid\theta_2)
@@ -547,38 +527,32 @@ Note that we drop other variables as the distribution only depends on <span clas
 Hence <span class="math inline">\(\theta_1 \mid \boldsymbol{z}, \boldsymbol{y} \sim \hbox{Beta}(\sum_{i; z_i = 1}y_i + \alpha_1 , 100N_1 + \beta_1 - \sum_{i; z_i = 1}y_i)\)</span>. Similarly, <span class="math inline">\(\theta_2 \mid \boldsymbol{z}, \boldsymbol{y} \sim \hbox{Beta}(\sum_{i; z_i = 2}y_i + \alpha_2 , 100N_2 + \beta_2 - \sum_{i; z_i = 2}y_i)\)</span>.</p>
 <p>Finally, we look at the conditional distribution of each <span class="math inline">\(Z_i\)</span> given the parameters <span class="math inline">\(p\)</span>, <span class="math inline">\(\theta_1\)</span> and <span class="math inline">\(\theta_2\)</span>, and the observation <span class="math inline">\(y_i\)</span>. Similar to the previous derivation, we have
 <span class="math display">\[\begin{align*}
-\mathbb{P}(Z_i = 1 \mid \boldsymbol{z}_{-i},\boldsymbol{y}, \theta_2, p,\theta_1) \propto p\theta_1^{y_i}(1-\theta_1)^{100-y_i}
+\mathbb{P}(Z_i = 1 \mid \boldsymbol{z}_{-i},\boldsymbol{y}, \theta_2, p,\theta_1) \\
+&amp;= \frac{p\pi(y_i \mid \theta_1)}{p\pi(y_i \mid \theta_1) + (1-p)\pi(y_i \mid \theta_2)}.
 \end{align*}\]</span>
 Similarly,
 <span class="math display">\[\begin{align*}
-\mathbb{P}(Z_i = 2 \mid \boldsymbol{z}_{-i},\boldsymbol{y}, \theta_2, p,\theta_1) \propto \theta_2^{y_i}(1-\theta_2)^{100-y_i}(1-p).
+\pi(z = 2 \mid p, y_1) \\
+&amp;= \frac{(1-p)\pi(y_i \mid \theta_2)}{p\pi(y_i \mid \theta_1) + (1-p)\pi(y_i \mid \theta_2)}.
 \end{align*}\]</span>
-Since <span class="math inline">\(Z_i\)</span> can only take two values, 1 or 2, we must have
-<span class="math display">\[
-p^*_i = \mathbb{P}(Z_i = 1 \mid \boldsymbol{z}_{-i},\boldsymbol{y}, \theta_2, p,\theta_1) = \frac{p\theta_1^{y_i}(1-\theta_1)^{100-y_i}}{p\theta_1^{y_i}(1-\theta_1)^{100-y_i}+\theta_2^{y_i}(1-\theta_2)^{100-y_i}(1-p)}
-\]</span>
-and
-<span class="math display">\[
-\mathbb{P}(Z_i = 2 \mid \boldsymbol{z}_{-i},\boldsymbol{y}, \theta_2, p,\theta_1) = \frac{\theta_2^{y_i}(1-\theta_2)^{100-y_i}(1-p)}{p\theta_1^{y_i}(1-\theta_1)^{100-y_i}+\theta_2^{y_i}(1-\theta_2)^{100-y_i}(1-p)}
-\]</span>
-Therefore, therefore <span class="math inline">\(Z_i \mid \boldsymbol{y}, p,\theta_1,\theta_2 \sim 2-\hbox{Bernoulli}(p^*_i)\)</span>.</p>
-<p>An MCMC algorithm for this would repeat the following steps:</p>
+The full conditional distribution is therefore <span class="math inline">\(z_i \mid \boldsymbol{y}, p \sim \hbox{Bernoulli}(p^*_i)\)</span>.</p>
+<p>An MCMC algorithm for this would repeat the following two steps:</p>
 <ol style="list-style-type: decimal">
 <li>Initialise values for <span class="math inline">\(p, \theta_1, \theta_2\)</span> and <span class="math inline">\(\boldsymbol{z}\)</span></li>
-<li>Sample <span class="math inline">\(p \mid \boldsymbol{z} \sim \hbox{Beta}(N_1 + 1, N_2 + 1)\)</span>.</li>
-<li>Sample <span class="math inline">\(\theta_1 \mid \boldsymbol{z}, \boldsymbol{y}  \sim\hbox{Beta}(\sum_{i; z_i = 1}y_i + \alpha_1 , 100N_1 + \beta_1 - \sum_{i; z_i = 1}y_i)\)</span>.</li>
-<li>Sample <span class="math inline">\(\theta_2 \mid \boldsymbol{z}, \boldsymbol{y} \sim \hbox{Beta}(\sum_{i; z_i = 2}y_i + \alpha_2 , 100N_2 + \beta_2 - \sum_{i; z_i = 2}y_i)\)</span>.</li>
-<li>Sample <span class="math inline">\(z_i \mid \boldsymbol{y}, p,\theta_1,\theta_2 \sim \hbox{Bernoulli}(p^*_i)\)</span> for each <span class="math inline">\(i\)</span>.</li>
-<li>Repeat Steps 2-5.</li>
+<li>Sample <span class="math inline">\(p \mid \boldsymbol{y}, \boldsymbol{z} \sim \hbox{Beta}(N_1 + 1, N_2 + 1)\)</span>.</li>
+<li>Sample <span class="math inline">\(\theta_1 \mid \boldsymbol{z}, \boldsymbol{y}, \theta_2 \sim\hbox{Beta}(\sum_{i; z_i = 1}y_i + \alpha_1 , 100N_1 + \beta_1 - \sum_{i; z_i = 1}y_i)\)</span>.</li>
+<li>Sample <span class="math inline">\(\theta_2 \mid \boldsymbol{z}, \boldsymbol{y}, \theta_1 \sim \hbox{Beta}(\sum_{i; z_i = 2}y_i + \alpha_2 , 100N_2 + \beta_2 - \sum_{i; z_i = 2}y_i)\)</span>.</li>
+<li>Sample <span class="math inline">\(z_i \mid \boldsymbol{y}, p \sim \hbox{Bernoulli}(p^*_i)\)</span> for each <span class="math inline">\(i\)</span>.</li>
+<li>Repeat Steps 3-5.</li>
 </ol>
-<p>This algorithm may be slow to converge and explore the posterior distribution. This is because it has many parameters. There are 3 model parameters (<span class="math inline">\(p\)</span>, <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\beta_2\)</span>) and <span class="math inline">\(N\)</span> latent variables. Exploring a posterior distribution with this many dimensions may take a lot of time and more efficient alternatives may be required.</p>
+<p>This algorithm may be very slow to converge and explore the posterior distribution. This is because it has so many parameters. There is 3 model parameters (<span class="math inline">\(p\)</span>, <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\beta_2\)</span>) and <span class="math inline">\(N\)</span> latent variables. Exploring a posterior distribution with this many dimensions may take a lot of time. Royal Mail delivered ~20,000,000 letters a day in 2023.</p>
 </div>
 </div>
 <div id="grouped-data" class="section level3 hasAnchor" number="6.2.3">
 <h3><span class="header-section-number">6.2.3</span> Grouped Data<a href="advanced-computation.html#grouped-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Often, we can only receive data in grouped form. This is often the case in medical and crime settings, where patients are grouped together to protect their identity. Grouping data introduces a difficulty when trying to perform inference. Augmenting the data, by introducing parameters to represent different parts of the group can both simplify the inference workflow and provide more information than is possible otherwise.</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-135" class="example"><strong>Example 6.4  </strong></span>Suppose that we have data on the number of treatment sessions required by a random sample of patients before they recover from a disease. For identifiability reasons, the numbers of patients requiring two or fewer treatment sessions are grouped and we obtain the following table</p>
+<p><span id="exm:unlabeled-div-21" class="example"><strong>Example 6.4  </strong></span>Suppose that we have data on the number of treatment sessions required by a random sample of patients before they recover from a disease. For identifiability reasons, the numbers of patients requiring two or fewer treatment sessions are grouped and we obtain the following table</p>
 <table>
 <thead>
 <tr class="header">
@@ -592,7 +566,7 @@ Therefore, therefore <span class="math inline">\(Z_i \mid \boldsymbol{y}, p,\the
 </thead>
 <tbody>
 <tr class="odd">
-<td>Frequency <span class="math inline">\(f_x\)</span></td>
+<td>Frequency <span class="math inline">\(f(x)\)</span></td>
 <td>25</td>
 <td>7</td>
 <td>4</td>
@@ -601,65 +575,47 @@ Therefore, therefore <span class="math inline">\(Z_i \mid \boldsymbol{y}, p,\the
 </tr>
 </tbody>
 </table>
-<p>We are interested the the probability the treatment sessions are a success, assuming each session succeed independently.</p>
-<p>We can model the number of sessions required for each person using the geometric distribution, which has probability mass function
-<span class="math display">\[
-\mathbb{P}(X = x) = (1-p)^{x-1}p, \qquad x = 1,2,3,\dotsc
-\]</span>
-if <span class="math inline">\(X \sim \hbox{Geometric}(p)\)</span>. For each group of patients, we can work out their contribution to the observed likelihood function using a geometric distribution. For example, the contribution to the likelihood function for patients who had three treatment sessions is <span class="math inline">\(((1-p)^2p)^7\)</span>. Since
-<span class="math display">\[
-\mathbb{P}(X \leq 2) = \mathbb{P}(X=1)+\mathbb{P}(X=2) = p+(1-p)p=(2-p)p,
-\]</span>
-the group that had two or fewer sessions contributes to the likelihood contribution by <span class="math inline">\((p(2-p))^{25}\)</span>.</p>
-<p>The observed likelihood function is therefore
+<p>We are interested the the probability the treatment sessions are a success. We can model this using the geometric distribution, assuming each treatment session is independent and has probability of success is <span class="math inline">\(p\)</span>. For each group of patients, we can work out their contribution to the observed likelihood function using a geometric distribution. For example, the contribution to the likelihood function for patients who had three treatment sessions is <span class="math inline">\(((1-p)^2p)^7\)</span>. For the group that had two or fewer sessions, the likelihood contribution is <span class="math inline">\((1-(1-p))^{25}\)</span>. The observed likelihood function is therefore
 <span class="math display">\[\begin{align*}
-\pi(f_{1, 2}, f_3, \ldots, f_6 \mid p) &amp;= [p(2-p)]^{25}\cdot [(1-p)^2p]^7\cdot [(1-p)^3p]^4 \cdot [(1-p)^4p]^3 \cdot (1-p)^5p.
-\\
-&amp;= (p(2-p))^{25}(1-p)^{43}p^{15} \\
+\pi(f_{1, 2}, f_3, \ldots, f_6 \mid p) &amp;= (1-(1-p))^{25}(1-p)^{43}p^{15} \\
 &amp;= p^{40}(1-p)^{43}(2-p)^{25}
 \end{align*}\]</span>
-There is no conjugate prior distribution that induces conjugacy. We use the prior distribution <span class="math inline">\(p \sim \hbox{Beta}(\alpha, \beta)\)</span>. By Bayes’ theorem, the posterior distribution is
+There is no conjugate prior distribution that induces conjugacy. We use the prior distribution <span class="math inline">\(p \sim \hbox{Beta}(\alpha, \beta)\)</span>.By Bayes’ theorem, the posterior distribution is
 <span class="math display">\[
 \pi(p \mid f_{1, 2}, f_3, \ldots, f_6 ) \propto p^{40 + \alpha - 1}(1-p)^{43 + \beta - 1}(2-p)^{25}.
 \]</span></p>
 <p>We can use a Metropolis-Hasting algorithm to sample from this algorithm. A suitable algorithm would look like this</p>
 <ol style="list-style-type: decimal">
-<li>Initialize <span class="math inline">\(p^{(0)}\)</span> and set <span class="math inline">\(i = 0\)</span>.</li>
+<li>Initialize <span class="math inline">\(p^{(0)}\)</span> and <span class="math inline">\(i = 1\)</span>.</li>
 <li>Propose <span class="math inline">\(p&#39; \sim U[p^{(i)} + \varepsilon, p^{(i)} - \varepsilon]\)</span>.</li>
 <li>Accept <span class="math inline">\(p^{(i+1)}=p&#39;\)</span> with probability <span class="math inline">\(p_{acc}\)</span>, otherwise reject as set <span class="math inline">\(p^{(i+1)}=p^{(i)}\)</span>.</li>
 <li>Set <span class="math inline">\(i=i+1\)</span> and repeat steps 2-3.</li>
 </ol>
 <p>The acceptance probability in step 3 is given by
 <span class="math display">\[
-p_{\textrm{acc}} = \min\left\{\frac{(p&#39;)^{40 + \alpha - 1}(1-p&#39;)^{43 + \beta - 1}(2-p&#39;)^{25}}{p^{40 + \alpha - 1}(1-p)^{43 + \beta - 1}(2-p)^{25}} ,1\right\}.
+p_{\textrm{acc}} = \min\left\{\frac{p&#39;^{40 + \alpha - 1}(1-p&#39;)^{43 + \beta - 1}(2-p&#39;)^{25}}{p^{40 + \alpha - 1}(1-p)^{43 + \beta - 1}(2-p)^{25}} ,1\right\}
 \]</span>
-Instead of using the observed data likelihood, we can write the complete data likelihood supposing we had seen the number of patients who had had one and two sessions. The complete data likelihood function is
-<span class="math display">\[\begin{align*}
-\pi(f_1 \ldots, f_6 \mid p) &amp;= p^{f_1}\cdot [(1-p)p]^{f_2} \cdot [(1-p)^2p]^7\cdot [(1-p)^3p]^4 \cdot [(1-p)^4p]^3 \cdot (1-p)^5p.
-\\&amp;= p^{40}(1-p)^{f_2 + 43},
-\end{align*}\]</span>
-where <span class="math inline">\(f_2\)</span> is the unobserved variable. Now, consider Beta(<span class="math inline">\(\alpha, \beta)\)</span> as the prior distribution on <span class="math inline">\(p\)</span>. We have
+Instead of using the observed likelihood, we can write the complete likelihood function supposing we had seen the number of patients who had had one and two sessions. The complete likelihood function is
 <span class="math display">\[
-p \mid f_1 \ldots, f_6  \sim \hbox{Beta}\left(40 + \alpha, f_2+43 + \beta\right).
+\pi(f_1 \ldots, f_6 \mid p) = p^{40}(1-p)^{\sum xf - 40}.
 \]</span>
-In order to implement Gibbs sampler, we just need to find <span class="math inline">\(\pi( f_2 \mid f_3 \ldots, f_6,p)\)</span>. Note that <span class="math inline">\(f_1\)</span> is not considered as an unknown variable since <span class="math inline">\(f_1 = 25-f_2\)</span> and once we know <span class="math inline">\(f_2\)</span>, we would know <span class="math inline">\(f_1\)</span>.</p>
-<p>Under the geometric distribution model, the probability a patient recovers after exactly one session is <span class="math inline">\(p\)</span> and after two sessions is <span class="math inline">\((1-p)p\)</span>. Moreover, <span class="math inline">\(\mathbb{P}(X = 2\mid X\leq 2) = \frac{(1-p)p}{p+(1-p)p} = \frac{1-p}{2-p}\)</span>, for <span class="math inline">\(X\sim \hbox{Geometric}(p)\)</span>. We can therefore model <span class="math inline">\(f_2\)</span> as a Binomial distribution
+Now, the Beta(<span class="math inline">\(\alpha, \beta)\)</span> prior distribution is conjugate and we have
 <span class="math display">\[
-f_2 \mid p\sim \hbox{Binomial}(25,q),
+p \mid f_1 \ldots, f_6  \sim \hbox{Beta}\left(40 + \alpha, \sum_i  x_if_i - 40 + \beta\right).
 \]</span>
-where
+Now, we need to derive the full conditional distribution for <span class="math inline">\(f(1)\)</span>, the number of patients who were treated after only one sessions, <span class="math inline">\(\pi(f_1 \mid p, f_{1, 2}, f_3, \ldots, f_6)\)</span>. Under the geometric distribution model, the probability a patient is treated after exactly one session is <span class="math inline">\(p\)</span> and after two sessions is <span class="math inline">\((1-p)p\)</span>. We can use these probabilities in a Binomial distribution. We have 25 patients each with a probability of being treated <span class="math inline">\(q\)</span>, where
 <span class="math display">\[
-q = \frac{1-p}{2-p}.
+q = \frac{p}{p + (1-p)p}
 \]</span>
-Our Gibbs sampler could be</p>
+Therefore <span class="math inline">\(f_1 \mid p, f_{1, 2}, f_3, \ldots, f_6 \sim \hbox{Bin}(25, q)\)</span>. We do not need to sample <span class="math inline">\(f_2\)</span> as we have <span class="math inline">\(f_2 = 25 - f_1\)</span>. Our MCMC algorithm using the complete data likelihood function and inferring <span class="math inline">\(f_1\)</span> and <span class="math inline">\(f_2\)</span> as well as <span class="math inline">\(p\)</span> could be</p>
 <ol style="list-style-type: decimal">
-<li>Initialise <span class="math inline">\(p\)</span> and <span class="math inline">\(f_2\)</span>.<br />
-</li>
-<li>Sample <span class="math inline">\(p \mid  f_2  \sim \hbox{Beta}(40 + \alpha, f_2 + 43 + \beta)\)</span></li>
-<li>Sample <span class="math inline">\(f_2 \mid p \sim \hbox{Binomial}(25,q)\)</span> with <span class="math inline">\(q = \frac{1-p}{2-p}.\)</span></li>
-<li>Repeat steps 2 - 3.</li>
+<li>Initialise <span class="math inline">\(p^{(0)}\)</span>, <span class="math inline">\(f_1^{(0)}\)</span> and <span class="math inline">\(f_2^{(0)}\)</span>. Set <span class="math inline">\(i = 1\)</span>.</li>
+<li>Sample <span class="math inline">\(p^{(i)} \mid f_1^{(i-1)}, f_2^{(i-1)}, f_3 \ldots, f_6  \sim \hbox{Beta}(40 + \alpha, \sum xf - 40 + \beta)\)</span></li>
+<li>Sample <span class="math inline">\(f_1^{(i)} \mid p^{(i)}, f_{1, 2}, f_3, \ldots, f_6\)</span></li>
+<li>Compute <span class="math inline">\(f_2^{(i)} = 25 - f_1^{(i)}\)</span>.</li>
+<li>Repeat steps 2 - 4.</li>
 </ol>
-<p>This Gibbs sampler avoids any tuning or accept/reject steps in MH sampler, making it potentially more efficient.</p>
+<p>This MCMC algorithm avoids us needing to do any tuning or accept/reject steps, making it more efficient.</p>
 </div>
 </div>
 </div>
@@ -667,7 +623,7 @@ Our Gibbs sampler could be</p>
 <h2><span class="header-section-number">6.3</span> Prior Ellicitation (Optional reading)<a href="advanced-computation.html#prior-ellicitation-optional-reading" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Throughout this course, we have tried to be objective in our choice of prior distributions. We have discussed <strong>uninformative</strong> and <strong>invariant</strong> prior distributions. Sometimes we have used <strong>vague</strong> prior distributions, such as the Exp(0.01) distribution. And other times, we have left the parameters as generic values. This misses out on one real difference between Bayesian and frequentist inference. In Bayesian inference, we can include prior information about the model parameters. Determining the value of prior parameters is know as prior elicitation. This is more of an art than a science and still controversial in the Bayesian world. In this section, we are going to look at a few ways of how to elicit prior information from experts.</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-136" class="example"><strong>Example 6.5  </strong></span>This example to show how difficult it is to talk to experts in other areas about probabilities and risk. Suppose we are interested in estimating the number of crashes on a new motorway that is being designed. Denote the number of crashes per week by <span class="math inline">\(X\)</span> and suppose <span class="math inline">\(X \sim \hbox{Po}(\lambda)\)</span>. We place a <span class="math inline">\(\lambda \sim \Gamma(\alpha, \beta)\)</span> prior distribution on the rate parameter <span class="math inline">\(\lambda\)</span>. The density function of this prior distribution is
+<p><span id="exm:unlabeled-div-22" class="example"><strong>Example 6.5  </strong></span>This example to show how difficult it is to talk to experts in other areas about probabilities and risk. Suppose we are interested in estimating the number of crashes on a new motorway that is being designed. Denote the number of crashes per week by <span class="math inline">\(X\)</span> and suppose <span class="math inline">\(X \sim \hbox{Po}(\lambda)\)</span>. We place a <span class="math inline">\(\lambda \sim \Gamma(\alpha, \beta)\)</span> prior distribution on the rate parameter <span class="math inline">\(\lambda\)</span>. The density function of this prior distribution is
 <span class="math display">\[
 \pi(\lambda) = \frac{\beta^\alpha}{\Gamma(\alpha)}\lambda^{\alpha-1}\exp(-\lambda\beta).
 \]</span>
@@ -678,7 +634,7 @@ The parameter <span class="math inline">\(\alpha\)</span> is know as the shape p
 <h3><span class="header-section-number">6.3.1</span> Prior Summaries<a href="advanced-computation.html#prior-summaries" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The first method we are going to look at is called summary matching. For this method, we ask experts to provide summaries of what they think the prior distribution is. We then choose a function form for the prior distribution and use these summaries to estimate the prior distribution. The choice of summaries depend on the application in hand as well as the choice of prior distribution. Common choices are: the mean, median, mode, variance, and cumulative probabilities (i.e. <span class="math inline">\(\pi(\theta &lt; 0.5)\)</span>).</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-137" class="example"><strong>Example 6.6  </strong></span>Let’s return to the motorway example from above. Suppose that a highway engineer tells us the expected number of crashes per week is 0.75 and the probability that <span class="math inline">\(\lambda &lt; 0.9\)</span> is 80%. Matching summaries tells us
+<p><span id="exm:unlabeled-div-23" class="example"><strong>Example 6.6  </strong></span>Let’s return to the motorway example from above. Suppose that a highway engineer tells us the expected number of crashes per week is 0.75 and the probability that <span class="math inline">\(\lambda &lt; 0.9\)</span> is 80%. Matching summaries tells us
 <span class="math display">\[
 \frac{\alpha}{\beta} = 0.75 \\
 \int_0^{0.9}\pi(\lambda) d\lambda = 0.8
@@ -688,14 +644,14 @@ The parameter <span class="math inline">\(\alpha\)</span> is know as the shape p
 \int_0^{0.9} \frac{\beta^{0.75\beta}}{\Gamma(\beta)}\lambda^{0.75\beta-1}e^{-\lambda\beta}d\lambda - 0.8 = 0.
 \]</span></p>
 <p>This looks horrible, but there are many optimisation ways to solve this problem.</p>
-<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="advanced-computation.html#cb141-1" tabindex="-1"></a>cummulative.eqn <span class="ot">&lt;-</span> <span class="cf">function</span>(b){</span>
-<span id="cb141-2"><a href="advanced-computation.html#cb141-2" tabindex="-1"></a>  <span class="co">#Compute equation with value beta = b</span></span>
-<span id="cb141-3"><a href="advanced-computation.html#cb141-3" tabindex="-1"></a>  value <span class="ot">&lt;-</span> <span class="fu">pgamma</span>(<span class="fl">0.9</span>, <span class="fl">0.75</span><span class="sc">*</span>b, b)<span class="sc">-</span><span class="fl">0.8</span></span>
-<span id="cb141-4"><a href="advanced-computation.html#cb141-4" tabindex="-1"></a>  <span class="fu">return</span>(value)</span>
-<span id="cb141-5"><a href="advanced-computation.html#cb141-5" tabindex="-1"></a>  </span>
-<span id="cb141-6"><a href="advanced-computation.html#cb141-6" tabindex="-1"></a>}</span>
-<span id="cb141-7"><a href="advanced-computation.html#cb141-7" tabindex="-1"></a></span>
-<span id="cb141-8"><a href="advanced-computation.html#cb141-8" tabindex="-1"></a><span class="fu">uniroot</span>(cummulative.eqn, <span class="at">lower =</span> <span class="dv">1</span>, <span class="at">upper =</span> <span class="dv">1000</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="advanced-computation.html#cb5-1" tabindex="-1"></a>cummulative.eqn <span class="ot">&lt;-</span> <span class="cf">function</span>(b){</span>
+<span id="cb5-2"><a href="advanced-computation.html#cb5-2" tabindex="-1"></a>  <span class="co">#Compute equation with value beta = b</span></span>
+<span id="cb5-3"><a href="advanced-computation.html#cb5-3" tabindex="-1"></a>  value <span class="ot">&lt;-</span> <span class="fu">pgamma</span>(<span class="fl">0.9</span>, <span class="fl">0.75</span><span class="sc">*</span>b, b)<span class="sc">-</span><span class="fl">0.8</span></span>
+<span id="cb5-4"><a href="advanced-computation.html#cb5-4" tabindex="-1"></a>  <span class="fu">return</span>(value)</span>
+<span id="cb5-5"><a href="advanced-computation.html#cb5-5" tabindex="-1"></a>  </span>
+<span id="cb5-6"><a href="advanced-computation.html#cb5-6" tabindex="-1"></a>}</span>
+<span id="cb5-7"><a href="advanced-computation.html#cb5-7" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="advanced-computation.html#cb5-8" tabindex="-1"></a><span class="fu">uniroot</span>(cummulative.eqn, <span class="at">lower =</span> <span class="dv">1</span>, <span class="at">upper =</span> <span class="dv">1000</span>)</span></code></pre></div>
 <pre><code>## $root
 ## [1] 21.80224
 ## 
@@ -718,7 +674,7 @@ The parameter <span class="math inline">\(\alpha\)</span> is know as the shape p
 <p>The difficulty with the summary matching method is that it requires experts to describe probabilities about the prior parameter, which is difficult to do and quite an abstract concept. Instead of asking them to describe summaries, we can ask them to draw the prior distribution completely, using a betting framework.</p>
 <p>In the <strong>prior weights</strong> (sometimes called roulette) method, we give the the experts a set of intervals for the parameter of interest and fixed number of coins. We then ask the experts to place the coins in the intervals according to how likely they think the parameter will be in each interval, effectively betting on what value the parameter will take. For example, they might place <span class="math inline">\(n_1\)</span> coins in the interval <span class="math inline">\(\theta \in [a, b)\)</span>, <span class="math inline">\(n_2\)</span> in <span class="math inline">\(\theta \in [b, c)\)</span> and <span class="math inline">\(n_3\)</span> for <span class="math inline">\(\theta \in [c, d]\)</span>. From this we can construct our prior density.</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-138" class="example"><strong>Example 6.7  </strong></span>Suppose we are interested in the probability a pharmaceutical drug has the desired clinical effect. The outcome of each patient’s treatment can be modelled by <span class="math inline">\(X\sim\hbox{Bernoulli}(p)\)</span>. We ask a clinical about their experience with patients and similar treatments. We ask the expert to estimate the probability of successful treatment by betting on the value for <span class="math inline">\(p\)</span> using the following table and 20 coins.</p>
+<p><span id="exm:unlabeled-div-24" class="example"><strong>Example 6.7  </strong></span>Suppose we are interested in the probability a pharmaceutical drug has the desired clinical effect. The outcome of each patient’s treatment can be modelled by <span class="math inline">\(X\sim\hbox{Bernoulli}(p)\)</span>. We ask a clinical about their experience with patients and similar treatments. We ask the expert to estimate the probability of successful treatment by betting on the value for <span class="math inline">\(p\)</span> using the following table and 20 coins.</p>
 <table>
 <thead>
 <tr class="header">
@@ -756,7 +712,7 @@ The parameter <span class="math inline">\(\alpha\)</span> is know as the shape p
 <h3><span class="header-section-number">6.3.3</span> Prior Intervals<a href="advanced-computation.html#prior-intervals" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The last method we will look at is the <strong>bisection</strong> method. In this method, we ask the experts to propose four intervals, each of which the parameter value is likely to fall into, i.e. <span class="math inline">\(\pi(\theta \in [a, b)) = \pi(\theta \in [c, d)) = \pi(\theta \in [e, f))= \pi(\theta \in [g, h)) = 0.25\)</span>. From these intervals, we develop a prior distribution that fits these intervals.</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-139" class="example"><strong>Example 6.8  </strong></span>The police are interested in estimating the number of matching features between a fingerprint from a crime scene and a fingerprint from a suspect in the police station. The number of matching features is <span class="math inline">\(X \sim \hbox{Po}(\lambda)\)</span>. We speak to experienced fingerprint analysts. She advises us that about a quarter of the time, she would expect to see between 0 and 4 matches and this is when it is unlikely for the suspect to be the criminal. She says in some cases, it’s very clear that the suspect is the criminal as she would expect to see 20 to 30 matches. The rest of the time, she sees some matches but the fingerprint collected at the crime scene is poor quality, so see may see 5 to 14 matches. She agrees that the matches are uniform across this range. So our four intervals are [0, 4], [5, 12], [13, 19], [20, 30]. Using the Match software, we get a Uniform[0, 30] distribution.</p>
+<p><span id="exm:unlabeled-div-25" class="example"><strong>Example 6.8  </strong></span>The police are interested in estimating the number of matching features between a fingerprint from a crime scene and a fingerprint from a suspect in the police station. The number of matching features is <span class="math inline">\(X \sim \hbox{Po}(\lambda)\)</span>. We speak to experienced fingerprint analysts. She advises us that about a quarter of the time, she would expect to see between 0 and 4 matches and this is when it is unlikely for the suspect to be the criminal. She says in some cases, it’s very clear that the suspect is the criminal as she would expect to see 20 to 30 matches. The rest of the time, she sees some matches but the fingerprint collected at the crime scene is poor quality, so see may see 5 to 14 matches. She agrees that the matches are uniform across this range. So our four intervals are [0, 4], [5, 12], [13, 19], [20, 30]. Using the Match software, we get a Uniform[0, 30] distribution.</p>
 </div>
 </div>
 </div>
@@ -765,77 +721,69 @@ The parameter <span class="math inline">\(\alpha\)</span> is know as the shape p
 <div id="gaussian-processes-1" class="section level3 hasAnchor" number="6.4.1">
 <h3><span class="header-section-number">6.4.1</span> Gaussian Processes<a href="advanced-computation.html#gaussian-processes-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="example">
-<p><span id="exm:unlabeled-div-140" class="example"><strong>Example 6.9  </strong></span>The code below shows how to set up a Gaussian Process and draw samples from it in R.</p>
-<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="advanced-computation.html#cb143-1" tabindex="-1"></a><span class="fu">require</span>(MASS)</span></code></pre></div>
+<p><span id="exm:unlabeled-div-26" class="example"><strong>Example 6.9  </strong></span>The code below shows how to set up a Gaussian Process and draw samples from it in R.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="advanced-computation.html#cb7-1" tabindex="-1"></a><span class="fu">require</span>(MASS)</span></code></pre></div>
 <pre><code>## Loading required package: MASS</code></pre>
-<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="advanced-computation.html#cb145-1" tabindex="-1"></a>squared.exponential.covariance <span class="ot">&lt;-</span> <span class="cf">function</span>(x1, x2, alpha, ell) {</span>
-<span id="cb145-2"><a href="advanced-computation.html#cb145-2" tabindex="-1"></a>  <span class="co">#Squared Exponential Covariance Function</span></span>
-<span id="cb145-3"><a href="advanced-computation.html#cb145-3" tabindex="-1"></a>  <span class="co">#Inputs: x1, x2 -- vectors, alpha, ell -- variance and length scale parameter</span></span>
-<span id="cb145-4"><a href="advanced-computation.html#cb145-4" tabindex="-1"></a>  pairwise_distances <span class="ot">&lt;-</span> <span class="fu">outer</span>(x1, x2, <span class="st">&quot;-&quot;</span>)</span>
-<span id="cb145-5"><a href="advanced-computation.html#cb145-5" tabindex="-1"></a>  covariance_matrix <span class="ot">&lt;-</span> alpha <span class="sc">*</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.5</span> <span class="sc">*</span> (pairwise_distances <span class="sc">/</span> ell)<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb145-6"><a href="advanced-computation.html#cb145-6" tabindex="-1"></a>  <span class="fu">return</span>(covariance_matrix)</span>
-<span id="cb145-7"><a href="advanced-computation.html#cb145-7" tabindex="-1"></a>}</span>
-<span id="cb145-8"><a href="advanced-computation.html#cb145-8" tabindex="-1"></a></span>
-<span id="cb145-9"><a href="advanced-computation.html#cb145-9" tabindex="-1"></a><span class="co">#Set up GP</span></span>
-<span id="cb145-10"><a href="advanced-computation.html#cb145-10" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">5</span>, <span class="fl">0.01</span>)</span>
-<span id="cb145-11"><a href="advanced-computation.html#cb145-11" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">length</span>(x))</span>
-<span id="cb145-12"><a href="advanced-computation.html#cb145-12" tabindex="-1"></a>Sigma <span class="ot">&lt;-</span> <span class="fu">squared.exponential.covariance</span>(x, x, <span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb145-13"><a href="advanced-computation.html#cb145-13" tabindex="-1"></a></span>
-<span id="cb145-14"><a href="advanced-computation.html#cb145-14" tabindex="-1"></a><span class="co">#Generate Samples and Summaries</span></span>
-<span id="cb145-15"><a href="advanced-computation.html#cb145-15" tabindex="-1"></a>f <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">mvrnorm</span>(<span class="dv">1000</span>, mu, Sigma)</span>
-<span id="cb145-16"><a href="advanced-computation.html#cb145-16" tabindex="-1"></a>f.mean <span class="ot">&lt;-</span> <span class="fu">apply</span>(f, <span class="dv">2</span>, mean) <span class="co">#GP mean</span></span>
-<span id="cb145-17"><a href="advanced-computation.html#cb145-17" tabindex="-1"></a>f.<span class="fl">95.</span>upper <span class="ot">&lt;-</span> <span class="fu">apply</span>(f, <span class="dv">2</span>, quantile, <span class="fl">0.975</span>)</span>
-<span id="cb145-18"><a href="advanced-computation.html#cb145-18" tabindex="-1"></a>f.<span class="fl">95.</span>lower <span class="ot">&lt;-</span> <span class="fu">apply</span>(f, <span class="dv">2</span>, quantile, <span class="fl">0.025</span>)</span>
-<span id="cb145-19"><a href="advanced-computation.html#cb145-19" tabindex="-1"></a></span>
-<span id="cb145-20"><a href="advanced-computation.html#cb145-20" tabindex="-1"></a><span class="co">#Generate some plots</span></span>
-<span id="cb145-21"><a href="advanced-computation.html#cb145-21" tabindex="-1"></a><span class="fu">plot</span>(x, f[<span class="dv">1</span>, ], <span class="at">type =</span> <span class="st">&#39;l&#39;</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="fu">min</span>(f[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, ]), <span class="fu">max</span>(f[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, ])))</span>
-<span id="cb145-22"><a href="advanced-computation.html#cb145-22" tabindex="-1"></a><span class="fu">lines</span>(x, f[<span class="dv">2</span>, ], <span class="at">col =</span> <span class="dv">2</span>)</span>
-<span id="cb145-23"><a href="advanced-computation.html#cb145-23" tabindex="-1"></a><span class="fu">lines</span>(x, f[<span class="dv">3</span>, ], <span class="at">col =</span> <span class="dv">3</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-56-1.png" width="672" /></p>
-<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="advanced-computation.html#cb146-1" tabindex="-1"></a><span class="fu">plot</span>(x, f.mean, <span class="at">type =</span> <span class="st">&#39;l&#39;</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>)) <span class="co">#0 -- no surprise there</span></span>
-<span id="cb146-2"><a href="advanced-computation.html#cb146-2" tabindex="-1"></a><span class="fu">polygon</span>(<span class="fu">c</span>(x, <span class="fu">rev</span>(x)), <span class="fu">c</span>(f.<span class="fl">95.</span>lower, <span class="fu">rev</span>(f.<span class="fl">95.</span>upper)), <span class="at">col =</span> <span class="fu">rgb</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.25</span>))</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-56-2.png" width="672" /></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="advanced-computation.html#cb9-1" tabindex="-1"></a>squared.exponential.covariance <span class="ot">&lt;-</span> <span class="cf">function</span>(x1, x2, alpha, ell) {</span>
+<span id="cb9-2"><a href="advanced-computation.html#cb9-2" tabindex="-1"></a>  <span class="co">#Squared Exponential Covariance Function</span></span>
+<span id="cb9-3"><a href="advanced-computation.html#cb9-3" tabindex="-1"></a>  <span class="co">#Inputs: x1, x2 -- vectors, alpha, ell -- variance and length scale parameter</span></span>
+<span id="cb9-4"><a href="advanced-computation.html#cb9-4" tabindex="-1"></a>  pairwise_distances <span class="ot">&lt;-</span> <span class="fu">outer</span>(x1, x2, <span class="st">&quot;-&quot;</span>)</span>
+<span id="cb9-5"><a href="advanced-computation.html#cb9-5" tabindex="-1"></a>  covariance_matrix <span class="ot">&lt;-</span> alpha <span class="sc">*</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.5</span> <span class="sc">*</span> (pairwise_distances <span class="sc">/</span> ell)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb9-6"><a href="advanced-computation.html#cb9-6" tabindex="-1"></a>  <span class="fu">return</span>(covariance_matrix)</span>
+<span id="cb9-7"><a href="advanced-computation.html#cb9-7" tabindex="-1"></a>}</span>
+<span id="cb9-8"><a href="advanced-computation.html#cb9-8" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="advanced-computation.html#cb9-9" tabindex="-1"></a><span class="co">#Set up GP</span></span>
+<span id="cb9-10"><a href="advanced-computation.html#cb9-10" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">5</span>, <span class="fl">0.01</span>)</span>
+<span id="cb9-11"><a href="advanced-computation.html#cb9-11" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">length</span>(x))</span>
+<span id="cb9-12"><a href="advanced-computation.html#cb9-12" tabindex="-1"></a>Sigma <span class="ot">&lt;-</span> <span class="fu">squared.exponential.covariance</span>(x, x, <span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb9-13"><a href="advanced-computation.html#cb9-13" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="advanced-computation.html#cb9-14" tabindex="-1"></a><span class="co">#Generate Samples and Summaries</span></span>
+<span id="cb9-15"><a href="advanced-computation.html#cb9-15" tabindex="-1"></a>f <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">mvrnorm</span>(<span class="dv">1000</span>, mu, Sigma)</span>
+<span id="cb9-16"><a href="advanced-computation.html#cb9-16" tabindex="-1"></a>f.mean <span class="ot">&lt;-</span> <span class="fu">apply</span>(f, <span class="dv">2</span>, mean) <span class="co">#GP mean</span></span>
+<span id="cb9-17"><a href="advanced-computation.html#cb9-17" tabindex="-1"></a>f.<span class="fl">95.</span>upper <span class="ot">&lt;-</span> <span class="fu">apply</span>(f, <span class="dv">2</span>, quantile, <span class="fl">0.975</span>)</span>
+<span id="cb9-18"><a href="advanced-computation.html#cb9-18" tabindex="-1"></a>f.<span class="fl">95.</span>lower <span class="ot">&lt;-</span> <span class="fu">apply</span>(f, <span class="dv">2</span>, quantile, <span class="fl">0.025</span>)</span>
+<span id="cb9-19"><a href="advanced-computation.html#cb9-19" tabindex="-1"></a></span>
+<span id="cb9-20"><a href="advanced-computation.html#cb9-20" tabindex="-1"></a><span class="co">#Generate some plots</span></span>
+<span id="cb9-21"><a href="advanced-computation.html#cb9-21" tabindex="-1"></a><span class="fu">plot</span>(x, f[<span class="dv">1</span>, ], <span class="at">type =</span> <span class="st">&#39;l&#39;</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="fu">min</span>(f[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, ]), <span class="fu">max</span>(f[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, ])))</span>
+<span id="cb9-22"><a href="advanced-computation.html#cb9-22" tabindex="-1"></a><span class="fu">lines</span>(x, f[<span class="dv">2</span>, ], <span class="at">col =</span> <span class="dv">2</span>)</span>
+<span id="cb9-23"><a href="advanced-computation.html#cb9-23" tabindex="-1"></a><span class="fu">lines</span>(x, f[<span class="dv">3</span>, ], <span class="at">col =</span> <span class="dv">3</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="advanced-computation.html#cb10-1" tabindex="-1"></a><span class="fu">plot</span>(x, f.mean, <span class="at">type =</span> <span class="st">&#39;l&#39;</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>)) <span class="co">#0 -- no surprise there</span></span>
+<span id="cb10-2"><a href="advanced-computation.html#cb10-2" tabindex="-1"></a><span class="fu">polygon</span>(<span class="fu">c</span>(x, <span class="fu">rev</span>(x)), <span class="fu">c</span>(f.<span class="fl">95.</span>lower, <span class="fu">rev</span>(f.<span class="fl">95.</span>upper)), <span class="at">col =</span> <span class="fu">rgb</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.25</span>))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-11-2.png" width="672" /></p>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-141" class="exercise"><strong>Exercise 6.1  </strong></span>Code up example 6.1. How does your choice of length scale affect the posterior distribution. You can use</p>
-<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="advanced-computation.html#cb147-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">5</span><span class="sc">:</span><span class="dv">5</span></span>
-<span id="cb147-2"><a href="advanced-computation.html#cb147-2" tabindex="-1"></a>y <span class="ot">&lt;-</span>  <span class="fu">c</span>(<span class="fl">3.0942822</span>, <span class="fl">3.0727920</span>, <span class="fl">2.6137341</span>, <span class="fl">1.8818820</span>, <span class="fl">1.2746738</span>, <span class="fl">1.2532116</span>, <span class="fl">1.4620830</span>, <span class="fl">1.4194647</span>, <span class="fl">1.6786969</span>, <span class="fl">1.1057042</span>, <span class="fl">0.4118125</span>)</span></code></pre></div>
+<p><span id="exr:unlabeled-div-27" class="exercise"><strong>Exercise 6.1  </strong></span>Code up example 6.1. How does your choice of length scale affect the posterior distribution. You can use</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="advanced-computation.html#cb11-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">5</span><span class="sc">:</span><span class="dv">5</span></span>
+<span id="cb11-2"><a href="advanced-computation.html#cb11-2" tabindex="-1"></a>y <span class="ot">&lt;-</span>  <span class="fu">c</span>(<span class="fl">3.0942822</span>, <span class="fl">3.0727920</span>, <span class="fl">2.6137341</span>, <span class="fl">1.8818820</span>, <span class="fl">1.2746738</span>, <span class="fl">1.2532116</span>, <span class="fl">1.4620830</span>, <span class="fl">1.4194647</span>, <span class="fl">1.6786969</span>, <span class="fl">1.1057042</span>, <span class="fl">0.4118125</span>)</span></code></pre></div>
 <p>with <span class="math inline">\(\sigma^2 = 0.2\)</span>.To draw samples from the multivariate normal distribution with mean vector <span class="math inline">\(\boldsymbol{\mu}\)</span> and covariance matrix <span class="math inline">\(\Sigma\)</span> use the MASS package.</p>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-142" class="exercise"><strong>Exercise 6.2  </strong></span>Repeat Exercise 6.1, but this time set the fine grid to be <span class="math inline">\(\boldsymbol{x}^* = \{-5, -4.9, -4.8, \ldots, 9.8, 9.9, 10\}\)</span>. What happens to the posterior distribution after <span class="math inline">\(x^* = 5\)</span>?</p>
+<p><span id="exr:unlabeled-div-28" class="exercise"><strong>Exercise 6.2  </strong></span>Repeat Exercise 6.1, but this time set the fine grid to be <span class="math inline">\(\boldsymbol{x}^* = \{-5, -4.9, -4.8, \ldots, 9.8, 9.9, 10\}\)</span>. What happens to the posterior distribution after <span class="math inline">\(x^* = 5\)</span>?</p>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-143" class="exercise"><strong>Exercise 6.3  </strong></span>You observe the following data</p>
-<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="advanced-computation.html#cb148-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">5</span><span class="sc">:</span><span class="dv">5</span></span>
-<span id="cb148-2"><a href="advanced-computation.html#cb148-2" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">cos</span>(<span class="fl">0.5</span><span class="sc">*</span>x) <span class="sc">+</span> <span class="fu">log</span>(x <span class="sc">+</span> <span class="dv">6</span>)</span>
-<span id="cb148-3"><a href="advanced-computation.html#cb148-3" tabindex="-1"></a>y</span></code></pre></div>
+<p><span id="exr:unlabeled-div-29" class="exercise"><strong>Exercise 6.3  </strong></span>You observe the following data</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="advanced-computation.html#cb12-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">5</span><span class="sc">:</span><span class="dv">5</span></span>
+<span id="cb12-2"><a href="advanced-computation.html#cb12-2" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">cos</span>(<span class="fl">0.5</span><span class="sc">*</span>x) <span class="sc">+</span> <span class="fu">log</span>(x <span class="sc">+</span> <span class="dv">6</span>)</span>
+<span id="cb12-3"><a href="advanced-computation.html#cb12-3" tabindex="-1"></a>y</span></code></pre></div>
 <pre><code>##  [1] -0.8011436  0.2770003  1.1693495  1.9265967  2.4870205  2.7917595
 ##  [7]  2.8234927  2.6197438  2.2679618  1.8864383  1.5967517</code></pre>
-<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="advanced-computation.html#cb150-1" tabindex="-1"></a><span class="fu">plot</span>(x, y, <span class="at">xlab =</span> <span class="st">&quot;x&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;f(x)&quot;</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">4</span>))</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-58-1.png" width="672" /></p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="advanced-computation.html#cb14-1" tabindex="-1"></a><span class="fu">plot</span>(x, y, <span class="at">xlab =</span> <span class="st">&quot;x&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;f(x)&quot;</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">4</span>))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <p>Fit a function to the data using a GP prior distribution. Note that this time there is no noise.</p>
 </div>
 </div>
 <div id="missing-data" class="section level3 hasAnchor" number="6.4.2">
 <h3><span class="header-section-number">6.4.2</span> Missing Data<a href="advanced-computation.html#missing-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-144" class="exercise"><strong>Exercise 6.4  </strong></span>In Example 6.2, suppose the observed data is <span class="math inline">\(\{y_1, y_2, y_3, y_4\} = \{4, 4, 5 ,2\}\)</span>. Design and code an MCMC algorithm to generate samples from the posterior distribution for <span class="math inline">\(p\)</span> and <span class="math inline">\(y_5\)</span>.</p>
+<p><span id="exr:unlabeled-div-30" class="exercise"><strong>Exercise 6.4  </strong></span>In Example 6.2, suppose the observed data is <span class="math inline">\(\{y_1, y_2, y_3, y_4\} = \{4, 4, 5 ,2\}\)</span>. Design and code an MCMC algorithm to generate samples from the posterior distribution for <span class="math inline">\(p\)</span> and <span class="math inline">\(y_5\)</span>.</p>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-145" class="exercise"><strong>Exercise 6.5  </strong></span>Suppose you manage a clinical trial. You administer a new drug to patients and record how many days until their symptoms are alleviated. You observe the times for the first 9 patients</p>
-<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="advanced-computation.html#cb151-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">33.5</span>,  <span class="fl">17.8</span>, <span class="fl">218.2</span>,   <span class="dv">3</span>,  <span class="fl">39.2</span>,   <span class="fl">3.5</span>,  <span class="fl">43.7</span>,  <span class="fl">14.6</span>,  <span class="dv">20</span>)</span></code></pre></div>
-<p>Patient 10 drops out of the trial on day 50 and at this point, their symptoms have not changed. They send an email on day 200 to say they no longer have any symptoms (i.e. <span class="math inline">\(x_i \in (50, \ldots, 200]\)</span>. Write down a model for this problem and derive the posterior distribution. Design and code an MCMC algorithm to generate samples from the posterior distribution for any model parameters that you introduce and the censored observation <span class="math inline">\(x_{10}\)</span>.</p>
+<p><span id="exr:unlabeled-div-31" class="exercise"><strong>Exercise 6.5  </strong></span>Suppose you manage a clinical trial. You administer a new drug to patients and record how many days until their symptoms are alleviated. You observe the times for the first 9 patients</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="advanced-computation.html#cb15-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">33</span>,  <span class="dv">17</span>, <span class="dv">218</span>,   <span class="dv">3</span>,  <span class="dv">39</span>,   <span class="dv">3</span>,  <span class="dv">43</span>,  <span class="dv">14</span>,  <span class="dv">20</span>)</span></code></pre></div>
+<p>Patient 10 drops out of the trial on day 50 and at this point, their symptoms have not changed. They send an email on day 200 to say they no longer have any symptoms (i.e. <span class="math inline">\(x_i \in [50, \ldots, 200]\)</span>. Write down a model for this problem and derive the posterior distribution. Design and code an MCMC algorithm to generate samples from the posterior distribution for any model parameters and <span class="math inline">\(x_{10}\)</span>.</p>
 </div>
 
-<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
-<div class="csl-entry">
-Hairer, Martin, and Jonathan C. Mattingly. 2011. <span>“Yet Another Look at <span>H</span>arris’ Ergodic Theorem for <span>M</span>arkov Chains.”</span> In <em>Seminar on <span>S</span>tochastic <span>A</span>nalysis, <span>R</span>andom <span>F</span>ields and <span>A</span>pplications <span>VI</span></em>, 63:109–17. Progr. Probab. Birkhäuser/Springer Basel AG, Basel. <a href="https://doi.org/10.1007/978-3-0348-0021-1_7">https://doi.org/10.1007/978-3-0348-0021-1_7</a>.
-</div>
-<div class="csl-entry">
-Meyn, Sean, and Richard L. Tweedie. 2009. <em>Markov Chains and Stochastic Stability</em>. Second. Cambridge University Press, Cambridge. <a href="https://doi.org/10.1017/CBO9780511626630">https://doi.org/10.1017/CBO9780511626630</a>.
-</div>
-</div>
 </div>
 </div>
 </div>
