@@ -246,7 +246,7 @@ div.csl-indent {
 <li class="chapter" data-level="6.4" data-path="advanced-computation.html"><a href="advanced-computation.html#lab-3"><i class="fa fa-check"></i><b>6.4</b> Lab</a>
 <ul>
 <li class="chapter" data-level="6.4.1" data-path="advanced-computation.html"><a href="advanced-computation.html#gaussian-processes-1"><i class="fa fa-check"></i><b>6.4.1</b> Gaussian Processes</a></li>
-<li class="chapter" data-level="6.4.2" data-path="advanced-computation.html"><a href="advanced-computation.html#missing-data"><i class="fa fa-check"></i><b>6.4.2</b> Missing Data</a></li>
+<li class="chapter" data-level="6.4.2" data-path="advanced-computation.html"><a href="advanced-computation.html#censored-data"><i class="fa fa-check"></i><b>6.4.2</b> Censored Data</a></li>
 </ul></li>
 </ul></li>
 <li class="divider"></li>
@@ -497,8 +497,8 @@ plot(x = ,y = , xlab = expression(Z[i-1]), ylab = expression(Z[i]), type = &#39;
 <p>R has many build in commands and you used these in Computer Lab I. An example is the <code>runif</code> command from the second exercise. This function generates random numbers from an interval. The code chunk below shows it in action:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="programming-in-r.html#cb9-1" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">min =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">max =</span> <span class="dv">1</span>)</span>
 <span id="cb9-2"><a href="programming-in-r.html#cb9-2" tabindex="-1"></a>u</span></code></pre></div>
-<pre><code>##  [1] -0.6659498  0.4582667  0.9772185  0.5735563 -0.2903444  0.7898907
-##  [7]  0.1445866 -0.9565764  0.9953394  0.7286569</code></pre>
+<pre><code>##  [1]  0.639640738  0.589739083 -0.229209739 -0.996186689  0.003693592
+##  [6] -0.075658012  0.236584073  0.562933128 -0.294804496  0.064979338</code></pre>
 <p>The functions has three <strong>arguments</strong>: <em>n</em> the number of samples to be generated, <em>min</em> the lower limit of the interval, <em>max</em> the upper limit of the interval. In the code chunk above 10 random numbers were generated from the interval [-1, 1]. In R, you don’t need to label the arguments, so the following will sample the same number of samples from the same interval:</p>
 <pre><code>u &lt;- runif(10, -1, 1)</code></pre>
 <p>Although in most cases it helps to label the arguments for readability and avoiding undefined behaviour. Note that if you decide to omit the argument names in the function call, the arguments must appear exactly in the order defined by the function prototype (check the documentation ?function for specific cases).</p>
