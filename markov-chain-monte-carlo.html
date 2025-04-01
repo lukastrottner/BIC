@@ -55,7 +55,7 @@
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -65,7 +65,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -127,7 +127,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
-  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -809,7 +808,7 @@ The MCMC algorithm will be</p>
 <p>Draw a value for <span class="math inline">\(\theta_1^{(i)}\)</span> from <span class="math inline">\(\pi(\theta_1 \mid \theta_2^{(i-1)}, \ldots, \theta_N^{(i-1)})\)</span>.</p>
 <p>Draw a value for <span class="math inline">\(\theta_2^{(i)}\)</span> from <span class="math inline">\(\pi(\theta_2 \mid \theta_1^{(i)}, \theta_3^{(i-1)}, \ldots, \theta_N^{(i-1)})\)</span>.</p>
 <p><span class="math inline">\(\vdots\)</span></p>
-<p>Draw a value for <span class="math inline">\(\theta_N^{(i)}\)</span> from <span class="math inline">\(\pi(\theta_N \mid \theta_1^{(i)},     \theta_2^{(i)}, \ldots, \theta_{N-1}^{(i)})\)</span>.</p></li>
+<p>Draw a value for <span class="math inline">\(\theta_N^{(i)}\)</span> from <span class="math inline">\(\pi(\theta_N \mid \theta_1^{(i)}, \theta_2^{(i)}, \ldots, \theta_{N-1}^{(i)})\)</span>.</p></li>
 <li><p>Repeat step 2 for <span class="math inline">\(i = 2, \ldots M\)</span>.</p></li>
 </ol>
 <p>In code, this might look like</p>
@@ -1072,7 +1071,7 @@ Using independent Gamma prior distributions on the model parameters, <span class
 </div>
 </div>
 <h3>References</h3>
-<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-hairer11" class="csl-entry">
 Hairer, Martin, and Jonathan C. Mattingly. 2011. <span>“Yet Another Look at <span>H</span>arris’ Ergodic Theorem for <span>M</span>arkov Chains.”</span> In <em>Seminar on <span>S</span>tochastic <span>A</span>nalysis, <span>R</span>andom <span>F</span>ields and <span>A</span>pplications <span>VI</span></em>, 63:109–17. Progr. Probab. Birkhäuser/Springer Basel AG, Basel. <a href="https://doi.org/10.1007/978-3-0348-0021-1_7">https://doi.org/10.1007/978-3-0348-0021-1_7</a>.
 </div>
