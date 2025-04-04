@@ -942,7 +942,7 @@ Otherwise reject <span class="math inline">\(\beta&#39;\)</span> and set <span c
 <p>On a more technical level, we have the following definition.</p>
 <div class="definition">
 <p><span id="def:unlabeled-div-107" class="definition"><strong>Definition 5.11  </strong></span>Let <span class="math inline">\(Y\)</span> be a Markov chain with state space <span class="math inline">\(S\)</span> and stationary distribution <span class="math inline">\(\pi\)</span>. Given a threshold parameter <span class="math inline">\(\varepsilon\)</span> and an initial distribution <span class="math inline">\(\mu\)</span>, the <em>mixing time</em> of <span class="math inline">\(Y\)</span> started in <span class="math inline">\(\mu\)</span> is given by
-<span class="math display">\[\mathrm{t}_{\mathrm{mix}}(\varepsilon,\mu) := \inf\{n\geq 0: \lVert \mathbb{P}(Y_n \in \cdot \mid Y_0 \sim \pi) - \pi \rVert_{\mathrm{TV}} \leq \varepsilon\}. \]</span>
+<span class="math display">\[\mathrm{t}_{\mathrm{mix}}(\varepsilon,\mu) := \inf\{n\geq 0: \lVert \mathbb{P}(Y_n \in \cdot \mid Y_0 \sim \mu) - \pi \rVert_{\mathrm{TV}} \leq \varepsilon\}. \]</span>
 If
 <span class="math display">\[\mathrm{t}_{\mathrm{mix}}(\varepsilon) := \inf\{n\geq 0: \sup_{x \in S} \lVert \mathbb{P}(Y_n \in \cdot \mid Y_0 = x) - \pi \rVert_{\mathrm{TV}} \leq \varepsilon\} \]</span>
 is finite, this quantity is referred to as <em>the</em> mixing time of the Markov chain for the threshold parameter <span class="math inline">\(\varepsilon\)</span>.</p>
